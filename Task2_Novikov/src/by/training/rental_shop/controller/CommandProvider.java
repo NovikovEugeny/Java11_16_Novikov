@@ -13,7 +13,7 @@ import java.util.Map;
 public class CommandProvider {
     private final Map<CommandName, Command> repository = new HashMap<>();
 
-    CommandProvider() {
+    CommandProvider() {// public класс b единственный Friendly конструктор -  кому такую подлянку делаем?
         repository.put(CommandName.REGISTRATION, new Registration());
         repository.put(CommandName.SIGN_IN, new SignIn());
         repository.put(CommandName.RENT, new Rent());
