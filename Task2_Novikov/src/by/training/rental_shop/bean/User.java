@@ -3,7 +3,7 @@ package by.training.rental_shop.bean;
 /**
  * Created by Евгений on 07.01.2017.
  */
-public class User {
+public class User {// что еще надо написать в этих классах, чтобы они стали полными bean-объектами
     private String name;
     private String phone;
     private String password;
