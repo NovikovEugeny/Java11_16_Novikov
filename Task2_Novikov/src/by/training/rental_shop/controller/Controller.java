@@ -15,12 +15,12 @@ public class Controller {
     private final CommandProvider provider = new CommandProvider();
     private final ConsoleInterface consoleInterface = new ConsoleInterface();
 
-    public void executeIdentificationTask() {
-        SignIn signIn = new SignIn();
+    public void executeIdentificationTask() {// это бред какой-то
+        SignIn signIn = new SignIn();// но кто это в Контроллере читает с клавиатуры
         signIn.execute();
         User user = signIn.getUser();
 
-        if (user != null) {
+        if (user != null) {// бррр, какое-то, даже дальше читать не буду
             consoleInterface.secondLevel();
             Scanner scanner = new Scanner(System.in);
             int i = scanner.nextInt();
@@ -52,13 +52,13 @@ public class Controller {
     public String executeTask() {
         String commandName = consoleInterface.getCommand();
 
-        if (commandName != "sign_in") {
+        if (commandName != "sign_in") {// это как в Java строки сравниваются?
             Command executionCommand = provider.getCommand(commandName);
             String response = executionCommand.execute();
             return response;
         } else {
-            executeIdentificationTask();
+            executeIdentificationTask();// и зачем это отдельно придумывать?
         }
-        return "";
+        return "";// очень пользователь обрадуется, получив в ответ пустую строку
     }
 }
