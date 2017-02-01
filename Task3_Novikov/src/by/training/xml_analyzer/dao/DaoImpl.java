@@ -21,9 +21,9 @@ public class DaoImpl implements Dao {
             fileReader.close();
             return fileChars;
         } catch (FileNotFoundException exc) {
-            throw new DaoException("the file has not been found");
+            throw new DaoException("the file has not been found", exc);
         } catch (IOException exc) {
-            throw new DaoException("IOException error");
+            throw new DaoException("IOException error", exc);
         }
     }
 
