@@ -27,7 +27,7 @@ public class DaoImpl implements Dao {
         }
     }
 
-    public String getXmlFile(String filePath) throws DaoException {
+    public String takeXmlFile(String filePath) throws DaoException {
         return readFile(filePath);
     }
 

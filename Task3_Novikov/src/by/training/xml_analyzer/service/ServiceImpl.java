@@ -1,8 +1,8 @@
 package by.training.xml_analyzer.service;
 
 import by.training.xml_analyzer.bean.Node;
-import by.training.xml_analyzer.bean.Nodes;
-import by.training.xml_analyzer.bean.Type;
+import by.training.xml_analyzer.bean.NodeSet;
+import by.training.xml_analyzer.node_type.NodeType;
 import by.training.xml_analyzer.dao.Dao;
 import by.training.xml_analyzer.dao.DaoException;
 import by.training.xml_analyzer.dao.DaoFactory;
@@ -34,7 +34,7 @@ public class ServiceImpl implements Service {
         try {
             DaoFactory factory = DaoFactory.getInstance();
             Dao dao = factory.getDao();
-            return dao.getXmlFile(filePath);
+            return dao.takeXmlFile(filePath);
         } catch (DaoException exc) {
             throw new ServiceException(exc.getMessage());
         }
@@ -58,8 +58,9 @@ public class ServiceImpl implements Service {
                     cutLine = cutLine + fileString.charAt(i);
                     i++;
                 }
-                if (!cutLine.equals(""))
+                if (!cutLine.equals("")) {
                     cutLine = cutLine + '>';
+                }
                 list.add(cutLine);
             }
         }
@@ -85,8 +86,8 @@ public class ServiceImpl implements Service {
     }
 
     //  формируем массив сведений об узлах
-    private Nodes toFormNodes() {
-        Nodes nodes = new Nodes();
+    private NodeSet toFormNodeSet() {
+        NodeSet nodeSet = new NodeSet();
 
         for (int i = 0; i < fileString.length()-1; i++) {
             Node node = new Node();
@@ -102,20 +103,17 @@ public class ServiceImpl implements Service {
                 }
                 content = content.trim();
                 if(!content.contains("/")) {
-                    if (content.contains(" ")) {
-                        content = content.substring(0, content.indexOf(" "));
-                    }
                     node.setContent(content);
-                    node.setType(Type.OPENING_TAG);
+                    node.setType(NodeType.OPENING_TAG);
                 } else if (content.substring(content.length()-1).equals("/")) {
-                    node.setType(Type.TAG_WITHOUT_BODY);
+                    node.setType(NodeType.TAG_WITHOUT_BODY);
                     node.setContent(content.substring(0, content.length()-1));
                 } else {
                     content = content.replace("/","");
-                    node.setType(Type.CLOSING_TAG);
+                    node.setType(NodeType.CLOSING_TAG);
                     node.setContent(content);
                 }
-                nodes.addNode(node);
+                nodeSet.addNode(node);
             }
 
             if(fileString.charAt(i) == '>' && fileString.charAt(i+1) != '<') {
@@ -127,23 +125,23 @@ public class ServiceImpl implements Service {
                 text = text.trim();
                 if (!text.equals("")) {
                     node.setContent(text);
-                    node.setType(Type.TEXT);
-                    nodes.addNode(node);
+                    node.setType(NodeType.TEXT);
+                    nodeSet.addNode(node);
                 }
             }
         }
-        return nodes;
+        return nodeSet;
     }
 
-    private Nodes analyze() throws ServiceException {
+    private NodeSet analyze() throws ServiceException {
         readFile();
         setFileString();
         removeOtherLines();
         removeSpaces();
-        return toFormNodes();
+        return toFormNodeSet();
     }
 
-    public Nodes getAnalyzedFile() throws ServiceException {
+    public NodeSet takeAnalyzedFile() throws ServiceException {
         return analyze();
     }
 }

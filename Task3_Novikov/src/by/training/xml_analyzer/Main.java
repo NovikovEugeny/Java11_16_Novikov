@@ -5,6 +5,7 @@ import by.training.xml_analyzer.service.ServiceException;
 import by.training.xml_analyzer.service.ServiceImpl;
 import by.training.xml_analyzer.view.View;
 
+
 /**
  * Created by Евгений on 27.12.2016.
  */
@@ -13,14 +14,13 @@ public class Main {
         try {
             Service service = new ServiceImpl();
             service.setFilePath("D:/task3/src/by/" +
-                    "training/xml_analyzer/source/breakfastMenu.xml");
+                    "training/xml_analyzer/source/notes.xml");
 
             View view = new View();
-            view.display(service.getAnalyzedFile());
+            view.display(service.takeAnalyzedFile());
         } catch (ServiceException e) {
             System.out.println(e.getMessage());
             e.printStackTrace();
         }
-
     }
 }
