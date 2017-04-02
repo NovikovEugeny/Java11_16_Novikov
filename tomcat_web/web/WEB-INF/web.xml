@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+         version="3.1">
+
+    <servlet>
+        <servlet-name>controller</servlet-name>
+        <servlet-class>by.tc.online_pharmacy.controller.Controller</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>controller</servlet-name>
+        <url-pattern>/controller</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>startPage</servlet-name>
+        <jsp-file>/WEB-INF/jsp/startPage.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>startPage</servlet-name>
+        <url-pattern>/startPage</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>signIn</servlet-name>
+        <jsp-file>/WEB-INF/jsp/signIn.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>signIn</servlet-name>
+        <url-pattern>/signIn</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>signUp</servlet-name>
+        <jsp-file>/WEB-INF/jsp/signUp.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>signUp</servlet-name>
+        <url-pattern>/signUp</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>clientPharmGroups</servlet-name>
+        <jsp-file>/WEB-INF/jsp/clientPharmGroups.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>clientPharmGroups</servlet-name>
+        <url-pattern>/clientPharmGroups</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>pharmacistAddDrug</servlet-name>
+        <jsp-file>/WEB-INF/jsp/pharmacistAddDrug.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>pharmacistAddDrug</servlet-name>
+        <url-pattern>/pharmacistAddDrug</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>pharmacistGroupsToUpdate</servlet-name>
+        <jsp-file>/WEB-INF/jsp/pharmacistGroupsToUpdate.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>pharmacistGroupsToUpdate</servlet-name>
+        <url-pattern>/pharmacistGroupsToUpdate</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>feedback</servlet-name>
+        <jsp-file>/WEB-INF/jsp/recipeFeedback.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>feedback</servlet-name>
+        <url-pattern>/feedback</url-pattern>
+    </servlet-mapping>
+    
+    <listener>
+        <listener-class>by.tc.online_pharmacy.Listener</listener-class>
+    </listener>
+
+</web-app>
