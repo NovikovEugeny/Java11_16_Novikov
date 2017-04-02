@@ -6,26 +6,19 @@ import by.tc.online_pharmacy.dao.exception.DaoException;
 import by.tc.online_pharmacy.dao.factory.DaoFactory;
 import by.tc.online_pharmacy.service.UserService;
 import by.tc.online_pharmacy.service.exception.ServiceException;
+import by.tc.online_pharmacy.service.exception.ValidatorException;
 import by.tc.online_pharmacy.service.util.Encoder;
+import by.tc.online_pharmacy.service.util.Validator;
 
 /**
  * Created by Евгений on 17.02.2017.
  */
 public class UserServiceImpl implements UserService {
+
     @Override
-    public User signIn(String mobilePhone, String password) throws ServiceException {
+    public User signIn(String mobile, String password) throws ServiceException, ValidatorException {
 
-        if (mobilePhone.isEmpty() && password.isEmpty()) {
-            throw new ServiceException("Empty mobile phone and password");
-        }
-
-        if (mobilePhone.isEmpty()) {
-            throw new ServiceException("Empty mobile phone");
-        }
-
-        if (password.isEmpty()) {
-            throw new ServiceException("Empty password");
-        }
+        Validator.signInValidator(mobile, password);
 
         try {
             DaoFactory daoFactory = DaoFactory.getInstance();
@@ -33,51 +26,23 @@ public class UserServiceImpl implements UserService {
 
             password = Encoder.encode(password);
 
-            return userDao.signIn(mobilePhone, password);
+            return userDao.signIn(mobile, password);
         } catch (DaoException exc) {
             throw new ServiceException(exc);
         }
     }
 
     @Override
-    public int signUp(User user, String confirmPassword) throws ServiceException {
+    public int signUp(User user) throws ServiceException, ValidatorException {
 
-        String emptyMessage = "You need to fill in all the fields";
-
-        if (user.getSurname().isEmpty()) {
-            throw new ServiceException(emptyMessage);
-        }
-
-        if (user.getName().isEmpty()) {
-            throw new ServiceException(emptyMessage);
-        }
-
-        if (user.getPatronymic().isEmpty()) {
-            throw new ServiceException(emptyMessage);
-        }
-
-        if (user.getMobilePhone().isEmpty()) {
-            throw new ServiceException(emptyMessage);
-        }
-
-        if (user.getPassword().isEmpty()) {
-            throw new ServiceException(emptyMessage);
-        }
-
-        if (confirmPassword.isEmpty()) {
-            throw new ServiceException(emptyMessage);
-        }
-
-        if (!user.getPassword().equals(confirmPassword)) {
-            throw new ServiceException("The passwords are different");
-        }
+        Validator.signUpValidator(user);
 
         try {
             DaoFactory daoFactory = DaoFactory.getInstance();
             UserDao userDao = daoFactory.getUserDao();
 
             if (!userDao.isUnique(user.getMobilePhone())) {
-                throw new ServiceException("This mobile phone already exists");
+                throw new ValidatorException("This mobile phone already exists");
             }
 
             String password = user.getPassword();

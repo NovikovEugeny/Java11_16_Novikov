@@ -5,13 +5,21 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Main {
 
-    public static void main(String[] args) {
+    public static boolean testPattern(String pattern, String str) {
+    Pattern p = Pattern.compile(pattern);
+    Matcher m = p.matcher(str);
+    return m.matches();
+}
 
+    public static void main(String[] args) {
+/*
         try {
-            ConnectionPool.getInstance().init();
+           /* ConnectionPool.getInstance().init();
 
             Connection connection = ConnectionPool.getInstance().takeConnection();
             Statement statement = connection.createStatement();
@@ -30,7 +38,11 @@ public class Main {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
-        }
+        }*/
+        String s = "Awerfdgd4";
 
+         String mobilePattern = "(?=^.{8,}$)((?=.*\\d)|(?=.*\\W+))(?![.\\n])(?=.*[A-ZА-Я])(?=.*[a-zа-я]).*$";
+
+        System.out.println(testPattern(mobilePattern, s));
     }
 }

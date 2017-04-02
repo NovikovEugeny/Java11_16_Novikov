@@ -16,6 +16,7 @@ public class User implements Serializable {
     private String patronymic;
     private String mobilePhone;
     private String password;
+    private String confirmPassword;
 
     public User() {}
 
@@ -47,6 +48,10 @@ public class User implements Serializable {
         this.password = password;
     }
 
+    public void setConfirmPassword(String confirmPassword) {
+        this.confirmPassword = confirmPassword;
+    }
+
     public int getId() {
         return id;
     }
@@ -74,4 +79,10 @@ public class User implements Serializable {
     public String getPassword() {
         return password;
     }
+
+    public String getConfirmPassword() {
+        return confirmPassword;
+    }
 }
+
+

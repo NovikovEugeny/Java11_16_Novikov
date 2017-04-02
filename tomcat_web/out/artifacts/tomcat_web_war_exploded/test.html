@@ -1,65 +1,30 @@
 <html>
 <head>
-    <style>
-        .overlay {
-            background: #000;
-            position: fixed;
-            left: 0;
-            right: 0;
-            top: 0;
-            bottom: 0;
-            z-index: 1000;
-            opacity: .5;
-        }
-        .visible {
-            background: #fff;
-            position: fixed;
-            left: 50%;
-            top: 50%;
-            margin-top: -200px;
-            overflow: hidden;
-            z-index: 2000;
-            width: 500px;
-            padding: 0px;
-            margin-left: -250px;
-        }
-        #win button {
-            float: right;
-            line-height: 20px;
-            margin: 1.2em;
-            border: none;
-            background: transparent;
-            color: blue;
-        }
-        #win button[type="button"]:hover {
-            cursor: pointer;
-            color: navy;
-            text-decoration: underline;
-        }
-        #win h3 {
-            text-align: center;
-            color: #555;
-        }
-        .content {
-            padding: 0 1em;
-            border-top: 1px solid #ccc;
-            border-bottom: 1px solid #ccc;
-            background: WhiteSmoke;
-        }
-    </style>
+    <meta charset="UTF-8">
+    <link href="css/signIn.css" rel="stylesheet">
+    <script src="js/signInValidator.js"></script>
+    <title>${title}</title>
 </head>
 <body>
-<div id="win" style="display:none;">
-    <div class="overlay"></div>
-    <div class="visible">
-        <h2>Заголовок окна</h2>
-        <div class="content">
-            <p>Содержание</p>
-            <p>Модальное окно фиксированной ширины</p>
+<div class="content">
+    <div class="form-wrapper">
+        <div class="linker">
+            <span class="ring"></span>
+            <span class="ring"></span>
+            <span class="ring"></span>
+            <span class="ring"></span>
+            <span class="ring"></span>
         </div>
-        <button type="button" onClick="getElementById('win').style.display='none';">закрыть</button>
+        <form action="/controller" method="post" onsubmit="return validate()">
+            <input type="hidden" name="command" value="sign_in"/>
+            <p>${requestScope.errorMessage}</p>
+            <p id="mobileErr"><br></p>
+            <input type="text" name="mobile" id="mobile" placeholder="${mobilePhone}"/>
+            <p id="passwordErr"><br></p>
+            <input type="password" name="password" id="password" placeholder="${password}"/>
+            <button type="submit">${enter}</button>
+        </form>
     </div>
 </div>
-<button onClick="getElementById('win').removeAttribute('style');" type="button">Модальное окно</button>
 </body>
 </html>

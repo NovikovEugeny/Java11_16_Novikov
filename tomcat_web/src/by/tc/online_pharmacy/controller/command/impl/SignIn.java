@@ -1,16 +1,17 @@
 package by.tc.online_pharmacy.controller.command.impl;
 
-import by.tc.online_pharmacy.bean.*;
+import by.tc.online_pharmacy.bean.OrderDescription;
+import by.tc.online_pharmacy.bean.User;
 import by.tc.online_pharmacy.controller.JspPageName;
 import by.tc.online_pharmacy.controller.command.Command;
 import by.tc.online_pharmacy.service.PharmService;
 import by.tc.online_pharmacy.service.UserService;
 import by.tc.online_pharmacy.service.exception.ServiceException;
+import by.tc.online_pharmacy.service.exception.ValidatorException;
 import by.tc.online_pharmacy.service.factory.ServiceFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
-import java.util.Map;
 
 public class SignIn implements Command {
 
@@ -31,17 +32,17 @@ public class SignIn implements Command {
 
         String response = null;
 
+        String mobilePhone = request.getParameter(MOBILE);
+        String password = request.getParameter(PASSWORD);
+
         try {
             ServiceFactory serviceFactory = ServiceFactory.getInstance();
             UserService userService = serviceFactory.getUserService();
             PharmService pharmService = serviceFactory.getPharmService();
 
-            String mobilePhone = request.getParameter(MOBILE);
-            String password = request.getParameter(PASSWORD);
-
             User user = userService.signIn(mobilePhone, password);
 
-            if(user != null) {
+            if (user != null) {
                 if (user.getPosition().equals(PHARMACIST)) {
                     List<OrderDescription> orderList = pharmService.showOrderList();
                     request.setAttribute(ORDER_LIST, orderList);
@@ -62,7 +63,11 @@ public class SignIn implements Command {
                 response = JspPageName.SIGN_IN_PAGE;
             }
         } catch (ServiceException exc) {
-
+            //logger
+            //response?
+        } catch (ValidatorException exc) {
+            request.setAttribute(ERROR_MESSAGE, exc.getMessage());
+            response = JspPageName.SIGN_IN_PAGE;
         }
         return response;
     }

@@ -399,7 +399,7 @@ public class DrugDaoImpl implements DrugDao {
         }
     }
 
-    
+
     @Override
     public String send(int orderId, int pharmacistId) throws DaoException {
 

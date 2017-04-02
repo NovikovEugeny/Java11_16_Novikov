@@ -5,6 +5,7 @@ import by.tc.online_pharmacy.controller.JspPageName;
 import by.tc.online_pharmacy.controller.command.Command;
 import by.tc.online_pharmacy.service.UserService;
 import by.tc.online_pharmacy.service.exception.ServiceException;
+import by.tc.online_pharmacy.service.exception.ValidatorException;
 import by.tc.online_pharmacy.service.factory.ServiceFactory;
 
 import javax.servlet.http.HttpServletRequest;
@@ -29,28 +30,28 @@ public class SignUp implements Command {
 
         String response = null;
 
+        User user = new User();
+        user.setPosition(CLIENT);
+        user.setSurname(request.getParameter(SURNAME));
+        user.setName(request.getParameter(NAME));
+        user.setPatronymic(request.getParameter(PATRONYMIC));
+        user.setMobilePhone(request.getParameter(MOBILE));
+        user.setPassword(request.getParameter(PASSWORD));
+        user.setConfirmPassword(request.getParameter(CONFIRM));
+
         try {
-            User user = new User();
-            user.setPosition(CLIENT);
-            user.setSurname(request.getParameter(SURNAME));
-            user.setName(request.getParameter(NAME));
-            user.setPatronymic(request.getParameter(PATRONYMIC));
-            user.setMobilePhone(request.getParameter(MOBILE));
-            user.setPassword(request.getParameter(PASSWORD));
-
-            String confirmPassword = request.getParameter(CONFIRM);
-
             ServiceFactory serviceFactory = ServiceFactory.getInstance();
             UserService userService = serviceFactory.getUserService();
 
-            int id = userService.signUp(user, confirmPassword);
+            int id = userService.signUp(user);
             user.setId(id);
-
-            response = JspPageName.CLIENT_START_PAGE;
             request.getSession().setAttribute(USER, user);
 
+            response = JspPageName.CLIENT_START_PAGE;
         } catch (ServiceException exc) {
-            response = JspPageName.SIGN_UP_PAGE;////?????
+            //logger
+        } catch (ValidatorException exc) {
+            response = JspPageName.SIGN_UP_PAGE;
             request.setAttribute(ERROR_MESSAGE, exc.getMessage());
         }
         return response;

@@ -9,8 +9,6 @@ import java.sql.SQLException;
 
 public class Listener implements ServletContextListener {
 
-    //private final static Logger logger = LogManager.getLogger(Listener.class);
-
     private ConnectionPool pool = ConnectionPool.getInstance();
 
     public void contextInitialized(ServletContextEvent event) {

@@ -3,7 +3,7 @@ function validateFullName() {
 
     var pattern_en = /^[A-Z][a-z]{2,}$/;
     var pattern_ru = /^[А-Я][а-я]{2,}$/;
-    var errorMessage = "*At least 3 characters(first capital)";
+    var errorMessage = "*At least 2 letters(first capital)";
 
     var surname = document.getElementById("surname").value;
     var name = document.getElementById("name").value;
@@ -29,12 +29,12 @@ function validateFullName() {
 function validateMobile() {
     var isValid = true;
 
-    var pattern = /^\+?[\d-\s()]+$/;
+    var pattern = /^^\+375\d{9}$/;
 
     var mobile = document.getElementById("mobile").value;
 
     if (!pattern.test(mobile)) {
-        document.getElementById("mobileErr").innerHTML = "*valid characters: +- ()0-9";
+        document.getElementById("mobileErr").innerHTML = "*correct form: +375xxxxxxxxx";
         isValid = false;
     }
 
