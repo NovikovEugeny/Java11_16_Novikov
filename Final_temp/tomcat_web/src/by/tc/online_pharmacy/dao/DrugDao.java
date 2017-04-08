@@ -1,39 +1,58 @@
 package by.tc.online_pharmacy.dao;
 
-import by.tc.online_pharmacy.bean.Drug;
-import by.tc.online_pharmacy.bean.Order;
-import by.tc.online_pharmacy.bean.Recipe;
+import by.tc.online_pharmacy.bean.*;
 import by.tc.online_pharmacy.dao.exception.DaoException;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by Евгений on 17.02.2017.
- */
+
 public interface DrugDao {
+
     List<Drug> takeDrugGroup(String group) throws DaoException;
+
     List<Drug> takeDrugsByName(String name) throws DaoException;
 
-    String addDrug(Drug drug) throws DaoException;
-    String removeDrug(int id) throws DaoException;
+    void addDrugQuantity(int id, int quantity) throws DaoException;
 
-    String orderWithoutRecipe(Order order) throws DaoException;
-    String orderWithRecipe(Order order, Recipe recipe) throws DaoException;
+    void addNewDrug(Drug drug) throws DaoException;
 
-   /* List<Order> showOrderList() throws DaoException;
-    Drug showOrder(int id, int pharmacistId) throws DaoException;*/
-    Map<Order, Drug> showOrderList() throws DaoException;
+    void removeDrug(int id) throws DaoException;
 
-    /*List<Recipe> showRecipeList() throws DaoException;
-    Map<String, String> showRecipe(int id, int doctorId) throws DaoException;*/
-    Map<Recipe, Drug> showRecipeList() throws DaoException;
+    List<OrderDescription> takePharmacistOrderList() throws DaoException;
 
-    String approve(int recipeId, int doctorId) throws DaoException;
-    String deny(int recipeId, int doctorId) throws DaoException;
+    List<OrderDescription> takeClientOrderList(int id) throws DaoException;
 
-    String send(int orderId, int pharmacistId) throws DaoException;
-    String sendFeedback(int recipeId, String feedback) throws DaoException;
+    int addOrder(Order order) throws DaoException;
+
+    Date confirmRecipe(Recipe recipe) throws DaoException;
+
+    void closeRecipe(Recipe recipe) throws DaoException;
+
+    void linkOrderAndRecipe(int orderId, String recipeCode) throws DaoException;
+
+    void send(int orderId, int pharmacistId) throws DaoException;
+
+    void cancelOrder(int orderId) throws DaoException;
+
+    void addRecipeExtensionRequest(String recipeCode) throws DaoException;
+
+    Map<Integer, String> takeRecipeExtensionRequestList() throws DaoException;
+
+    void approve(int id, String recipeCode) throws DaoException;
+
+    void deny (int id, String recipeCode) throws DaoException;
+
+
+
+
+
+
+
+
+
+    void sendFeedback(int recipeId, String feedback) throws DaoException;
 
 
 }

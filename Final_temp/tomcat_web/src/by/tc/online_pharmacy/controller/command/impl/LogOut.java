@@ -6,16 +6,14 @@ import by.tc.online_pharmacy.controller.command.Command;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-/**
- * Created by Евгений on 21.03.2017.
- */
+
 public class LogOut implements Command {
     @Override
     public String execute(HttpServletRequest request) {
         HttpSession session = request.getSession();
 
         if (session != null) {
-            session.invalidate();
+            session.removeAttribute("user");
         }
 
         return JspPageName.START_PAGE;

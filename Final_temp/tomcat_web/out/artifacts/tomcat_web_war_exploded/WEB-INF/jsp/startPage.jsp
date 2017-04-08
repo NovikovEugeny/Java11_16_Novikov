@@ -120,10 +120,10 @@
         </div>
         <div class="col-xs-6 col-sm-8 col-md-8 col-lg-9">
             <section class="search">
-                ${searchMessage}
+               ${searchMessage}
                 <form action="controller" method="get">
                     <input type="hidden" name="command" value="search">
-                    <input type="text" name="drugName">
+                    <input type="text" name="drugName" required>
                     <button type="submit">${search}</button>
                 </form>
             </section>

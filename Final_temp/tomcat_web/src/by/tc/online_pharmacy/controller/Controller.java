@@ -13,6 +13,7 @@ import java.io.IOException;
  */
 public class Controller extends HttpServlet {
 
+    private CommandProvider provider = new CommandProvider();
     private final static String COMMAND = "command";
 
     @Override
@@ -28,7 +29,6 @@ public class Controller extends HttpServlet {
     }
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        CommandProvider provider = new CommandProvider();
 
         String commandName = request.getParameter(COMMAND);
 

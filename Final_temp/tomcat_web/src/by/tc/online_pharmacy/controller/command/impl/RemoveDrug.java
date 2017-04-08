@@ -10,9 +10,7 @@ import by.tc.online_pharmacy.service.factory.ServiceFactory;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
-/**
- * Created by Евгений on 08.03.2017.
- */
+
 public class RemoveDrug implements Command {
 
     private final static String DRUGS = "drugs";
@@ -34,9 +32,9 @@ public class RemoveDrug implements Command {
             List<Drug> drugs = pharmService.takeDrugGroup(group);
             request.setAttribute(DRUGS, drugs);
 
-            response = JspPageName.PHARMACIST_DRUG_LIST_TO_REMOVE;
+            response = JspPageName.PHARMACIST_DRUG_LIST_TO_UPDATE;
         } catch (ServiceException exc) {
-            response = exc.getMessage();
+
         }
         return response;
     }

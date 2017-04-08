@@ -5,6 +5,7 @@ import by.tc.online_pharmacy.controller.JspPageName;
 import by.tc.online_pharmacy.controller.command.Command;
 import by.tc.online_pharmacy.service.PharmService;
 import by.tc.online_pharmacy.service.exception.ServiceException;
+import by.tc.online_pharmacy.service.exception.ValidatorException;
 import by.tc.online_pharmacy.service.factory.ServiceFactory;
 
 import javax.servlet.http.HttpServletRequest;
@@ -32,7 +33,8 @@ public class ShowDrugs implements Command{
 
             response = JspPageName.DRUG_LIST_PAGE;
         } catch (ServiceException exc) {
-            response = exc.getMessage();
+            //logger
+            //response
         }
         return response;
     }

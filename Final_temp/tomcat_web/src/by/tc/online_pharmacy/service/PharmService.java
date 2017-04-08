@@ -2,38 +2,48 @@ package by.tc.online_pharmacy.service;
 
 import by.tc.online_pharmacy.bean.Drug;
 import by.tc.online_pharmacy.bean.Order;
+import by.tc.online_pharmacy.bean.OrderDescription;
 import by.tc.online_pharmacy.bean.Recipe;
 import by.tc.online_pharmacy.service.exception.ServiceException;
+import by.tc.online_pharmacy.service.exception.ValidatorException;
 
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by Евгений on 17.02.2017.
- */
+
 public interface PharmService {
+
     List<Drug> takeDrugGroup(String group) throws ServiceException;
-    List<Drug> takeDrugsByName(String name) throws ServiceException;
 
-    String addDrug(Drug drug) throws ServiceException;
-    String removeDrug(int id) throws ServiceException;
+    List<Drug> takeDrugsByName(String name) throws ServiceException, ValidatorException;
 
-    String orderWithoutRecipe(Order order) throws ServiceException;
-    String orderWithRecipe(Order order, Recipe recipe) throws ServiceException;
+    void addDrugQuantity(int id, int quantity) throws ServiceException;
 
-    /*List<Order> showOrderList() throws ServiceException;
-    Drug showOrder(int orderId, int pharmacistId) throws ServiceException;*/
-    Map<Order, Drug> showOrderList() throws ServiceException;
+    void addNewDrug(Drug drug) throws ServiceException;
 
-    /*List<Recipe> showRecipeList() throws ServiceException;
-    Map<String, String> showRecipe(int recipeId, int doctorId) throws ServiceException;*/
-    Map<Recipe, Drug> showRecipeList() throws ServiceException;
+    void removeDrug(int id) throws ServiceException;
+
+    void orderWithoutRecipe(Order order) throws ServiceException;
+
+    void orderWithRecipe(Order order, Recipe recipe) throws ServiceException;
+
+    List<OrderDescription> pharmacistShowOrderList() throws ServiceException;
+
+    List<OrderDescription> clientShowOrderList(int id) throws ServiceException;
+
+    void send(int orderId, int pharmacistId) throws ServiceException;
+
+    void cancelOrder(int orderId) throws ServiceException;
+
+    void addRecipeExtensionRequest(String recipeCode) throws ServiceException;
+
+    Map<Integer, String> takeRecipeExtensionRequestList() throws ServiceException;
+
+    void approve(int id, String recipeCode) throws ServiceException;
+
+    void deny(int id, String recipeCode) throws ServiceException;
 
 
-    String approve(int recipeId, int doctorId) throws ServiceException;
-    String deny(int recipeId, int doctorId) throws ServiceException;
-
-    String send(int orderId, int pharmacistId) throws ServiceException;
-    String sendFeedback(int recipeId, String feedback) throws ServiceException;
+    void sendFeedback(int recipeId, String feedback) throws ServiceException;
 
 }

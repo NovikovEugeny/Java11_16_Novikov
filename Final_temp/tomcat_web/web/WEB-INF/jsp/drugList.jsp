@@ -73,6 +73,7 @@
                             </tbody>
                         </table>
                     </div>
+                    <p align="center">${notFound}</p>
                 </div>
             </div>
         </div>

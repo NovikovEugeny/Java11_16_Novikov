@@ -1,5 +1,7 @@
 package by.tc.online_pharmacy.service.util;
 
+import by.tc.online_pharmacy.service.exception.ServiceException;
+
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -8,7 +10,7 @@ import java.security.NoSuchAlgorithmException;
  * Created by Евгений on 16.03.2017.
  */
 public class Encoder {
-    public static String encode(String str) {
+    public static String encode(String str) throws ServiceException {
         MessageDigest messageDigest = null;
         byte[] digest = null;
         String md5Hex = null;
@@ -25,8 +27,8 @@ public class Encoder {
             while( md5Hex.length() < 32 ){
                 md5Hex = "0" + md5Hex;
             }
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
+        } catch (NoSuchAlgorithmException exc) {
+            throw new ServiceException(exc);
         }
         return md5Hex;
     }

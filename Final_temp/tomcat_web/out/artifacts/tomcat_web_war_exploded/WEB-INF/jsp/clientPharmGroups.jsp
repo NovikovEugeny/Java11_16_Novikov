@@ -36,7 +36,9 @@
                 <form action="clientPharmGroups">
                     <button type="submit">заказать препарат</button>
                 </form>
-                <form>
+                <form action="controller" method="get">
+                    <input type="hidden" name="command"
+                           value="client_show_order_list">
                     <button type="submit">отменить заказ</button>
                 </form>
                 <form>
@@ -53,52 +55,52 @@
         <div class="col-xs-8 col-sm-8 col-md-8 col-lg-9">
             <section class="pharm-groups">
                 <h3>группы препаратов</h3>
-                <form action="controller" method="post">
+                <form action="controller" method="get">
                     <input type="hidden" name="command" value="show_drugs_to_order"/>
                     <input type="hidden" name="group" value="antibiotics"/>
                     <button type="submit">antibiotics</button>
                 </form>
-                <form action="controller" method="post">
+                <form action="controller" method="get">
                     <input type="hidden" name="command" value="show_drugs_to_order"/>
                     <input type="hidden" name="group" value="antiviral"/>
                     <button type="submit">antiviral</button>
                 </form>
-                <form action="controller" method="post">
+                <form action="controller" method="get">
                     <input type="hidden" name="command" value="show_drugs_to_order"/>
                     <input type="hidden" name="group" value="antipyretics"/>
                     <button type="submit">antipyretics</button>
                 </form>
-                <form action="controller" method="post">
+                <form action="controller" method="get">
                     <input type="hidden" name="command" value="show_drugs_to_order"/>
                     <input type="hidden" name="group" value="allergy"/>
                     <button type="submit">allergy</button>
                 </form>
-                <form action="controller" method="post">
+                <form action="controller" method="get">
                     <input type="hidden" name="command" value="show_drugs_to_order"/>
                     <input type="hidden" name="group" value="antiseptics"/>
                     <button type="submit">antiseptics</button>
                 </form>
-                <form action="controller" method="post">
+                <form action="controller" method="get">
                     <input type="hidden" name="command" value="show_drugs_to_order"/>
                     <input type="hidden" name="group" value="cardiovascular"/>
                     <button type="submit">cardiovascular</button>
                 </form>
-                <form action="controller" method="post">
+                <form action="controller" method="get">
                     <input type="hidden" name="command" value="show_drugs_to_order"/>
                     <input type="hidden" name="group" value="immunity"/>
                     <button type="submit">immunity</button>
                 </form>
-                <form action="controller" method="post">
+                <form action="controller" method="get">
                     <input type="hidden" name="command" value="show_drugs_to_order"/>
                     <input type="hidden" name="group" value="gastrointestinal"/>
                     <button type="submit">gastrointestinal</button>
                 </form>
-                <form action="controller" method="post">
+                <form action="controller" method="get">
                     <input type="hidden" name="command" value="show_drugs_to_order"/>
                     <input type="hidden" name="group" value="otolaryngology"/>
                     <button type="submit">otolaryngology</button>
                 </form>
-                <form action="controller" method="post">
+                <form action="controller" method="get">
                     <input type="hidden" name="command" value="show_drugs_to_order"/>
                     <input type="hidden" name="group" value="nervous system"/>
                     <button type="submit">nervous system</button>

@@ -4,6 +4,8 @@
 <head>
     <link href="../../css/bootstrap.css" rel="stylesheet">
     <link href="../../css/main.css" rel="stylesheet">
+    <script src="../../js/jquery-3.2.0.js"></script>
+    <script src="../../js/bootstrap.js"></script>
     <title>Pharmacist page</title>
 </head>
 <body>
@@ -30,32 +32,33 @@
 </header>
 <div class="center">
     <div class="row">
-        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-3">
+        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
             <nav class="service-list">
                 <form action="controller" method="get">
-                    <input type="hidden" name="command" value="show_order_list">
+                    <input type="hidden" name="command"
+                           value="pharmacist_show_order_list">
                     <button type="submit">Список заказов</button>
+                </form>
+                <form action="pharmacistGroupsToUpdate">
+                    <button type="submit">Список препаратов</button>
                 </form>
                 <form action="pharmacistAddDrug">
                     <button type="submit">Добавить препарат</button>
-                </form>
-                <form action="pharmacistGroupsToRemove">
-                    <button type="submit">Удалить препарат</button>
                 </form>
                 <form>
                     <button type="submit">Отчет по продажам</button>
                 </form>
             </nav>
         </div>
-        <div class="col-xs-8 col-sm-8 col-md-8 col-lg-9">
+        <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
             <section class="pharmacist-orderlist">
-                <h3>Список заказов</h3>
+                <h3>Список заказов:</h3>
                 <div class="table-responsive">
                     <table class="table table-bordered">
                         <thead>
                         <tr>
                             <th>date</th>
-                            <th>address</th>
+                            <th>client mobile</th>
                             <th>name</th>
                             <th>group</th>
                             <th>form</th>
@@ -64,26 +67,32 @@
                             <th>country</th>
                             <th>quantity</th>
                             <th></th>
+                            <th></th>
                         </tr>
                         </thead>
                         <tbody>
                         <c:forEach var="element" items="${orderList}" >
-                            <tr bgcolor="#FFFFFF">
-                                <td><c:out value="${element.key.requestDate}"/></td>
-                                <td><c:out value="${element.key.deliveryAddress}"/></td>
-                                <td><c:out value="${element.value.name}"/></td>
-                                <td><c:out value="${element.value.group}"/></td>
-                                <td><c:out value="${element.value.form}"/></td>
-                                <td><c:out value="${element.value.drugAmount}"/></td>
-                                <td><c:out value="${element.value.activeSubstances}"/></td>
-                                <td><c:out value="${element.value.country}"/></td>
-                                <td><c:out value="${element.value.quantity}"/></td>
+                            <tr>
+                                <td><c:out value="${element.requestDate}"/></td>
+                                <td><c:out value="${element.clientMobile}"/></td>
+                                <td><c:out value="${element.drugName}"/></td>
+                                <td><c:out value="${element.pharmacologicalGroup}"/></td>
+                                <td><c:out value="${element.drugForm}"/></td>
+                                <td><c:out value="${element.drugAmount}"/></td>
+                                <td><c:out value="${element.activeSubstances}"/></td>
+                                <td><c:out value="${element.productingCountry}"/></td>
+                                <td><c:out value="${element.quantity}"/></td>
                                 <td>
                                     <form action="controller" method="post">
                                         <input type="hidden" name="command" value="send">
-                                        <input type="hidden" name="orderId" value="${element.key.id}">
+                                        <input type="hidden" name="orderId" value="${element.orderId}">
                                         <button type="submit">send</button>
                                     </form>
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-success" data-toggle="modal"
+                                            data-target="#cancelModal" data-id="${element.orderId}">cancel
+                                    </button>
                                 </td>
                             </tr>
                         </c:forEach>
@@ -94,5 +103,36 @@
         </div>
     </div>
 </div>
+<!--Modal-->
+<div class="modal fade" id="cancelModal" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel2">Отмена заказа</h4>
+            </div>
+            <form action="controller" method="post">
+                <div class="modal-body">
+                    <input type="hidden" name="command" value="pharmacist_cancel_order">
+                    <input type="hidden" id="orderId" name="orderId">
+                    Вы уверены?
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn-success btn-lg">cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    $("#cancelModal").on("show.bs.modal", function (event) {
+        // получить кнопку, которая его открыло
+        var button = $(event.relatedTarget);
+
+        var orderId = button.data("id");
+
+        $(this).find("#orderId").val(orderId);
+    })
+</script>
 </body>
 </html>

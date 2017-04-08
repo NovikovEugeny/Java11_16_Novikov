@@ -47,8 +47,12 @@
                 <form action="clientPharmGroups">
                     <button type="submit">заказать препарат</button>
                 </form>
-                <form>
+                <form action="controller" method="get">
+                    <input type="hidden" name="command" value="client_show_order_list">
                     <button type="submit">отменить заказ</button>
+                </form>
+                <form action="clientExtendRecipe">
+                    <button>продлить рецепт</button>
                 </form>
                 <form>
                     <button type="submit">сообщения</button>

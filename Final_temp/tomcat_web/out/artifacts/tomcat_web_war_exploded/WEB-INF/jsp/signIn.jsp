@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-<!DOCTYPE html>
+<html>
 <head>
     <meta charset="UTF-8">
     <link href="../../css/signIn.css" rel="stylesheet">
@@ -24,13 +24,13 @@
                 <span class="ring"></span>
                 <span class="ring"></span>
             </div>
-            <form action="/controller" method="post" onsubmit="return validate()">
+            <form action="controller" method="post" onsubmit="return validate()">
                 <input type="hidden" name="command" value="sign_in"/>
                 <p>${requestScope.errorMessage}</p>
                 <p id="mobileErr"><br></p>
-                <input type="text" name="mobile" id="mobile" placeholder="${mobilePhone}" />
+                <input type="text" name="mobile" id="mobile" placeholder="${mobilePhone}"/>
                 <p id="passwordErr"><br></p>
-                <input type="password" name="password" id="password" placeholder="${password}" />
+                <input type="password" name="password" id="password" placeholder="${password}"/>
                 <button type="submit">${enter}</button>
             </form>
         </div>

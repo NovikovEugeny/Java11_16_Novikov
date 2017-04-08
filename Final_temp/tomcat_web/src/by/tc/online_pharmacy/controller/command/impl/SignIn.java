@@ -1,17 +1,17 @@
 package by.tc.online_pharmacy.controller.command.impl;
 
-import by.tc.online_pharmacy.bean.Drug;
-import by.tc.online_pharmacy.bean.Order;
-import by.tc.online_pharmacy.bean.Recipe;
+import by.tc.online_pharmacy.bean.OrderDescription;
 import by.tc.online_pharmacy.bean.User;
 import by.tc.online_pharmacy.controller.JspPageName;
 import by.tc.online_pharmacy.controller.command.Command;
 import by.tc.online_pharmacy.service.PharmService;
 import by.tc.online_pharmacy.service.UserService;
 import by.tc.online_pharmacy.service.exception.ServiceException;
+import by.tc.online_pharmacy.service.exception.ValidatorException;
 import by.tc.online_pharmacy.service.factory.ServiceFactory;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 import java.util.Map;
 
 public class SignIn implements Command {
@@ -33,29 +33,29 @@ public class SignIn implements Command {
 
         String response = null;
 
-        try {
-            String mobilePhone = request.getParameter(MOBILE);
-            String password = request.getParameter(PASSWORD);
+        String mobilePhone = request.getParameter(MOBILE);
+        String password = request.getParameter(PASSWORD);
 
+        try {
             ServiceFactory serviceFactory = ServiceFactory.getInstance();
             UserService userService = serviceFactory.getUserService();
+            PharmService pharmService = serviceFactory.getPharmService();
 
             User user = userService.signIn(mobilePhone, password);
-//!!!!!!!!!
-            if(user != null) {
+
+            if (user != null) {
                 if (user.getPosition().equals(PHARMACIST)) {
-                    PharmService pharmService = serviceFactory.getPharmService();
-                    Map<Order, Drug> orderList = pharmService.showOrderList();
+                    List<OrderDescription> orderList = pharmService.pharmacistShowOrderList();
                     request.setAttribute(ORDER_LIST, orderList);
                     response = JspPageName.PHARMACIST_START_PAGE;
                 }
                 if (user.getPosition().equals(DOCTOR)) {
-                    PharmService pharmService = serviceFactory.getPharmService();
-                    Map<Recipe, Drug> recipeList = pharmService.showRecipeList();
+                    Map<Integer, String> recipeList = pharmService.takeRecipeExtensionRequestList();
                     request.setAttribute(RECIPE_LIST, recipeList);
                     response = JspPageName.DOCTOR_PAGE;
                 }
                 if (user.getPosition().equals(CLIENT)) {
+                    //messages
                     response = JspPageName.CLIENT_START_PAGE;
                 }
                 request.getSession(true).setAttribute(USER, user);
@@ -64,8 +64,11 @@ public class SignIn implements Command {
                 response = JspPageName.SIGN_IN_PAGE;
             }
         } catch (ServiceException exc) {
-            response = JspPageName.SIGN_IN_PAGE;///????
+            //logger
+            //response?
+        } catch (ValidatorException exc) {
             request.setAttribute(ERROR_MESSAGE, exc.getMessage());
+            response = JspPageName.SIGN_IN_PAGE;
         }
         return response;
     }

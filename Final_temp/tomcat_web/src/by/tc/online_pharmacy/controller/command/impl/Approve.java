@@ -1,37 +1,39 @@
 package by.tc.online_pharmacy.controller.command.impl;
 
-import by.tc.online_pharmacy.bean.User;
+import by.tc.online_pharmacy.controller.JspPageName;
 import by.tc.online_pharmacy.controller.command.Command;
 import by.tc.online_pharmacy.service.PharmService;
 import by.tc.online_pharmacy.service.exception.ServiceException;
 import by.tc.online_pharmacy.service.factory.ServiceFactory;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 
-/**
- * Created by Евгений on 05.03.2017.
- */
+
 public class Approve implements Command {
 
-    private final static String RECIPE_ID = "recipeId";
-    private final static String USER = "user";
+    private final static String RECIPE_CODE = "recipeCode";
+    private final static String ID = "id";
+    private final static String RECIPE_LIST = "recipeList";
 
     @Override
     public String execute(HttpServletRequest request) {
         String response = null;
 
+        int id = Integer.parseInt(request.getParameter(ID));
+        String recipeCode = request.getParameter(RECIPE_CODE);
+
         try {
             ServiceFactory serviceFactory = ServiceFactory.getInstance();
             PharmService pharmService = serviceFactory.getPharmService();
 
-            int recipeId = Integer.parseInt(request.getParameter(RECIPE_ID));
-            int doctorId = ((User)request.getSession().getAttribute(USER)).getId();
+            pharmService.approve(id, recipeCode);
 
-            pharmService.approve(recipeId, doctorId);//return string
-
-            //response = JspPageName.SHOW_ORDER_PAGE;
+            Map<Integer, String> recipeList = pharmService.takeRecipeExtensionRequestList();
+            request.setAttribute(RECIPE_LIST, recipeList);
+            response = JspPageName.DOCTOR_PAGE;
         } catch (ServiceException exc) {
-            response = exc.getMessage();
+            //logger
         }
         return response;
     }

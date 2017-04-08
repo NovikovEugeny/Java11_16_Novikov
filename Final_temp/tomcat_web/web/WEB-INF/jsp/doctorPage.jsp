@@ -32,48 +32,34 @@
 <section class="recipe-list">
     <div class="container">
         <div class="row">
-            <div class="col-md-12">
-                <h3>Список заявок на рецепт</h3>
+            <div class="col-md-6">
+                <h3>Список заявок на продление рецепт</h3>
                 <div class="table-responsive">
                     <table class="table table-bordered">
                         <thead>
                         <tr>
-                            <th>request date</th>
-                            <th>code</th>
-                            <th>name</th>
-                            <th>group</th>
-                            <th>form</th>
-                            <th>amount</th>
-                            <th>active substances</th>
-                            <th>country</th>
-                            <th>quantity</th>
+                            <th>код рецепта</th>
                             <th></th>
                             <th></th>
                         </tr>
                         </thead>
                         <tbody>
-                        <c:forEach var="element" items="${recipeList}" >
+                        <c:forEach var="element" items="${recipeList}">
                             <tr bgcolor="#FFFFFF">
-                                <td><c:out value="${element.key.requestDate}"/></td>
-                                <td><c:out value="${element.key.recipeCode}"/></td>
-                                <td><c:out value="${element.value.name}"/></td>
-                                <td><c:out value="${element.value.group}"/></td>
-                                <td><c:out value="${element.value.form}"/></td>
-                                <td><c:out value="${element.value.drugAmount}"/></td>
-                                <td><c:out value="${element.value.activeSubstances}"/></td>
-                                <td><c:out value="${element.value.country}"/></td>
-                                <td><c:out value="${element.value.quantity}"/></td>
+                                <td><c:out value="${element.value}"/></td>
                                 <td>
                                     <form action="controller" method="post">
                                         <input type="hidden" name="command" value="approve">
-                                        <input type="hidden" name="recipeId" value="${element.key.id}">
+                                        <input type="hidden" name="id" value="${element.key}">
+                                        <input type="hidden" name="recipeCode" value="${element.value}">
                                         <button type="submit">approve</button>
                                     </form>
                                 </td>
                                 <td>
                                     <form action="controller" method="post">
                                         <input type="hidden" name="command" value="deny">
-                                        <input type="hidden" name="recipeId" value="${element.key.id}">
+                                        <input type="hidden" name="id" value="${element.key}">
+                                        <input type="hidden" name="recipeCode" value="${element.value}">
                                         <button type="submit">deny</button>
                                     </form>
                                 </td>

@@ -59,13 +59,26 @@
     </servlet-mapping>
 
     <servlet>
-        <servlet-name>pharmacistGroupsToRemove</servlet-name>
-        <jsp-file>/WEB-INF/jsp/pharmacistGroupsToRemove.jsp</jsp-file>
+        <servlet-name>pharmacistGroupsToUpdate</servlet-name>
+        <jsp-file>/WEB-INF/jsp/pharmacistGroupsToUpdate.jsp</jsp-file>
     </servlet>
     <servlet-mapping>
-        <servlet-name>pharmacistGroupsToRemove</servlet-name>
-        <url-pattern>/pharmacistGroupsToRemove</url-pattern>
+        <servlet-name>pharmacistGroupsToUpdate</servlet-name>
+        <url-pattern>/pharmacistGroupsToUpdate</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>clientExtendRecipe</servlet-name>
+        <jsp-file>/WEB-INF/jsp/clientExtendRecipe.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>clientExtendRecipe</servlet-name>
+        <url-pattern>/clientExtendRecipe</url-pattern>
+    </servlet-mapping>
+
+
+
+
 
     <servlet>
         <servlet-name>feedback</servlet-name>

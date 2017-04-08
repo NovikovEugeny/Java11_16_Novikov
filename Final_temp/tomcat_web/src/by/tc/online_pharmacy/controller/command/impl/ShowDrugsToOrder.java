@@ -28,7 +28,7 @@ public class ShowDrugsToOrder implements Command {
             request.setAttribute(DRUGS, pharmService.takeDrugGroup(group));
             response = JspPageName.CLIENT_DRUG_LIST_TO_ORDER;
         } catch (ServiceException exc) {
-            response = exc.getMessage();
+
         }
         return response;
     }

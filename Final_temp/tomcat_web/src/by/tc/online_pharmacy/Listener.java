@@ -1,6 +1,8 @@
 package by.tc.online_pharmacy;
 
 import by.tc.online_pharmacy.dao.connection_pool.ConnectionPool;
+import by.tc.online_pharmacy.dao.exception.DaoException;
+import by.tc.online_pharmacy.dao.impl.DrugDaoImpl;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
@@ -8,8 +10,6 @@ import java.sql.SQLException;
 
 
 public class Listener implements ServletContextListener {
-
-    //private final static Logger logger = LogManager.getLogger(Listener.class);
 
     private ConnectionPool pool = ConnectionPool.getInstance();
 

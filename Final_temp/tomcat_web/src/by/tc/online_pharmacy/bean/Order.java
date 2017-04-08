@@ -2,6 +2,7 @@ package by.tc.online_pharmacy.bean;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.Date;
 
 /**
  * Created by Евгений on 24.02.2017.
@@ -16,9 +17,8 @@ public class Order implements Serializable {
     private int drugId;
     private int quantity;
     private double cost;
-    private String deliveryAddress;
-    private Timestamp requestDate;
-    private Timestamp responseDate;
+    private Date requestDate;
+    private Date responseDate;
     private String status;
 
     public Order() {}
@@ -45,10 +45,6 @@ public class Order implements Serializable {
 
     public void setCost(double cost) {
         this.cost = cost;
-    }
-
-    public void setDeliveryAddress(String deliveryAddress) {
-        this.deliveryAddress = deliveryAddress;
     }
 
     public void setRequestDate(Timestamp requestDate) {
@@ -87,15 +83,11 @@ public class Order implements Serializable {
         return cost;
     }
 
-    public String getDeliveryAddress() {
-        return deliveryAddress;
-    }
-
-    public Timestamp getRequestDate() {
+    public Date getRequestDate() {
         return requestDate;
     }
 
-    public Timestamp getResponseDate() {
+    public Date getResponseDate() {
         return responseDate;
     }
 

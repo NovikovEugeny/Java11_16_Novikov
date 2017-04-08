@@ -5,6 +5,7 @@ import by.tc.online_pharmacy.controller.JspPageName;
 import by.tc.online_pharmacy.controller.command.Command;
 import by.tc.online_pharmacy.service.PharmService;
 import by.tc.online_pharmacy.service.exception.ServiceException;
+import by.tc.online_pharmacy.service.exception.ValidatorException;
 import by.tc.online_pharmacy.service.factory.ServiceFactory;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,6 +18,7 @@ public class Search implements Command {
 
     private final static String DRUG_NAME = "drugName";
     private final static String DRUGS = "drugs";
+    private final static String NOT_FOUND = "notFound";
 
     @Override
     public String execute(HttpServletRequest request) {
@@ -32,7 +34,11 @@ public class Search implements Command {
 
             response = JspPageName.DRUG_LIST_PAGE;
         } catch (ServiceException exc) {
-            response = exc.getMessage();
+            //logger
+            //response
+        } catch (ValidatorException exc) {
+            request.setAttribute(NOT_FOUND, exc.getMessage());
+            response = JspPageName.DRUG_LIST_PAGE;
         }
         return response;
     }

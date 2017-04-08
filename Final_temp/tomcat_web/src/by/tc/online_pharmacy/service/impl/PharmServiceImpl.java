@@ -1,23 +1,24 @@
 package by.tc.online_pharmacy.service.impl;
 
-import by.tc.online_pharmacy.bean.Drug;
-import by.tc.online_pharmacy.bean.Order;
-import by.tc.online_pharmacy.bean.Recipe;
+import by.tc.online_pharmacy.bean.*;
 import by.tc.online_pharmacy.dao.DrugDao;
 import by.tc.online_pharmacy.dao.exception.DaoException;
 import by.tc.online_pharmacy.dao.factory.DaoFactory;
 import by.tc.online_pharmacy.service.PharmService;
 import by.tc.online_pharmacy.service.exception.ServiceException;
+import by.tc.online_pharmacy.service.exception.ValidatorException;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by Евгений on 17.02.2017.
- */
 public class PharmServiceImpl implements PharmService {
+
+    private final static String NOT_FOUND_MESSAGE = "Препарат с данным " +
+            "названием не найден, проверьте правильность ввода!";
+
     @Override
-    public List<Drug> takeDrugsByName(String name) throws ServiceException {
+    public List<Drug> takeDrugsByName(String name) throws ServiceException, ValidatorException {
         List<Drug> drugs = null;
 
         try {
@@ -25,6 +26,10 @@ public class PharmServiceImpl implements PharmService {
             DrugDao drugDao = daoFactory.getDrugDao();
 
             drugs = drugDao.takeDrugsByName(name);
+
+            if (drugs.isEmpty()) {
+                throw new ValidatorException(NOT_FOUND_MESSAGE);
+            }
         } catch (DaoException exc) {
             throw new ServiceException(exc);
         }
@@ -47,70 +52,97 @@ public class PharmServiceImpl implements PharmService {
     }
 
     @Override
-    public String addDrug(Drug drug) throws ServiceException {
-        String response = null;
+    public void addDrugQuantity(int id, int quantity) throws ServiceException {
+
         try {
             DaoFactory daoFactory = DaoFactory.getInstance();
             DrugDao drugDao = daoFactory.getDrugDao();
 
-            response = drugDao.addDrug(drug);
+            drugDao.addDrugQuantity(id, quantity);
         } catch (DaoException exc) {
             throw new ServiceException(exc);
         }
-        return response;
     }
 
     @Override
-    public String removeDrug(int id) throws ServiceException {
-        String response = null;
+    public void addNewDrug(Drug drug) throws ServiceException {
+
         try {
             DaoFactory daoFactory = DaoFactory.getInstance();
             DrugDao drugDao = daoFactory.getDrugDao();
 
-            response = drugDao.removeDrug(id);
+            drugDao.addNewDrug(drug);
         } catch (DaoException exc) {
             throw new ServiceException(exc);
         }
-        return response;
     }
 
     @Override
-    public String orderWithoutRecipe(Order order) throws ServiceException {
-        String response = null;
+    public void removeDrug(int id) throws ServiceException {
 
         try {
             DaoFactory daoFactory = DaoFactory.getInstance();
             DrugDao drugDao = daoFactory.getDrugDao();
-            response = drugDao.orderWithoutRecipe(order);
-        } catch (DaoException e) {
-            throw new ServiceException(e);
+
+            drugDao.removeDrug(id);
+        } catch (DaoException exc) {
+            throw new ServiceException(exc);
         }
-        return response;
     }
+
 
     @Override
-    public String orderWithRecipe(Order order, Recipe recipe) throws ServiceException {
-        String response = null;
+    public void orderWithoutRecipe(Order order) throws ServiceException {
 
         try {
             DaoFactory daoFactory = DaoFactory.getInstance();
             DrugDao drugDao = daoFactory.getDrugDao();
-            response = drugDao.orderWithRecipe(order, recipe);
-        } catch (DaoException e) {
-            throw new ServiceException(e);
+
+            drugDao.addOrder(order);
+        } catch (DaoException exc) {
+            throw new ServiceException(exc);
         }
-        return response;
     }
 
 
-    /*@Override
-    public List<Order> showOrderList() throws ServiceException {
-        List<Order> orderList = null;
+    @Override
+    public void orderWithRecipe(Order order, Recipe recipe) throws ServiceException {
 
         try {
             DaoFactory daoFactory = DaoFactory.getInstance();
             DrugDao drugDao = daoFactory.getDrugDao();
-            orderList = drugDao.showOrderList();
+
+            Date currentDate = new Date();
+            Date endDate = drugDao.confirmRecipe(recipe);
+
+            if (endDate == null) {
+                System.out.println("this recipe is not exists");
+                throw new DaoException();
+            }
+
+            if (endDate.getTime() > currentDate.getTime()) {
+                int id = drugDao.addOrder(order);
+                drugDao.closeRecipe(recipe);
+                drugDao.linkOrderAndRecipe(id, recipe.getRecipeCode());
+            } else {
+                System.out.println("too later");
+                throw new DaoException();
+            }
+
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+    }
+
+
+    @Override
+    public List<OrderDescription> pharmacistShowOrderList() throws ServiceException {
+        List<OrderDescription> orderList = null;
+
+        try {
+            DaoFactory daoFactory = DaoFactory.getInstance();
+            DrugDao drugDao = daoFactory.getDrugDao();
+            orderList = drugDao.takePharmacistOrderList();
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
@@ -118,117 +150,105 @@ public class PharmServiceImpl implements PharmService {
     }
 
     @Override
-    public Drug showOrder(int orderId, int pharmacistId) throws ServiceException {
-
-        Drug drug = null;
-
-        try {
-            DaoFactory daoFactory = DaoFactory.getInstance();
-            DrugDao drugDao = daoFactory.getDrugDao();
-            drug = drugDao.showOrder(orderId, pharmacistId);
-        } catch (DaoException exc) {
-            throw new ServiceException(exc);
-        }
-        return drug;
-    }*/
-
-    @Override
-    public Map<Order, Drug> showOrderList() throws ServiceException {
-        Map<Order, Drug> orderList = null;
+    public List<OrderDescription> clientShowOrderList(int id) throws ServiceException {
+        List<OrderDescription> orderList = null;
 
         try {
             DaoFactory daoFactory = DaoFactory.getInstance();
             DrugDao drugDao = daoFactory.getDrugDao();
-            orderList = drugDao.showOrderList();
+            orderList = drugDao.takeClientOrderList(id);
+            System.out.println("service");
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
         return orderList;
     }
 
+
     @Override
-    public Map<Recipe, Drug> showRecipeList() throws ServiceException {
-        Map<Recipe, Drug> recipeList = null;
+    public void send(int orderId, int pharmacistId) throws ServiceException {
 
         try {
             DaoFactory daoFactory = DaoFactory.getInstance();
             DrugDao drugDao = daoFactory.getDrugDao();
-            recipeList = drugDao.showRecipeList();
-        } catch (DaoException e) {
-            throw new ServiceException(e);
-        }
-        return recipeList;
-    }
-
-  /*  @Override
-    public Map<String, String> showRecipe(int recipeId, int doctorId) throws ServiceException {
-        Map<String, String> info = null;
-
-        try {
-            DaoFactory daoFactory = DaoFactory.getInstance();
-            DrugDao drugDao = daoFactory.getDrugDao();
-            info = drugDao.showRecipe(recipeId, doctorId);
+            drugDao.send(orderId, pharmacistId);
         } catch (DaoException exc) {
             throw new ServiceException(exc);
         }
-        return info;
-    }
-*/
-    @Override
-    public String approve(int recipeId, int doctorId) throws ServiceException {
-        String response = null;
-
-        try {
-            DaoFactory daoFactory = DaoFactory.getInstance();
-            DrugDao drugDao = daoFactory.getDrugDao();
-            response = drugDao.approve(recipeId, doctorId);
-        } catch (DaoException e) {
-            throw new ServiceException(e);
-        }
-        return response;
-    }
-
-    @Override
-    public String deny(int recipeId, int doctorId) throws ServiceException {
-        String response = null;
-
-        try {
-            DaoFactory daoFactory = DaoFactory.getInstance();
-            DrugDao drugDao = daoFactory.getDrugDao();
-            response = drugDao.deny(recipeId, doctorId);
-        } catch (DaoException e) {
-            throw new ServiceException(e);
-        }
-        return response;
     }
 
 
     @Override
-    public String send(int orderId, int pharmacistId) throws ServiceException {
-        String response = null;
-
+    public void cancelOrder(int orderId) throws ServiceException {
         try {
             DaoFactory daoFactory = DaoFactory.getInstance();
             DrugDao drugDao = daoFactory.getDrugDao();
-            response = drugDao.send(orderId, pharmacistId);
-        } catch (DaoException e) {
-            throw new ServiceException(e);
+            drugDao.cancelOrder(orderId);
+        } catch (DaoException exc) {
+            throw new ServiceException(exc);
         }
-        return response;
+    }
+
+
+    @Override
+    public void addRecipeExtensionRequest(String recipeCode) throws ServiceException {
+        try {
+            DaoFactory daoFactory = DaoFactory.getInstance();
+            DrugDao drugDao = daoFactory.getDrugDao();
+            drugDao.addRecipeExtensionRequest(recipeCode);
+        } catch (DaoException exc) {
+            throw new ServiceException(exc);
+        }
+    }
+
+
+    @Override
+    public Map<Integer, String> takeRecipeExtensionRequestList() throws ServiceException {
+        try {
+            DaoFactory daoFactory = DaoFactory.getInstance();
+            DrugDao drugDao = daoFactory.getDrugDao();
+
+            return drugDao.takeRecipeExtensionRequestList();
+        } catch (DaoException exc) {
+            throw new ServiceException(exc);
+        }
+    }
+
+
+    @Override
+    public void approve(int id, String recipeCode) throws ServiceException {
+        try {
+            DaoFactory daoFactory = DaoFactory.getInstance();
+            DrugDao drugDao = daoFactory.getDrugDao();
+
+            drugDao.approve(id, recipeCode);
+        } catch (DaoException exc) {
+            throw new ServiceException(exc);
+        }
     }
 
     @Override
-    public String sendFeedback(int recipeId, String feedback) throws ServiceException {
-        String response = null;
-
+    public void deny(int id, String recipeCode) throws ServiceException {
         try {
             DaoFactory daoFactory = DaoFactory.getInstance();
             DrugDao drugDao = daoFactory.getDrugDao();
-            response = drugDao.sendFeedback(recipeId, feedback);
+
+            drugDao.deny(id, recipeCode);
+        } catch (DaoException exc) {
+            throw new ServiceException(exc);
+        }
+    }
+
+
+    @Override
+    public void sendFeedback(int recipeId, String feedback) throws ServiceException {
+        try {
+            DaoFactory daoFactory = DaoFactory.getInstance();
+            DrugDao drugDao = daoFactory.getDrugDao();
+            drugDao.sendFeedback(recipeId, feedback);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
-        return response;
     }
 
 }
