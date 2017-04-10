@@ -29,6 +29,7 @@
         </div>
     </div>
 </header>
+<c:if test="${not empty requestScope.recipeList}">
 <section class="recipe-list">
     <div class="container">
         <div class="row">
@@ -44,7 +45,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <c:forEach var="element" items="${recipeList}">
+                        <c:forEach var="element" items="${requestScope.recipeList}">
                             <tr bgcolor="#FFFFFF">
                                 <td><c:out value="${element.value}"/></td>
                                 <td>
@@ -72,5 +73,9 @@
         </div>
     </div>
 </section>
+</c:if>
+<c:if test="${empty requestScope.recipeList}">
+    <p align="center">Нет заявок</p>
+</c:if>
 </body>
 </html>

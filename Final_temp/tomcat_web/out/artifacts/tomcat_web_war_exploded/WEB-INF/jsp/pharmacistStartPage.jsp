@@ -30,6 +30,7 @@
         </div>
     </div>
 </header>
+
 <div class="center">
     <div class="row">
         <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
@@ -52,6 +53,10 @@
         </div>
         <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
             <section class="pharmacist-orderlist">
+                <c:if test="${empty requestScope.orderList}">
+                    <p align="center">Нет заявок</p>
+                </c:if>
+                <c:if test="${not empty requestScope.orderList}">
                 <h3>Список заказов:</h3>
                 <div class="table-responsive">
                     <table class="table table-bordered">
@@ -71,7 +76,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <c:forEach var="element" items="${orderList}" >
+                        <c:forEach var="element" items="${requestScope.orderList}" >
                             <tr>
                                 <td><c:out value="${element.requestDate}"/></td>
                                 <td><c:out value="${element.clientMobile}"/></td>
@@ -99,6 +104,7 @@
                         </tbody>
                     </table>
                 </div>
+                </c:if>
             </section>
         </div>
     </div>

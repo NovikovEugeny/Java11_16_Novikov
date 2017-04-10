@@ -10,9 +10,7 @@ import by.tc.online_pharmacy.service.factory.ServiceFactory;
 
 import javax.servlet.http.HttpServletRequest;
 
-/**
- * Created by Евгений on 17.02.2017.
- */
+
 public class SignUp implements Command {
 
     private final static String CLIENT = "client";
@@ -24,6 +22,7 @@ public class SignUp implements Command {
     private final static String CONFIRM = "confirm";
     private final static String USER = "user";
     private final static String ERROR_MESSAGE = "errorMessage";
+    private final static String ERROR_MAP = "errorMap";
 
     @Override
     public String execute(HttpServletRequest request) {
@@ -50,9 +49,11 @@ public class SignUp implements Command {
             response = JspPageName.CLIENT_START_PAGE;
         } catch (ServiceException exc) {
             //logger
+
         } catch (ValidatorException exc) {
-            response = JspPageName.SIGN_UP_PAGE;
             request.setAttribute(ERROR_MESSAGE, exc.getMessage());
+            request.setAttribute(ERROR_MAP, exc.getErrors());
+            response = JspPageName.SIGN_UP_PAGE;
         }
         return response;
     }

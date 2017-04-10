@@ -20,7 +20,7 @@ function validateAmount() {
 
     var pattern_en = /^\d{1,3}\s[a-z]+$/;
     var pattern_ru = /^\d{1,3}\s[а-я]+$/;
-    var errorMessage = "*correct form: number space string";
+    var errorMessage = "*correct form: 20 pills";
 
     var amount = document.getElementById("amount").value;
 
@@ -30,6 +30,22 @@ function validateAmount() {
     }
 
     return isValid;
+}
+
+function validateActiveSubstances() {
+    var isValid = true;
+
+    var pattern_en = /^([A-Za-z][a-z]+\s?-\s?\d+[a-z]+[,;]?)+$/;
+    var pattern_ru = /^([А-Яа-я][а-я]+\s?-\s?\d+[а-я]+[,;]?)+$/;
+    var errorMessage = "*substance - 20mg, ...";
+
+    var aS = document.getElementById("as").value;
+
+    if (!(pattern_en.test(aS) || pattern_ru.test(aS))) {
+        document.getElementById("activeSubstancesErr").innerHTML = errorMessage;
+        isValid = false;
+    }
+
 }
 
 function validateCountry() {

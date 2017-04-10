@@ -5,12 +5,14 @@
 <head>
     <link href="../../css/bootstrap.css" rel="stylesheet">
     <link href="../../css/main.css" rel="stylesheet">
-    <fmt:setLocale value="${sessionScope.local}" />
-    <fmt:setBundle basename="localization.local" var="loc" />
+    <script src="../../js/jquery-3.2.0.js"></script>
+    <script src="../../js/bootstrap.js"></script>
+    <fmt:setLocale value="${sessionScope.local}"/>
+    <fmt:setBundle basename="localization.local" var="loc"/>
     <fmt:message bundle="${loc}" key="title" var="title"/>
     <fmt:message bundle="${loc}" key="label.language" var="lang"/>
-    <fmt:message bundle="${loc}" key="button.ru" var="ru" />
-    <fmt:message bundle="${loc}" key="button.en" var="en" />
+    <fmt:message bundle="${loc}" key="button.ru" var="ru"/>
+    <fmt:message bundle="${loc}" key="button.en" var="en"/>
     <fmt:message bundle="${loc}" key="button.signin" var="signIn"/>
     <fmt:message bundle="${loc}" key="button.signup" var="singUp"/>
     <fmt:message bundle="${loc}" key="button.search" var="search"/>
@@ -120,12 +122,15 @@
         </div>
         <div class="col-xs-6 col-sm-8 col-md-8 col-lg-9">
             <section class="search">
-               ${searchMessage}
+               <c:out value="${searchMessage}"/>
                 <form action="controller" method="get">
                     <input type="hidden" name="command" value="search">
-                    <input type="text" name="drugName" required>
+                    <input type="text" name="drugName">
                     <button type="submit">${search}</button>
                 </form>
+                <p id="search-error">
+                    <c:out value="${requestScope.errorMessage}"/>
+                </p>
             </section>
             <section class="info">
                 <h3>${searchTitle}</h3>

@@ -57,8 +57,7 @@
                     <div class="form-group">
                         <label for="name">название:</label>
                         <p id="nameErr"></p>
-                        <input type="text" class="form-control" id="name"
-                               name="name" required>
+                        <input type="text" class="form-control" id="name" name="name">
                     </div>
                     <div class="form-group">
                         <label for="group">фармакологическая группа:</label>
@@ -91,20 +90,19 @@
                     <div class="form-group">
                         <label for="amount">количество препарата:</label>
                         <p id="amountErr"></p>
-                        <input type="text" class="form-control" id="amount"
-                               name="drugAmount" required>
+                        <input type="text" class="form-control" id="amount" name="drugAmount">
                     </div>
                     <div class="form-group">
                         <label for="as">активные вещества:</label>
                         <p id="activeSubstancesErr"></p>
                         <textarea class="form-control" rows="5" id="as"
-                                  name="activeSubstances" required></textarea>
+                                  name="activeSubstances"></textarea>
                     </div>
                     <div class="form-group">
                         <label for="country">страна производитель:</label>
                         <p id="countryErr"></p>
                         <input type="text" class="form-control" id="country"
-                               name="country" required>
+                               name="country">
                     </div>
                     <div class="form-group">
                         <label for="dispensing">отпуск:</label>
@@ -116,12 +114,11 @@
                     <div class="form-group">
                         <label for="price">стоимость:</label>
                         <p id="priceErr"></p>
-                        <input type="text" class="form-control" id="price"
-                               name="price" required>
+                        <input type="text" class="form-control" id="price" name="price">
                     </div>
                     <div class="form-group">
                         <label for="quantity">количество:</label>
-                        <input type="number" class="form-control" id="quantity" name="quantity" min="1" required>
+                        <input type="number" class="form-control" id="quantity" name="quantity" min="1">
                     </div>
                     <button type="submit">add</button>
                 </form>

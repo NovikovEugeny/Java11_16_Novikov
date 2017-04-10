@@ -7,6 +7,7 @@ import by.tc.online_pharmacy.dao.factory.DaoFactory;
 import by.tc.online_pharmacy.service.PharmService;
 import by.tc.online_pharmacy.service.exception.ServiceException;
 import by.tc.online_pharmacy.service.exception.ValidatorException;
+import by.tc.online_pharmacy.service.util.Validator;
 
 import java.util.Date;
 import java.util.List;
@@ -14,22 +15,17 @@ import java.util.Map;
 
 public class PharmServiceImpl implements PharmService {
 
-    private final static String NOT_FOUND_MESSAGE = "Препарат с данным " +
-            "названием не найден, проверьте правильность ввода!";
-
     @Override
     public List<Drug> takeDrugsByName(String name) throws ServiceException, ValidatorException {
         List<Drug> drugs = null;
+
+        Validator.searchValidate(name);
 
         try {
             DaoFactory daoFactory = DaoFactory.getInstance();
             DrugDao drugDao = daoFactory.getDrugDao();
 
             drugs = drugDao.takeDrugsByName(name);
-
-            if (drugs.isEmpty()) {
-                throw new ValidatorException(NOT_FOUND_MESSAGE);
-            }
         } catch (DaoException exc) {
             throw new ServiceException(exc);
         }

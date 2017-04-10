@@ -16,7 +16,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User signIn(String mobile, String password) throws ServiceException, ValidatorException {
 
-        Validator.signInValidator(mobile, password);
+        Validator.signInValidate(mobile, password);
 
         try {
             DaoFactory daoFactory = DaoFactory.getInstance();
@@ -33,7 +33,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public int signUp(User user) throws ServiceException, ValidatorException {
 
-        Validator.signUpValidator(user);
+        Validator.signUpValidate(user);
 
         try {
             DaoFactory daoFactory = DaoFactory.getInstance();
@@ -43,6 +43,7 @@ public class UserServiceImpl implements UserService {
                 throw new ValidatorException("This mobile phone already exists");
             }
 
+            System.out.println("in service");
             String password = user.getPassword();
             password = Encoder.encode(password);
             user.setPassword(password);

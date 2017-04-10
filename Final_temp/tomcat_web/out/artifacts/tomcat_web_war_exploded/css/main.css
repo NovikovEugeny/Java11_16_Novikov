@@ -106,6 +106,10 @@ button:hover {
     margin-right: 25%;
 }
 
+#search-error {
+    color: red;
+}
+
 footer {
     margin-top: 35px;
     text-align: center;

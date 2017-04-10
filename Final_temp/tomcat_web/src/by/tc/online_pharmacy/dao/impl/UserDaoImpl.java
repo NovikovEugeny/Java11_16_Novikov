@@ -26,6 +26,8 @@ public class UserDaoImpl implements UserDao {
         PreparedStatement ps = null;
         ResultSet resultSet = null;
 
+        User user = null;
+
         try {
             connection = ConnectionPool.getInstance().takeConnection();
             ps = connection.prepareStatement(UserQueryStore.SIGN_IN_SELECT);
@@ -33,9 +35,8 @@ public class UserDaoImpl implements UserDao {
             ps.setString(2, password);
             resultSet = ps.executeQuery();
 
-            User user = new User();
-
             if (resultSet.next()) {
+                user = new User();
                 user.setId(resultSet.getInt(ID));
                 user.setPosition(resultSet.getString(POSITION));
                 user.setSurname(resultSet.getString(SURNAME));
@@ -127,9 +128,9 @@ public class UserDaoImpl implements UserDao {
 
             if (resultSet.next()) {
                 return false;
-            } else {
-                return true;
             }
+
+            return true;
         } catch (SQLException | InterruptedException exc) {
             throw new DaoException(exc);
         } finally {

@@ -1,8 +1,6 @@
 package by.tc.online_pharmacy.service.exception;
 
-/**
- * Created by Евгений on 17.02.2017.
- */
+
 public class ServiceException extends Exception {
     public ServiceException(){
         super();

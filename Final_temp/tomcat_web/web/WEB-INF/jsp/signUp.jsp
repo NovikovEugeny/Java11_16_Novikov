@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="../../css/signUp.css"/>
     <script src="../../js/signUpValidator.js"></script>
     <fmt:setLocale value="${sessionScope.local}" />
-    <fmt:setBundle basename="localization.local" var="loc" />
+    <fmt:setBundle basename="localization.local" var="loc"/>
     <fmt:message bundle="${loc}" key="signup.title" var="title"/>
     <fmt:message bundle="${loc}" key="signup.surname" var="surname"/>
     <fmt:message bundle="${loc}" key="signup.name" var="name"/>
@@ -32,17 +32,17 @@
         <form action="controller" method="post" onsubmit="return validate()" >
             <input type="hidden" name="command" value="sign_up"/>
             <p>${requestScope.errorMessage}</p>
-            <p id="surnameErr"><br></p>
+            <p id="surnameErr"><br><c:out value="${errorMap['invalidSurname']}"/></p>
             <input type="text" name="surname" id="surname" placeholder="${surname}"/>
-            <p id="nameErr"><br></p>
+            <p id="nameErr"><br><c:out value="${errorMap['invalidName']}"/></p>
             <input type="text" name="name" id="name" placeholder="${name}"/>
-            <p id="patronymicErr"><br></p>
+            <p id="patronymicErr"><br><c:out value="${errorMap['invalidPatronymic']}"/></p>
             <input type="text" name="patronymic" id="patronymic" placeholder="${patronymic}"/>
-            <p id="mobileErr"><br></p>
+            <p id="mobileErr"><br><c:out value="${errorMap['invalidMobile']}"/></p>
             <input type="text" name="mobile" id="mobile" placeholder="${mobilePhone}"/>
-            <p id="passwordErr"><br></p>
+            <p id="passwordErr"><br><c:out value="${errorMap['invalidPassword']}"/></p>
             <input type="password" name="password" id="password" placeholder="${password}"/>
-            <p id="confirmErr"><br></p>
+            <p id="confirmErr"><br><c:out value="${errorMap['invalidConfirm']}"/></p>
             <input type="password" name="confirm" id="confirm" placeholder="${confirmPassword}"/>
             <button type="submit">${register}</button>
         </form>

@@ -35,12 +35,14 @@
         </div>
     </div>
 </header>
+<c:if test="${not empty requestScope.drugs}">
 <section class="drug-list">
     <div class="container">
         <div class="row">
             <div class="col-md-12">
                 <div class="drug-list">
                     <h3>Перечень доступных препаратов:</h3>
+
                     <div class="table-responsive">
                         <table class="table table-bordered">
                             <thead>
@@ -57,7 +59,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <c:forEach var="element" items="${drugs}" >
+                            <c:forEach var="element" items="${requestScope.drugs}">
                                 <tr bgcolor="#FFFFFF">
                                     <td><c:out value="${element.name}"/></td>
                                     <td><c:out value="${element.group}"/></td>
@@ -73,11 +75,14 @@
                             </tbody>
                         </table>
                     </div>
-                    <p align="center">${notFound}</p>
                 </div>
             </div>
         </div>
     </div>
 </section>
+</c:if>
+<c:if test="${empty requestScope.drugs}">
+    <p align="center">Ничего не найдено</p>
+</c:if>
 </body>
 </html>

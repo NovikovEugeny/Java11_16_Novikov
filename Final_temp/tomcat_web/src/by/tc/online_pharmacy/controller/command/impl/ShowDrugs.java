@@ -11,9 +11,7 @@ import by.tc.online_pharmacy.service.factory.ServiceFactory;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
-/**
- * Created by Евгений on 17.02.2017.
- */
+
 public class ShowDrugs implements Command{
 
     private final static String GROUP = "group";

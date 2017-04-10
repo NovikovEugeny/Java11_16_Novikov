@@ -1,8 +1,8 @@
 function validateFullName() {
     var isValid = true;
 
-    var pattern_en = /^[A-Z][a-z]{2,}$/;
-    var pattern_ru = /^[А-Я][а-я]{2,}$/;
+    var pattern_en = /^[A-Z][a-z]+$/;
+    var pattern_ru = /^[А-Я][а-я]+$/;
     var errorMessage = "*At least 2 letters(first capital)";
 
     var surname = document.getElementById("surname").value;
@@ -29,7 +29,7 @@ function validateFullName() {
 function validateMobile() {
     var isValid = true;
 
-    var pattern = /^^\+375\d{9}$/;
+    var pattern = /^\+375\d{9}$/;
 
     var mobile = document.getElementById("mobile").value;
 
@@ -56,12 +56,6 @@ function validatePassword() {
         isValid = false;
     }
 
-    if (!pattern.test(confirm)) {
-        document.getElementById("confirmErr").innerHTML = "*At least" +
-            " 8 char.(one letter in each register and one digit)";
-        isValid = false;
-    }
-
     return isValid;
 }
 
@@ -73,7 +67,8 @@ function isEquals() {
     var confirmPassword = document.getElementById("confirm").value;
 
     if (password != confirmPassword) {
-        document.getElementById("confirmErr").innerHTML = "passwords must be equals";
+        document.getElementById("confirmErr").innerHTML =
+            "*passwords must be equals";
         isEquals = false;
     }
 
@@ -83,12 +78,12 @@ function isEquals() {
 function validate() {
     var isValid = true;
 
-    document.getElementById("surnameErr").innerHTML = "<br>";
-    document.getElementById("nameErr").innerHTML = "<br>";
-    document.getElementById("patronymicErr").innerHTML = "<br>";
-    document.getElementById("mobileErr").innerHTML = "<br>";
-    document.getElementById("passwordErr").innerHTML = "<br>";
-    document.getElementById("confirmErr").innerHTML = "<br>";
+    document.getElementById("surnameErr").innerHTML = "";
+    document.getElementById("nameErr").innerHTML = "";
+    document.getElementById("patronymicErr").innerHTML = "";
+    document.getElementById("mobileErr").innerHTML = "";
+    document.getElementById("passwordErr").innerHTML = "";
+    document.getElementById("confirmErr").innerHTML = "";
 
     if (!validateFullName()) {
         isValid = false;

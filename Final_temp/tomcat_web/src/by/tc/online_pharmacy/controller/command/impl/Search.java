@@ -11,14 +11,12 @@ import by.tc.online_pharmacy.service.factory.ServiceFactory;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
-/**
- * Created by Евгений on 19.02.2017.
- */
+
 public class Search implements Command {
 
     private final static String DRUG_NAME = "drugName";
     private final static String DRUGS = "drugs";
-    private final static String NOT_FOUND = "notFound";
+    private final static String ERROR_MESSAGE = "errorMessage";
 
     @Override
     public String execute(HttpServletRequest request) {
@@ -37,8 +35,8 @@ public class Search implements Command {
             //logger
             //response
         } catch (ValidatorException exc) {
-            request.setAttribute(NOT_FOUND, exc.getMessage());
-            response = JspPageName.DRUG_LIST_PAGE;
+            request.setAttribute(ERROR_MESSAGE, exc.getMessage());
+            response = JspPageName.START_PAGE;
         }
         return response;
     }
