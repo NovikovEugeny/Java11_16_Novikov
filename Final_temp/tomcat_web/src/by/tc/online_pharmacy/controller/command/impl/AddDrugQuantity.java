@@ -8,11 +8,11 @@ import by.tc.online_pharmacy.service.exception.ServiceException;
 import by.tc.online_pharmacy.service.factory.ServiceFactory;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.StringReader;
+import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Евгений on 30.03.2017.
- */
+
 public class AddDrugQuantity implements Command {
 
     private final static String DRUGS = "drugs";
@@ -25,10 +25,10 @@ public class AddDrugQuantity implements Command {
 
         String response = null;
 
-        try {
-            ServiceFactory serviceFactory = ServiceFactory.getInstance();
-            PharmService pharmService = serviceFactory.getPharmService();
+        ServiceFactory serviceFactory = ServiceFactory.getInstance();
+        PharmService pharmService = serviceFactory.getPharmService();
 
+        try {
             int id = Integer.parseInt(request.getParameter(ID));
             int quantity = Integer.parseInt(request.getParameter(QUANTITY));
             pharmService.addDrugQuantity(id, quantity);
@@ -39,7 +39,7 @@ public class AddDrugQuantity implements Command {
 
             response = JspPageName.PHARMACIST_DRUG_LIST_TO_UPDATE;
         } catch (ServiceException exc) {
-
+            //logger
         }
         return response;
     }

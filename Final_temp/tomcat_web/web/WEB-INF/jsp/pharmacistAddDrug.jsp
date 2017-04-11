@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -56,7 +57,7 @@
                     <input type="hidden" name="command" value="add_new_drug"/>
                     <div class="form-group">
                         <label for="name">название:</label>
-                        <p id="nameErr"></p>
+                        <p id="nameErr"><c:out value="${requestScope.errorMap['invalidDrugName']}"/></p>
                         <input type="text" class="form-control" id="name" name="name">
                     </div>
                     <div class="form-group">
@@ -89,18 +90,17 @@
                     </div>
                     <div class="form-group">
                         <label for="amount">количество препарата:</label>
-                        <p id="amountErr"></p>
+                        <p id="amountErr"><c:out value="${requestScope.errorMap['invalidDrugAmount']}"/></p>
                         <input type="text" class="form-control" id="amount" name="drugAmount">
                     </div>
                     <div class="form-group">
                         <label for="as">активные вещества:</label>
-                        <p id="activeSubstancesErr"></p>
-                        <textarea class="form-control" rows="5" id="as"
-                                  name="activeSubstances"></textarea>
+                        <p id="activeSubstancesErr"><c:out value="${requestScope.errorMap['invalidAS']}"/></p>
+                        <textarea class="form-control" rows="5" id="as" name="activeSubstances"></textarea>
                     </div>
                     <div class="form-group">
                         <label for="country">страна производитель:</label>
-                        <p id="countryErr"></p>
+                        <p id="countryErr"><c:out value="${requestScope.errorMap['invalidCountry']}"/></p>
                         <input type="text" class="form-control" id="country"
                                name="country">
                     </div>
@@ -113,11 +113,12 @@
                     </div>
                     <div class="form-group">
                         <label for="price">стоимость:</label>
-                        <p id="priceErr"></p>
+                        <p id="priceErr"><c:out value="${requestScope.errorMap['invalidPrice']}"/><c:out value="${requestScope.ENI}"/></p>
                         <input type="text" class="form-control" id="price" name="price">
                     </div>
                     <div class="form-group">
                         <label for="quantity">количество:</label>
+                        <p id="quantityErr"><c:out value="${requestScope.ENI}"/></p>
                         <input type="number" class="form-control" id="quantity" name="quantity" min="1">
                     </div>
                     <button type="submit">add</button>

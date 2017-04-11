@@ -10,9 +10,7 @@ import java.sql.*;
 import java.util.*;
 import java.util.Date;
 
-/**
- * Created by Евгений on 17.02.2017.
- */
+
 public class DrugDaoImpl implements DrugDao {
 
     private List<Drug> takeDrugList(ResultSet resultSet) throws SQLException {
@@ -87,6 +85,42 @@ public class DrugDaoImpl implements DrugDao {
     }
 
     @Override
+    public List<Drug> takeDrugGroupToOrder(String group) throws DaoException {
+
+        Connection connection = null;
+        PreparedStatement ps = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = ConnectionPool.getInstance().takeConnection();
+
+            ps = connection.prepareStatement(DrugQueryStore.SELECT_ACTIVE_DRUGS_BY_GROUP_TO_ORDER);
+            ps.setString(1, group);
+            resultSet = ps.executeQuery();
+
+            return takeDrugList(resultSet);
+        } catch (SQLException | InterruptedException exc) {
+            throw new DaoException(exc);
+        } finally {
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();///??????
+            }
+            try {
+                if (ps != null) {
+                    ps.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();///????
+            }
+            ConnectionPool.getInstance().putBackConnection(connection);
+        }
+    }
+
+    @Override
     public List<Drug> takeDrugsByName(String name) throws DaoException {
 
         Connection connection = null;
@@ -122,6 +156,74 @@ public class DrugDaoImpl implements DrugDao {
         }
     }
 
+    @Override
+    public RecipeDescription takeRecipeDescription(String recipeCode) throws DaoException {
+
+        final String DRUG_ID = "drug_id";
+        final String DRUG_NAME = "drug_name";
+        final String PHARM_GROUP = "pharm_group";
+        final String FORM = "form";
+        final String DRUG_AMOUNT = "drug_amount";
+        final String AS = "active_substances";
+        final String COUNTRY = "country";
+        final String PRICE = "price";
+        final String QUANTITY = "quantity";
+        final String COST = "cost";
+        final String END_DATE = "end_date";
+        final String STATUS = "status";
+
+        Connection connection = null;
+        PreparedStatement ps = null;
+        ResultSet resultSet = null;
+
+        RecipeDescription recipeDescription = null;
+
+        try {
+            connection = ConnectionPool.getInstance().takeConnection();
+
+            ps = connection.prepareStatement(DrugQueryStore.SELECT_RECIPE_DESCRIPTION_BY_CODE);
+            ps.setString(1, recipeCode);
+            resultSet = ps.executeQuery();
+
+            if (resultSet.next()) {
+                recipeDescription = new RecipeDescription();
+                recipeDescription.setRecipeCode(recipeCode);
+                recipeDescription.setDrugId(resultSet.getInt(DRUG_ID));
+                recipeDescription.setDrugName(resultSet.getString(DRUG_NAME));
+                recipeDescription.setDrugGroup(resultSet.getString(PHARM_GROUP));
+                recipeDescription.setDrugForm(resultSet.getString(FORM));
+                recipeDescription.setDrugAmount(resultSet.getString(DRUG_AMOUNT));
+                recipeDescription.setActiveSubstances(resultSet.getString(AS));
+                recipeDescription.setCountry(resultSet.getString(COUNTRY));
+                recipeDescription.setPrice(resultSet.getDouble(PRICE));
+                recipeDescription.setQuantity(resultSet.getInt(QUANTITY));
+                recipeDescription.setCost(resultSet.getDouble(COST));
+                recipeDescription.setEndDate(resultSet.getTimestamp(END_DATE));
+                recipeDescription.setStatus(resultSet.getString(STATUS));
+            }
+
+        } catch (SQLException | InterruptedException exc) {
+            exc.printStackTrace();
+            throw new DaoException(exc);
+        } finally {
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();///??????
+            }
+            try {
+                if (ps != null) {
+                    ps.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();///????
+            }
+            ConnectionPool.getInstance().putBackConnection(connection);
+        }
+        return recipeDescription;
+    }
 
     @Override
     public void addDrugQuantity(int id, int quantity) throws DaoException {
@@ -321,9 +423,9 @@ public class DrugDaoImpl implements DrugDao {
 
 
     @Override
-    public Date confirmRecipe(Recipe recipe) throws DaoException {
+    public Date takeRecipeEndDate(String recipeCode) throws DaoException {
 
-        Date response = null;
+        Date endDate = null;
 
         Connection connection = null;
         PreparedStatement ps = null;
@@ -333,13 +435,11 @@ public class DrugDaoImpl implements DrugDao {
              connection = ConnectionPool.getInstance().takeConnection();
 
              ps = connection.prepareStatement(DrugQueryStore.SELECT_END_RECIPE_DATE);
-             ps.setString(1, recipe.getRecipeCode());
-             ps.setInt(2, recipe.getDrugId());
-             ps.setInt(3, recipe.getQuantity());
+             ps.setString(1, recipeCode);
              resultSet = ps.executeQuery();
 
              if (resultSet.next()) {
-                 response = resultSet.getTimestamp("end_date");
+                 endDate = resultSet.getTimestamp("end_date");
              }
         } catch (SQLException | InterruptedException exc) {
             throw new DaoException(exc);
@@ -360,12 +460,12 @@ public class DrugDaoImpl implements DrugDao {
             }
             ConnectionPool.getInstance().putBackConnection(connection);
         }
-        return response;
+        return endDate;
     }
 
 
     @Override
-    public void closeRecipe(Recipe recipe) throws DaoException {
+    public void closeRecipe(String recipeCode) throws DaoException {
         Connection connection = null;
         PreparedStatement ps = null;
 
@@ -373,7 +473,7 @@ public class DrugDaoImpl implements DrugDao {
             connection = ConnectionPool.getInstance().takeConnection();
 
             ps = connection.prepareStatement(DrugQueryStore.UPDATE_RECIPE_STATUS_CLOSED);
-            ps.setString(1, recipe.getRecipeCode());
+            ps.setString(1, recipeCode);
             ps.executeUpdate();
 
         } catch (SQLException | InterruptedException exc) {

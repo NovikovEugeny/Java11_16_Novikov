@@ -6,11 +6,10 @@ import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-/**
- * Created by Евгений on 16.03.2017.
- */
+
 public class Encoder {
     public static String encode(String str) throws ServiceException {
+
         MessageDigest messageDigest = null;
         byte[] digest = null;
         String md5Hex = null;

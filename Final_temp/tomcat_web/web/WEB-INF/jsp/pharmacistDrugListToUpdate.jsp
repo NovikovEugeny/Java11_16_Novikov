@@ -7,7 +7,7 @@
     <link href="../../css/main.css" rel="stylesheet">
     <script src="../../js/jquery-3.2.0.js"></script>
     <script src="../../js/bootstrap.js"></script>
-    <script src="../../js/openDrugUpdateModals.js"></script>
+    <script src="../../js/drugUpdateValidator.js"></script>
     <title>drug list to remove</title>
 </head>
 <body>
@@ -26,7 +26,11 @@
     <div class="greeting">
         <div class="row">
             <div class="col-md-12">
-                <h1>${user.surname} ${user.name} ${user.patronymic}</h1>
+                <h1>
+                ${sessionScope.user.surname}
+                ${sessionScope.user.name}
+                ${sessionScope.user.patronymic}
+                </h1>
                 <hr>
             </div>
         </div>
@@ -73,7 +77,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <c:forEach var="element" items="${drugs}">
+                        <c:forEach var="element" items="${requestScope.drugs}">
                             <tr>
                                 <td><c:out value="${element.name}"/></td>
                                 <td><c:out value="${element.group}"/></td>
@@ -110,15 +114,15 @@
             <div class="modal-header">
                 <h4 class="modal-title" id="myModalLabel1">Добавление товара</h4>
             </div>
-            <form action="controller" method="post">
+            <form action="controller" method="post" onsubmit="return validate()">
                 <div class="modal-body">
                     <input type="hidden" name="command" value="add_drug_quantity">
                     <input type="hidden" id="a_id" name="id">
                     <input type="hidden" id="a_group" name="group">
                     <div class="form-group">
                         <label for="n">quantity:</label>
-                        <input type="number" class="form-control" id="n"
-                               name="quantity" min="1" required>
+                        <p id="addDrugQuantityErr"></p>
+                        <input type="number" class="form-control" id="n" name="quantity" min="1">
                     </div>
                 </div>
                 <div class="modal-footer">

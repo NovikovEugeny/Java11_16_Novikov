@@ -5,9 +5,7 @@ import by.tc.online_pharmacy.dao.UserDao;
 import by.tc.online_pharmacy.dao.impl.DrugDaoImpl;
 import by.tc.online_pharmacy.dao.impl.UserDaoImpl;
 
-/**
- * Created by Евгений on 17.02.2017.
- */
+
 public class DaoFactory {
     private static final DaoFactory instance = new DaoFactory();
 

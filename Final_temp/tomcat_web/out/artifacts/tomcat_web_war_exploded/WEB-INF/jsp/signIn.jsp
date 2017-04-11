@@ -27,9 +27,9 @@
             <form action="controller" method="post" onsubmit="return validate()">
                 <input type="hidden" name="command" value="sign_in"/>
                 <p>${requestScope.errorMessage}</p>
-                <p id="mobileErr"><br><c:out value="${errorMap['invalidMobile']}"/></p>
+                <p id="mobileErr"><br><c:out value="${requestScope.errorMap['invalidMobile']}"/></p>
                 <input type="text" name="mobile" id="mobile" placeholder="${mobilePhone}"/>
-                <p id="passwordErr"><br><c:out value="${errorMap['invalidPassword']}"/></p>
+                <p id="passwordErr"><br><c:out value="${requestScope.errorMap['invalidPassword']}"/></p>
                 <input type="password" name="password" id="password" placeholder="${password}"/>
                 <button type="submit">${enter}</button>
             </form>

@@ -7,7 +7,7 @@ import by.tc.online_pharmacy.dao.factory.DaoFactory;
 import by.tc.online_pharmacy.service.PharmService;
 import by.tc.online_pharmacy.service.exception.ServiceException;
 import by.tc.online_pharmacy.service.exception.ValidatorException;
-import by.tc.online_pharmacy.service.util.Validator;
+import by.tc.online_pharmacy.service.util.validator.Validator;
 
 import java.util.Date;
 import java.util.List;
@@ -48,6 +48,36 @@ public class PharmServiceImpl implements PharmService {
     }
 
     @Override
+    public List<Drug> takeDrugGroupToOrder(String group) throws ServiceException {
+        List<Drug> drugs = null;
+
+        try {
+            DaoFactory daoFactory = DaoFactory.getInstance();
+            DrugDao drugDao = daoFactory.getDrugDao();
+
+            drugs = drugDao.takeDrugGroupToOrder(group);
+        } catch (DaoException exc) {
+            throw new ServiceException(exc);
+        }
+        return drugs;
+    }
+
+    @Override
+    public RecipeDescription takeRecipeDescription(String recipeCode) throws ServiceException {
+        RecipeDescription recipeDescription = null;
+
+        try {
+            DaoFactory daoFactory = DaoFactory.getInstance();
+            DrugDao drugDao = daoFactory.getDrugDao();
+
+            recipeDescription = drugDao.takeRecipeDescription(recipeCode);
+        } catch (DaoException exc) {
+            throw new ServiceException(exc);
+        }
+        return recipeDescription;
+    }
+
+    @Override
     public void addDrugQuantity(int id, int quantity) throws ServiceException {
 
         try {
@@ -61,7 +91,9 @@ public class PharmServiceImpl implements PharmService {
     }
 
     @Override
-    public void addNewDrug(Drug drug) throws ServiceException {
+    public void addNewDrug(Drug drug) throws ServiceException, ValidatorException {
+
+        Validator.addNewDrugValidate(drug);
 
         try {
             DaoFactory daoFactory = DaoFactory.getInstance();
@@ -102,14 +134,14 @@ public class PharmServiceImpl implements PharmService {
 
 
     @Override
-    public void orderWithRecipe(Order order, Recipe recipe) throws ServiceException {
+    public void orderWithRecipe(Order order, String recipeCode) throws ServiceException {
 
         try {
             DaoFactory daoFactory = DaoFactory.getInstance();
             DrugDao drugDao = daoFactory.getDrugDao();
 
             Date currentDate = new Date();
-            Date endDate = drugDao.confirmRecipe(recipe);
+            Date endDate = drugDao.takeRecipeEndDate(recipeCode);
 
             if (endDate == null) {
                 System.out.println("this recipe is not exists");
@@ -118,8 +150,8 @@ public class PharmServiceImpl implements PharmService {
 
             if (endDate.getTime() > currentDate.getTime()) {
                 int id = drugDao.addOrder(order);
-                drugDao.closeRecipe(recipe);
-                drugDao.linkOrderAndRecipe(id, recipe.getRecipeCode());
+                drugDao.closeRecipe(recipeCode);
+                drugDao.linkOrderAndRecipe(id, recipeCode);
             } else {
                 System.out.println("too later");
                 throw new DaoException();

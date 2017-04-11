@@ -1,9 +1,6 @@
 package by.tc.online_pharmacy.service;
 
-import by.tc.online_pharmacy.bean.Drug;
-import by.tc.online_pharmacy.bean.Order;
-import by.tc.online_pharmacy.bean.OrderDescription;
-import by.tc.online_pharmacy.bean.Recipe;
+import by.tc.online_pharmacy.bean.*;
 import by.tc.online_pharmacy.service.exception.ServiceException;
 import by.tc.online_pharmacy.service.exception.ValidatorException;
 
@@ -15,17 +12,21 @@ public interface PharmService {
 
     List<Drug> takeDrugGroup(String group) throws ServiceException;
 
+    List<Drug> takeDrugGroupToOrder(String group) throws ServiceException;
+
     List<Drug> takeDrugsByName(String name) throws ServiceException, ValidatorException;
+
+    RecipeDescription takeRecipeDescription(String recipeCode) throws ServiceException;
 
     void addDrugQuantity(int id, int quantity) throws ServiceException;
 
-    void addNewDrug(Drug drug) throws ServiceException;
+    void addNewDrug(Drug drug) throws ServiceException, ValidatorException;
 
     void removeDrug(int id) throws ServiceException;
 
     void orderWithoutRecipe(Order order) throws ServiceException;
 
-    void orderWithRecipe(Order order, Recipe recipe) throws ServiceException;
+    void orderWithRecipe(Order order, String recipeCode) throws ServiceException;
 
     List<OrderDescription> pharmacistShowOrderList() throws ServiceException;
 

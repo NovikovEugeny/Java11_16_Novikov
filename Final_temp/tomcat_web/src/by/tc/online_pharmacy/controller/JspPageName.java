@@ -46,6 +46,9 @@ public final class JspPageName {
     public final static String CLIENT_EXTEND_RECIPE_PAGE =
             "/WEB-INF/jsp/clientExtendRecipe.jsp";
 
+    public final static String CLIENT_RECIPE_DESCRIPTION =
+            "/WEB-INF/jsp/clientRecipeDescription.jsp";
+
 
 
 }

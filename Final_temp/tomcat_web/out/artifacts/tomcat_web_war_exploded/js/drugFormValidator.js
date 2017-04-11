@@ -35,9 +35,9 @@ function validateAmount() {
 function validateActiveSubstances() {
     var isValid = true;
 
-    var pattern_en = /^([A-Za-z][a-z]+\s?-\s?\d+[a-z]+[,;]?)+$/;
-    var pattern_ru = /^([А-Яа-я][а-я]+\s?-\s?\d+[а-я]+[,;]?)+$/;
-    var errorMessage = "*substance - 20mg, ...";
+    var pattern_en = /^([A-Za-z][a-z]+\s?-\s?\d+\s?[a-z/]+[,;]?\s?)+$/;
+    var pattern_ru = /^([А-Яа-я][а-я]+\s?-\s?\d+\s?[а-я/]+[,;]?\s?)+$/;
+    var errorMessage = "*correct form: substance - xx mg/g/ml..., ...";
 
     var aS = document.getElementById("as").value;
 
@@ -46,13 +46,14 @@ function validateActiveSubstances() {
         isValid = false;
     }
 
+    return isValid;
 }
 
 function validateCountry() {
     var isValid = true;
 
-    var pattern_en = /^[A-Z][a-z]{3,}$/;
-    var pattern_ru = /^[А-Я][а-я]{3,}$/;
+    var pattern_en = /^[A-Z][A-Za-z]{2,}$/;
+    var pattern_ru = /^[А-Я][А-Яа-я]{2,}$/;
     var errorMessage = "*At least 3 letters(first capital)";
 
     var country = document.getElementById("country").value;
@@ -82,13 +83,30 @@ function validatePrice() {
     return isValid;
 }
 
+function validateQuantity() {
+    var isValid = true;
+
+    var errorMessage = "*required";
+
+    var quantity = document.getElementById("quantity").value;
+
+    if (quantity == "") {
+        document.getElementById("quantityErr").innerHTML = errorMessage;
+        isValid = false;
+    }
+
+    return isValid;
+}
+
 function validate() {
     var isValid = true;
 
     document.getElementById("nameErr").innerHTML = "";
     document.getElementById("amountErr").innerHTML = "";
+    document.getElementById("activeSubstancesErr").innerHTML = "";
     document.getElementById("countryErr").innerHTML = "";
     document.getElementById("priceErr").innerHTML = "";
+    document.getElementById("quantityErr").innerHTML = "";
 
     if (!validateName()) {
         isValid = false;
@@ -96,10 +114,16 @@ function validate() {
     if (!validateAmount()) {
         isValid = false;
     }
+    if (!validateActiveSubstances()) {
+        isValid = false;
+    }
     if (!validateCountry()) {
         isValid = false;
     }
     if (!validatePrice()) {
+        isValid = false;
+    }
+    if (!validateQuantity()) {
         isValid = false;
     }
 

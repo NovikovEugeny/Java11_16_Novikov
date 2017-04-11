@@ -12,7 +12,11 @@ public interface DrugDao {
 
     List<Drug> takeDrugGroup(String group) throws DaoException;
 
+    List<Drug> takeDrugGroupToOrder(String group) throws DaoException;
+
     List<Drug> takeDrugsByName(String name) throws DaoException;
+
+    RecipeDescription takeRecipeDescription(String recipeCode) throws DaoException;
 
     void addDrugQuantity(int id, int quantity) throws DaoException;
 
@@ -26,9 +30,9 @@ public interface DrugDao {
 
     int addOrder(Order order) throws DaoException;
 
-    Date confirmRecipe(Recipe recipe) throws DaoException;
+    Date takeRecipeEndDate(String recipeCode) throws DaoException;
 
-    void closeRecipe(Recipe recipe) throws DaoException;
+    void closeRecipe(String recipeCode) throws DaoException;
 
     void linkOrderAndRecipe(int orderId, String recipeCode) throws DaoException;
 

@@ -10,9 +10,7 @@ import by.tc.online_pharmacy.service.factory.ServiceFactory;
 
 import javax.servlet.http.HttpServletRequest;
 
-/**
- * Created by Евгений on 22.02.2017.
- */
+
 public class AddNewDrug implements Command {
 
     private final static String NAME = "name";
@@ -24,25 +22,26 @@ public class AddNewDrug implements Command {
     private final static String DISPENSING = "dispensing";
     private final static String PRICE = "price";
     private final static String QUANTITY = "quantity";
-
+    private final static String ERROR_MAP = "errorMap";
+    private final static String EMPTY_NUMBER_INPUTS = "ENI";
+    private final static String EMPTY_NUMBER_INPUTS_MESSAGE = "*can not be empty";
 
 
     @Override
     public String execute(HttpServletRequest request) {
         String response = null;
 
-        Drug drug = new Drug();
-        drug.setName(request.getParameter(NAME));
-        drug.setGroup(request.getParameter(GROUP));
-        drug.setForm(request.getParameter(FORM));
-        drug.setDrugAmount(request.getParameter(DRUG_AMOUNT));
-        drug.setActiveSubstances(request.getParameter(ACTIVE_SUBSTANCES));
-        drug.setCountry(request.getParameter(COUNTRY));
-        drug.setDispensing(request.getParameter(DISPENSING));
-        drug.setPrice(Double.parseDouble(request.getParameter(PRICE)));
-        drug.setQuantity(Integer.parseInt(request.getParameter(QUANTITY)));
-
         try {
+            Drug drug = new Drug();
+            drug.setName(request.getParameter(NAME));
+            drug.setGroup(request.getParameter(GROUP));
+            drug.setForm(request.getParameter(FORM));
+            drug.setDrugAmount(request.getParameter(DRUG_AMOUNT));
+            drug.setActiveSubstances(request.getParameter(ACTIVE_SUBSTANCES));
+            drug.setCountry(request.getParameter(COUNTRY));
+            drug.setDispensing(request.getParameter(DISPENSING));
+            drug.setPrice(Double.parseDouble(request.getParameter(PRICE)));
+            drug.setQuantity(Integer.parseInt(request.getParameter(QUANTITY)));
             ServiceFactory serviceFactory = ServiceFactory.getInstance();
             PharmService pharmService = serviceFactory.getPharmService();
 
@@ -51,9 +50,13 @@ public class AddNewDrug implements Command {
             response = JspPageName.PHARMACIST_ADD_DRUG_PAGE;
         } catch (ServiceException exc) {
             //logger
-        } /*catch (ValidatorException exc) {
-
-        }*/
+        } catch (ValidatorException exc) {
+            request.setAttribute(ERROR_MAP, exc.getErrors());
+            response = JspPageName.PHARMACIST_ADD_DRUG_PAGE;
+        } catch (NumberFormatException exc) {
+            request.setAttribute(EMPTY_NUMBER_INPUTS, EMPTY_NUMBER_INPUTS_MESSAGE);
+            response = JspPageName.PHARMACIST_ADD_DRUG_PAGE;
+        }
         return response;
     }
 }

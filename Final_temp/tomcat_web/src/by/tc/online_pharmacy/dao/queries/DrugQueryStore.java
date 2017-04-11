@@ -14,6 +14,10 @@ public class DrugQueryStore {
     public final static String SELECT_ACTIVE_DRUGS_BY_GROUP =
             "SELECT * FROM drug WHERE pharm_group = ? AND is_active = 'yes'";
 
+    public final static String SELECT_ACTIVE_DRUGS_BY_GROUP_TO_ORDER =
+            "SELECT * FROM drug WHERE pharm_group = ? AND is_active = 'yes' " +
+                    "AND dispensing = 'without prescription' AND quantity > 0";
+
     public final static String SELECT_ACTIVE_DRUGS_BY_NAME =
             "SELECT * FROM drug WHERE UPPER(name) = ? AND is_active = 'yes'";
 
@@ -87,8 +91,7 @@ public class DrugQueryStore {
 
     //recipe
     public final static String SELECT_END_RECIPE_DATE =
-            "SELECT end_date FROM recipe WHERE code = ? AND drug_id = ? AND " +
-                    "quantity = ?";
+            "SELECT end_date FROM recipe WHERE code = ?";
 
     public final static String UPDATE_RECIPE_STATUS_CLOSED =
             "UPDATE recipe SET status = 'closed' WHERE code = ?";
@@ -100,6 +103,12 @@ public class DrugQueryStore {
             "UPDATE recipe SET status = 'open', end_date = end_date + " +
                     "INTERVAL 6 MONTH WHERE code = ?";
 
+    public final static String SELECT_RECIPE_DESCRIPTION_BY_CODE =
+            "SELECT r.drug_id, d.name AS `drug_name`, d.pharm_group, d.form, " +
+                    "d.drug_amount, d.active_substances, d.country, d.price, " +
+                    "r.quantity, d.price*r.quantity AS `cost`, r.end_date, " +
+                    "r.status FROM recipe r INNER JOIN drug d ON " +
+                    "r.drug_id = d.id WHERE r.code = ?";
 
     //order_recipe
     public final static String INSERT_ORDER_RECIPE =

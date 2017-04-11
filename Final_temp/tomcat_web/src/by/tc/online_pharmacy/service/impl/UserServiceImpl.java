@@ -8,7 +8,7 @@ import by.tc.online_pharmacy.service.UserService;
 import by.tc.online_pharmacy.service.exception.ServiceException;
 import by.tc.online_pharmacy.service.exception.ValidatorException;
 import by.tc.online_pharmacy.service.util.Encoder;
-import by.tc.online_pharmacy.service.util.Validator;
+import by.tc.online_pharmacy.service.util.validator.Validator;
 
 
 public class UserServiceImpl implements UserService {

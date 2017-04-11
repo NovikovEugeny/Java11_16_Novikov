@@ -76,6 +76,15 @@
         <url-pattern>/clientExtendRecipe</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>clientOrderByERecipe</servlet-name>
+        <jsp-file>/WEB-INF/jsp/clientOrderByERecipe.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>clientOrderByERecipe</servlet-name>
+        <url-pattern>/clientOrderByERecipe</url-pattern>
+    </servlet-mapping>
+
 
 
 

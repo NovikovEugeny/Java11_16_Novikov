@@ -21,7 +21,11 @@
     <div class="greeting">
         <div class="row">
             <div class="col-md-12">
-                <h1>${user.surname} ${user.name} ${user.patronymic}</h1>
+                <h1>
+                    ${sessionScope.user.surname}
+                    ${sessionScope.user.name}
+                    ${sessionScope.user.patronymic}
+                </h1>
                 <hr>
             </div>
         </div>
