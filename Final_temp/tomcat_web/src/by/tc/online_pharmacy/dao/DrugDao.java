@@ -28,6 +28,10 @@ public interface DrugDao {
 
     List<OrderDescription> takeClientOrderList(int id) throws DaoException;
 
+    double takeClientBalance(int clientId) throws DaoException;
+
+    int takeDrugQuantity(int drugId) throws DaoException;
+
     int addOrder(Order order) throws DaoException;
 
     Date takeRecipeEndDate(String recipeCode) throws DaoException;

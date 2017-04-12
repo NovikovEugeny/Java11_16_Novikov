@@ -4,6 +4,7 @@ import by.tc.online_pharmacy.bean.*;
 import by.tc.online_pharmacy.dao.DrugDao;
 import by.tc.online_pharmacy.dao.exception.DaoException;
 import by.tc.online_pharmacy.dao.factory.DaoFactory;
+import by.tc.online_pharmacy.service.FeedbackStore;
 import by.tc.online_pharmacy.service.PharmService;
 import by.tc.online_pharmacy.service.exception.ServiceException;
 import by.tc.online_pharmacy.service.exception.ValidatorException;
@@ -120,21 +121,37 @@ public class PharmServiceImpl implements PharmService {
 
 
     @Override
-    public void orderWithoutRecipe(Order order) throws ServiceException {
+    public String orderWithoutRecipe(Order order) throws ServiceException {
+
+        String response = null;
 
         try {
             DaoFactory daoFactory = DaoFactory.getInstance();
             DrugDao drugDao = daoFactory.getDrugDao();
 
-            drugDao.addOrder(order);
+            int currentDrugQuatity = drugDao.takeDrugQuantity(order.getDrugId());
+            double currentClientBalance = drugDao.takeClientBalance(order.getClientId());
+
+            if (currentDrugQuatity < order.getQuantity()) {
+                response = FeedbackStore.NOT_ENOUGH_DRUG_MESSAGE;
+            }
+            if (currentClientBalance < order.getCost()) {
+                response = FeedbackStore.NOT_ENOUGH_MONEY_MESSAGE;
+            } else {
+                drugDao.addOrder(order);
+                response = FeedbackStore.SUCCESSFUL_EXECUTED_ORDER_MESSAGE;
+            }
         } catch (DaoException exc) {
             throw new ServiceException(exc);
         }
+        return response;
     }
 
 
     @Override
-    public void orderWithRecipe(Order order, String recipeCode) throws ServiceException {
+    public String orderWithRecipe(Order order, String recipeCode) throws ServiceException {
+
+        String response = null;
 
         try {
             DaoFactory daoFactory = DaoFactory.getInstance();
@@ -143,23 +160,19 @@ public class PharmServiceImpl implements PharmService {
             Date currentDate = new Date();
             Date endDate = drugDao.takeRecipeEndDate(recipeCode);
 
-            if (endDate == null) {
-                System.out.println("this recipe is not exists");
-                throw new DaoException();
-            }
-
-            if (endDate.getTime() > currentDate.getTime()) {
+            if (currentDate.getTime() > endDate.getTime()){
+                response = FeedbackStore.RECIPE_EXPIRED_MESSAGE;
+            } else {
                 int id = drugDao.addOrder(order);
                 drugDao.closeRecipe(recipeCode);
                 drugDao.linkOrderAndRecipe(id, recipeCode);
-            } else {
-                System.out.println("too later");
-                throw new DaoException();
+                response = FeedbackStore.SUCCESSFUL_EXECUTED_ORDER_MESSAGE;
             }
 
-        } catch (DaoException e) {
-            throw new ServiceException(e);
+        } catch (DaoException exc) {
+            throw new ServiceException(exc);
         }
+        return response;
     }
 
 

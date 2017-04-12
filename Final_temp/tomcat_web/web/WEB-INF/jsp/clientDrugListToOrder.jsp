@@ -6,7 +6,6 @@
     <link href="../../css/main.css" rel="stylesheet">
     <script src="../../js/jquery-3.2.0.js"></script>
     <script src="../../js/bootstrap.js"></script>
-    <script src="../../js/checkoutModalSelector.js"></script>
     <title>drug list to order</title>
 </head>
 <body>
@@ -25,7 +24,11 @@
     <div class="greeting">
         <div class="row">
             <div class="col-md-12">
-                <h1>${user.surname} ${user.name} ${user.patronymic}</h1>
+                <h1>
+                    ${sessionScope.user.surname}
+                    ${sessionScope.user.name}
+                    ${sessionScope.user.patronymic}
+                </h1>
                 <hr>
             </div>
         </div>
@@ -38,10 +41,15 @@
                 <form action="clientPharmGroups">
                     <button type="submit">заказать препарат</button>
                 </form>
+                <form action="clientOrderByERecipe">
+                    <button type="submit">заказать по эл. рецепту</button>
+                </form>
                 <form action="controller" method="get">
-                    <input type="hidden" name="command"
-                           value="client_show_order_list">
+                    <input type="hidden" name="command" value="client_show_order_list">
                     <button type="submit">отменить заказ</button>
+                </form>
+                <form action="clientExtendRecipe">
+                    <button>продлить рецепт</button>
                 </form>
                 <form>
                     <button type="submit">сообщения</button>
@@ -74,7 +82,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <c:forEach var="element" items="${drugs}">
+                        <c:forEach var="element" items="${requestScope.drugs}">
                             <tr>
                                 <td><c:out value="${element.name}"/></td>
                                 <td><c:out value="${element.group}"/></td>
@@ -86,14 +94,8 @@
                                 <td><c:out value="${element.price}"/></td>
                                 <td><c:out value="${element.quantity}"/></td>
                                 <td>
-                                    <c:if test="${element.dispensing eq 'on prescription'}">
-                                        <c:set var="modalId" value="#modalWith" scope="page"/>
-                                    </c:if>
-                                    <c:if test="${element.dispensing eq 'without prescription'}">
-                                        <c:set var="modalId" value="#modalWithout" scope="page"/>
-                                    </c:if>
                                     <button type="button" class="btn btn-success" data-toggle="modal"
-                                            data-target="${modalId}" data-id="${element.id}"
+                                            data-target="#modal" data-id="${element.id}"
                                             data-price="${element.price}"
                                             data-quantity="${element.quantity}"
                                             data-group="${element.group}">checkout
@@ -108,8 +110,8 @@
         </div>
     </div>
 </div>
-<!-- Modal without -->
-<div class="modal fade" id="modalWithout" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<!-- Modal-->
+<div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -118,44 +120,13 @@
             <form action="controller" method="post">
                 <div class="modal-body">
                     <input type="hidden" name="command" value="order_without_recipe">
-                    <input type="hidden" id="withoutId" name="drugId">
-                    <input type="hidden" id="withoutPrice" name="price">
-                    <input type="hidden" id="withoutGroup" name="group">
+                    <input type="hidden" id="id" name="drugId">
+                    <input type="hidden" id="price" name="price">
+                    <input type="hidden" id="group" name="group">
                     <div class="form-group">
-                        <label for="withoutQuantity">quantity:</label>
+                        <label for="quantity">quantity:</label>
                         <input type="number" class="form-control"
-                               id="withoutQuantity" name="quantity" min="1" required>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn-success btn-lg">to order</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-<!-- Modal with -->
-<div class="modal fade" id="modalWith" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="myModalLabel2">Форма заказа</h4>
-            </div>
-            <form action="controller" method="post">
-                <div class="modal-body">
-                    <input type="hidden" name="command" value="order_with_recipe">
-                    <input type="hidden" id="withId" name="drugId">
-                    <input type="hidden" id="withPrice" name="price">
-                    <input type="hidden" id="withGroup" name="group">
-                    <div class="form-group">
-                        <label for="withQuantity">quantity:</label>
-                        <input type="number" class="form-control"
-                               id="withQuantity" name="quantity" min="1" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="code">recipe code:</label>
-                        <input type="text" class="form-control" id="code"
-                               name="recipeCode" required>
+                               id="quantity" name="quantity" min="1" required>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -166,39 +137,28 @@
     </div>
 </div>
 <script>
-    $("#modalWithout").on("show.bs.modal", function (event) {
+    $("#modal").on("show.bs.modal", function (event) {
         // получить кнопку, которая его открыло
         var button = $(event.relatedTarget);
 
         var id = button.data("id");
         var price = button.data("price");
         var group = button.data("group");
-
         var quantity = button.data("quantity");
 
-        $(this).find("#withoutId").val(id);
-        $(this).find("#withoutPrice").val(price);
-        $(this).find("#withoutGroup").val(group);
+        $(this).find("#id").val(id);
+        $(this).find("#price").val(price);
+        $(this).find("#group").val(group);
 
-        document.querySelector("#withoutQuantity").setAttribute("max", quantity);
-    })
-
-    $("#modalWith").on("show.bs.modal", function (event) {
-        // получить кнопку, которая его открыло
-        var button = $(event.relatedTarget);
-
-        var id = button.data("id");
-        var price = button.data("price");
-        var group = button.data("group");
-
-        var quantity = button.data("quantity");
-
-        $(this).find("#withId").val(id);
-        $(this).find("#withPrice").val(price);
-        $(this).find("#withGroup").val(group);
-
-        document.querySelector("#withQuantity").setAttribute("max", quantity);
+        document.querySelector("#quantity").setAttribute("max", quantity);
     })
 </script>
+
+<c:set var="response" value="${requestScope.executeMessage}"/>
+<c:if test="${not empty response}">
+    <script>
+        alert("${response}");
+    </script>
+</c:if>
 </body>
 </html>

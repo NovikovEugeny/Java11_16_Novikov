@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -38,6 +39,9 @@
                 <form action="clientPharmGroups">
                     <button type="submit">заказать препарат</button>
                 </form>
+                <form action="clientOrderByERecipe">
+                    <button type="submit">заказать по эл. рецепту</button>
+                </form>
                 <form action="controller" method="get">
                     <input type="hidden" name="command" value="client_show_order_list">
                     <button type="submit">отменить заказ</button>
@@ -71,5 +75,11 @@
         </div>
     </div>
 </div>
+<c:set var="response" value="${requestScope.executeMessage}"/>
+<c:if test="${not empty response}">
+    <script>
+        alert("${response}");
+    </script>
+</c:if>
 </body>
 </html>

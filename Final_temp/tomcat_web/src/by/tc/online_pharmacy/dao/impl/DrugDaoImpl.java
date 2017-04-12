@@ -5,6 +5,7 @@ import by.tc.online_pharmacy.dao.DrugDao;
 import by.tc.online_pharmacy.dao.connection_pool.ConnectionPool;
 import by.tc.online_pharmacy.dao.exception.DaoException;
 import by.tc.online_pharmacy.dao.queries.DrugQueryStore;
+import by.tc.online_pharmacy.dao.queries.UserQueryStore;
 
 import java.sql.*;
 import java.util.*;
@@ -233,6 +234,7 @@ public class DrugDaoImpl implements DrugDao {
 
         try {
             connection = ConnectionPool.getInstance().takeConnection();
+
             ps = connection.prepareStatement(DrugQueryStore.UPDATE_PLUS_DRUG_QUANTITY);
             ps.setInt(1, quantity);
             ps.setInt(2, id);
@@ -264,6 +266,7 @@ public class DrugDaoImpl implements DrugDao {
 
         try {
             connection = ConnectionPool.getInstance().takeConnection();
+
             ps = connection.prepareStatement(DrugQueryStore.SELECT_UNIQUE_TEST);
             ps.setString(1, drug.getName());
             ps.setString(2, drug.getForm());
@@ -348,26 +351,7 @@ public class DrugDaoImpl implements DrugDao {
 
         try {
             connection = ConnectionPool.getInstance().takeConnection();
-
-            ps = connection.prepareStatement(DrugQueryStore.SELECT_BALANCE);
-            ps.setInt(1, order.getClientId());
-            resultSet = ps.executeQuery();
-            resultSet.next();
-            double balance = resultSet.getDouble("balance");
-
-            if (balance < order.getCost()) {
-                throw new DaoException("is not enough money");
-            }
-
-            ps = connection.prepareStatement(DrugQueryStore.SELECT_DRUG_QUANTITY);
-            ps.setInt(1, order.getDrugId());
-            resultSet = ps.executeQuery();
-            resultSet.next();
-            int quantity = resultSet.getInt("quantity");
-
-            if (quantity < order.getQuantity()) {
-                throw new DaoException("Unacceptable quantity of drug");
-            }
+            connection.setAutoCommit(false);
 
             ps = connection.prepareStatement(DrugQueryStore.INSERT_ORDER);
             ps.setInt(1, order.getClientId());
@@ -382,7 +366,7 @@ public class DrugDaoImpl implements DrugDao {
             resultSet.next();
             int id = resultSet.getInt(1);
 
-            ps = connection.prepareStatement(DrugQueryStore.UPDATE_MINUS_BALANCE);
+            ps = connection.prepareStatement(UserQueryStore.UPDATE_MINUS_BALANCE);
             ps.setDouble(1, order.getCost());
             ps.setInt(2, order.getClientId());
             ps.executeUpdate();
@@ -392,8 +376,15 @@ public class DrugDaoImpl implements DrugDao {
             ps.setInt(2, order.getDrugId());
             ps.executeUpdate();
 
+            connection.commit();
+
             return id;
         } catch (SQLException | InterruptedException exc) {
+            try {
+                connection.rollback();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
             throw new DaoException(exc);
         } finally {
             try {
@@ -414,6 +405,11 @@ public class DrugDaoImpl implements DrugDao {
                 if (statement != null) {
                     statement.close();
                 }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            try {
+               connection.setAutoCommit(true);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -491,8 +487,7 @@ public class DrugDaoImpl implements DrugDao {
     }
 
     @Override
-    public void linkOrderAndRecipe(int orderId, String recipeCode) throws
-            DaoException {
+    public void linkOrderAndRecipe(int orderId, String recipeCode) throws DaoException {
         Connection connection = null;
         PreparedStatement ps = null;
 
@@ -618,6 +613,69 @@ public class DrugDaoImpl implements DrugDao {
         }
     }
 
+    @Override
+    public double takeClientBalance(int clientId) throws DaoException {
+
+        Double currentBalance = null;
+
+        Connection connection = null;
+        PreparedStatement ps = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = ConnectionPool.getInstance().takeConnection();
+
+            ps = connection.prepareStatement(UserQueryStore.SELECT_BALANCE);
+            ps.setInt(1, clientId);
+            resultSet = ps.executeQuery();
+
+            resultSet.next();
+            currentBalance = resultSet.getDouble(1);
+        } catch (SQLException | InterruptedException exc) {
+            throw new DaoException(exc);
+        } finally {
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            try {
+                if (ps != null) {
+                    ps.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            ConnectionPool.getInstance().putBackConnection(connection);
+        }
+        return currentBalance;
+    }
+
+    @Override
+    public int takeDrugQuantity(int drugId) throws DaoException {
+
+        int currentDrugQuantity = 0;
+
+        Connection connection = null;
+        PreparedStatement ps = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = ConnectionPool.getInstance().takeConnection();
+
+            ps = connection.prepareStatement(DrugQueryStore.SELECT_DRUG_QUANTITY);
+            ps.setInt(1, drugId);
+            resultSet = ps.executeQuery();
+
+            resultSet.next();
+            currentDrugQuantity = resultSet.getInt(1);
+        } catch (SQLException | InterruptedException exc) {
+            throw new DaoException(exc);
+        }
+        return currentDrugQuantity;
+    }
 
     @Override
     public void send(int orderId, int pharmacistId) throws DaoException {
@@ -656,12 +714,13 @@ public class DrugDaoImpl implements DrugDao {
 
         try {
             connection = ConnectionPool.getInstance().takeConnection();
+            connection.setAutoCommit(false);
 
             ps = connection.prepareStatement(DrugQueryStore.UPDATE_CANCEL_ORDER_STATUS);
             ps.setInt(1, orderId);
             ps.executeUpdate();
 
-            ps = connection.prepareStatement(DrugQueryStore.UPDATE_PLUS_BALANCE);
+            ps = connection.prepareStatement(UserQueryStore.UPDATE_PLUS_BALANCE);
             ps.setInt(1, orderId);
             ps.setInt(2, orderId);
             ps.executeUpdate();
@@ -681,13 +740,25 @@ public class DrugDaoImpl implements DrugDao {
                 ps.executeUpdate();
             }
 
+            connection.commit();
+
         } catch (SQLException | InterruptedException exc) {
+            try {
+                connection.rollback();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
             throw new DaoException(exc);
         } finally {
             try {
                 if (ps != null) {
                     ps.close();
                 }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            try {
+                connection.setAutoCommit(true);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -772,6 +843,7 @@ public class DrugDaoImpl implements DrugDao {
 
         try {
             connection = ConnectionPool.getInstance().takeConnection();
+            connection.setAutoCommit(false);
 
             ps = connection.prepareStatement(DrugQueryStore.
                     UPDATE_RECIPE_EXTENSION_REQUEST_STATUS_APPROVED);
@@ -783,14 +855,25 @@ public class DrugDaoImpl implements DrugDao {
             ps.setString(1, recipeCode);
             ps.executeUpdate();
 
+            connection.commit();
+
         } catch (SQLException | InterruptedException exc) {
-            exc.printStackTrace();
+            try {
+                connection.rollback();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
             throw new DaoException(exc);
         } finally {
             try {
                 if (ps != null) {
                     ps.close();
                 }
+            } catch (SQLException exc) {
+                exc.printStackTrace();
+            }
+            try {
+                connection.setAutoCommit(true);
             } catch (SQLException exc) {
                 exc.printStackTrace();
             }

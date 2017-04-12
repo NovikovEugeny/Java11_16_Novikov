@@ -38,6 +38,9 @@
                 <form action="clientPharmGroups">
                     <button type="submit">заказать препарат</button>
                 </form>
+                <form action="clientOrderByERecipe">
+                    <button type="submit">заказать по эл. рецепту</button>
+                </form>
                 <form action="controller" method="get">
                     <input type="hidden" name="command" value="client_show_order_list">
                     <button type="submit">отменить заказ</button>

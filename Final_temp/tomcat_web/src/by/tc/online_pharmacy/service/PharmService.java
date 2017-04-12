@@ -24,9 +24,9 @@ public interface PharmService {
 
     void removeDrug(int id) throws ServiceException;
 
-    void orderWithoutRecipe(Order order) throws ServiceException;
+    String orderWithoutRecipe(Order order) throws ServiceException;
 
-    void orderWithRecipe(Order order, String recipeCode) throws ServiceException;
+    String orderWithRecipe(Order order, String recipeCode) throws ServiceException;
 
     List<OrderDescription> pharmacistShowOrderList() throws ServiceException;
 

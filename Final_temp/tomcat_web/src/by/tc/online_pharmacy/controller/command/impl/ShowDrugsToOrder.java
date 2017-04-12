@@ -23,7 +23,6 @@ public class ShowDrugsToOrder implements Command {
             PharmService pharmService = serviceFactory.getPharmService();
 
             String group = request.getParameter(GROUP);
-            //request.setAttribute(DRUGS, pharmService.takeDrugGroup(group));
             request.setAttribute(DRUGS, pharmService.takeDrugGroupToOrder(group));
             response = JspPageName.CLIENT_DRUG_LIST_TO_ORDER;
         } catch (ServiceException exc) {

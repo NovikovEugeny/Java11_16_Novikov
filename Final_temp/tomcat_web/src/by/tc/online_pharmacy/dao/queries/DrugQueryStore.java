@@ -75,20 +75,6 @@ public class DrugQueryStore {
             "INSERT INTO orders(client_id, drug_id, quantity, cost, " +
                     "request_date, status) VALUES (?,?,?,?,NOW(),?)";
 
-
-    //account
-    public final static String SELECT_BALANCE =
-            "SELECT balance FROM account WHERE client_id = ?";
-
-    public final static String UPDATE_PLUS_BALANCE =
-            "UPDATE account SET balance = balance + " +
-                    "(SELECT cost FROM orders WHERE id = ?) WHERE client_id = " +
-                    "(SELECT client_id FROM orders WHERE id = ?)";
-
-    public final static String UPDATE_MINUS_BALANCE =
-            "UPDATE account SET balance = balance - ? WHERE client_id = ?";
-
-
     //recipe
     public final static String SELECT_END_RECIPE_DATE =
             "SELECT end_date FROM recipe WHERE code = ?";

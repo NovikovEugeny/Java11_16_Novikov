@@ -12,9 +12,7 @@ import by.tc.online_pharmacy.service.factory.ServiceFactory;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
-/**
- * Created by Евгений on 01.04.2017.
- */
+
 public class OrderWithoutRecipe implements Command {
 
     private final static String USER = "user";
@@ -24,6 +22,7 @@ public class OrderWithoutRecipe implements Command {
     private final static String NEW = "new";
     private final static String DRUGS = "drugs";
     private final static String GROUP = "group";
+    private final static String EXECUTE_MESSAGE = "executeMessage";
 
     @Override
     public String execute(HttpServletRequest request) {
@@ -41,11 +40,13 @@ public class OrderWithoutRecipe implements Command {
         try {
             ServiceFactory serviceFactory = ServiceFactory.getInstance();
             PharmService pharmService = serviceFactory.getPharmService();
-            pharmService.orderWithoutRecipe(order);
+
+            String executeMessage = pharmService.orderWithoutRecipe(order);
 
             String group = request.getParameter(GROUP);
             List<Drug> drugs = pharmService.takeDrugGroup(group);
             request.setAttribute(DRUGS, drugs);
+            request.setAttribute(EXECUTE_MESSAGE, executeMessage);
 
             response = JspPageName.CLIENT_DRUG_LIST_TO_ORDER;
         } catch (ServiceException exc) {

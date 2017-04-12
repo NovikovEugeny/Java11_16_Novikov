@@ -1,9 +1,7 @@
 package by.tc.online_pharmacy.controller;
 
-/**
- * Created by Евгений on 19.02.2017.
- */
-public final class JspPageName {
+
+public class JspPageName {
 
     private JspPageName() {}
 
@@ -37,17 +35,16 @@ public final class JspPageName {
     public final static String CLIENT_CANCEL_ORDER_PAGE =
             "/WEB-INF/jsp/clientCancelOrder.jsp";
 
-    public final static String ORDER_FORM_WITHOUT_RECIPE_PAGE =
-            "/WEB-INF/jsp/orderFormWithoutRecipe.jsp";
-
-    public final static String ORDER_FORM_WITH_RECIPE_PAGE =
-            "/WEB-INF/jsp/orderFormWithRecipe.jsp";
-
     public final static String CLIENT_EXTEND_RECIPE_PAGE =
             "/WEB-INF/jsp/clientExtendRecipe.jsp";
 
     public final static String CLIENT_RECIPE_DESCRIPTION =
             "/WEB-INF/jsp/clientRecipeDescription.jsp";
+
+    public final static String CLIENT_ORDER_BY_ER_RECIPE =
+            "/WEB-INF/jsp/clientOrderByERecipe.jsp";
+
+
 
 
 

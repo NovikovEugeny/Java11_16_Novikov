@@ -2,6 +2,7 @@ package by.tc.online_pharmacy.controller.command.impl;
 
 import by.tc.online_pharmacy.bean.Order;
 import by.tc.online_pharmacy.bean.User;
+import by.tc.online_pharmacy.controller.JspPageName;
 import by.tc.online_pharmacy.controller.command.Command;
 import by.tc.online_pharmacy.service.PharmService;
 import by.tc.online_pharmacy.service.exception.ServiceException;
@@ -17,8 +18,7 @@ public class OrderWithRecipe implements Command {
     private final static String COST = "cost";
     private final static String NEW = "new";
     private final static String RECIPE_CODE = "recipeCode";
-    private final static String DRUGS = "drugs";
-    private final static String GROUP = "group";
+    private final static String EXECUTE_MESSAGE = "executeMessage";
 
     @Override
     public String execute(HttpServletRequest request) {
@@ -39,9 +39,10 @@ public class OrderWithRecipe implements Command {
             ServiceFactory serviceFactory = ServiceFactory.getInstance();
             PharmService pharmService = serviceFactory.getPharmService();
 
-            pharmService.orderWithRecipe(order, recipeCode);
+            String executeMessage = pharmService.orderWithRecipe(order, recipeCode);
+            request.setAttribute(EXECUTE_MESSAGE, executeMessage);
 
-            //response = JspPageName.;
+            response = JspPageName.CLIENT_ORDER_BY_ER_RECIPE;
         } catch (ServiceException exc) {
             //logger
         }

@@ -15,4 +15,16 @@ public class UserQueryStore {
 
     public final static String IS_UNIQUE_SELECT =
             "SELECT mobile_phone FROM user WHERE mobile_phone = ?";
+
+    //account
+    public final static String SELECT_BALANCE =
+            "SELECT balance FROM account WHERE client_id = ?";
+
+    public final static String UPDATE_PLUS_BALANCE =
+            "UPDATE account SET balance = balance + " +
+                    "(SELECT cost FROM orders WHERE id = ?) WHERE client_id = " +
+                    "(SELECT client_id FROM orders WHERE id = ?)";
+
+    public final static String UPDATE_MINUS_BALANCE =
+            "UPDATE account SET balance = balance - ? WHERE client_id = ?";
 }
