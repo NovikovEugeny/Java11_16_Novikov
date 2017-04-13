@@ -1,7 +1,7 @@
 package by.tc.online_pharmacy.service.util.validator;
 
 
-public class InvalidFieldName {
+public final class InvalidFieldName {
 
     private InvalidFieldName() {}
 

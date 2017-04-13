@@ -86,20 +86,33 @@
     </servlet-mapping>
 
 
-
-
-
-    <servlet>
-        <servlet-name>feedback</servlet-name>
-        <jsp-file>/WEB-INF/jsp/recipeFeedback.jsp</jsp-file>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>feedback</servlet-name>
-        <url-pattern>/feedback</url-pattern>
-    </servlet-mapping>
-    
     <listener>
-        <listener-class>by.tc.online_pharmacy.Listener</listener-class>
+        <listener-class>by.tc.online_pharmacy.listener.Listener</listener-class>
     </listener>
+
+    <filter>
+        <filter-name>LocalizationFilter</filter-name>
+        <filter-class>by.tc.online_pharmacy.filter.LocalizationFilter</filter-class>
+        <init-param>
+            <param-name>defaultLocale</param-name>
+            <param-value>en</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>LocalizationFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <!--
+
+       <servlet>
+           <servlet-name>feedback</servlet-name>
+           <jsp-file>/WEB-INF/jsp/recipeFeedback.jsp</jsp-file>
+       </servlet>
+       <servlet-mapping>
+           <servlet-name>feedback</servlet-name>
+           <url-pattern>/feedback</url-pattern>
+       </servlet-mapping>
+       -->
 
 </web-app>

@@ -1,7 +1,7 @@
 package by.tc.online_pharmacy.controller;
 
 
-public class JspPageName {
+public final class JspPageName {
 
     private JspPageName() {}
 

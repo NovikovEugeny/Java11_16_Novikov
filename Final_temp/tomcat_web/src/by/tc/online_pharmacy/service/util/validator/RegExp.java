@@ -1,7 +1,7 @@
 package by.tc.online_pharmacy.service.util.validator;
 
 
-public class RegExp {
+public final class RegExp {
 
     private RegExp() {}
 
@@ -13,10 +13,8 @@ public class RegExp {
     public final static String NAME_REG_EXP_RU = "^[А-Я][а-я]+$";
     public final static String NAME_REG_EXP_EN = "^[A-Z][a-z]+$";
 
-    public final static String DRUG_NAME_FOR_SEARCH_REG_EXP_RU =
-            "^[A-Za-z][a-z]{2,}$";
-    public final static String DRUG_NAME_FOR_SEARCH_REG_EXP_EN =
-            "^[А-Яа-я][а-я]{2,}$";
+    public final static String DRUG_NAME_FOR_SEARCH_REG_EXP_RU = "^[A-Za-z][a-z]{2,}$";
+    public final static String DRUG_NAME_FOR_SEARCH_REG_EXP_EN = "^[А-Яа-я][а-я]{2,}$";
 
     public final static String DRUG_NAME_REG_EXP_EN = "^[A-Z][a-z]{2,}$";
     public final static String DRUG_NAME_REG_EXP_RU = "^[А-Я][а-я]{2,}$";

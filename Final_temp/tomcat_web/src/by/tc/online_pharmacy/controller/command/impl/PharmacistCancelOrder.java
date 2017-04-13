@@ -11,9 +11,7 @@ import by.tc.online_pharmacy.service.factory.ServiceFactory;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
-/**
- * Created by Евгений on 06.04.2017.
- */
+
 public class PharmacistCancelOrder implements Command {
 
     private final static String ORDER_ID = "orderId";

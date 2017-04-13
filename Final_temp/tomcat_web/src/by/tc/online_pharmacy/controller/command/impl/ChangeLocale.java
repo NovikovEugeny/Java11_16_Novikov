@@ -5,9 +5,7 @@ import by.tc.online_pharmacy.controller.command.Command;
 
 import javax.servlet.http.HttpServletRequest;
 
-/**
- * Created by Евгений on 20.02.2017.
- */
+
 public class ChangeLocale implements Command {
 
     private final static String LOCAL = "local";

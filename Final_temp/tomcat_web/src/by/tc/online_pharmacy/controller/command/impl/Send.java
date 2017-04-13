@@ -14,9 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by Евгений on 27.02.2017.
- */
+
 public class Send implements Command {
 
     private final static String ORDER_ID = "orderId";

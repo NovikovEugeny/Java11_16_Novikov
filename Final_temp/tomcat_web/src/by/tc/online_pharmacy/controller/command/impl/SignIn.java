@@ -46,14 +46,12 @@ public class SignIn implements Command {
 
             if (user != null) {
                 if (user.getPosition().equals(PHARMACIST)) {
-                    List<OrderDescription> orderList =
-                            pharmService.pharmacistShowOrderList();
+                    List<OrderDescription> orderList = pharmService.pharmacistShowOrderList();
                     request.setAttribute(ORDER_LIST, orderList);
                     response = JspPageName.PHARMACIST_START_PAGE;
                 }
                 if (user.getPosition().equals(DOCTOR)) {
-                    Map<Integer, String> recipeList =
-                            pharmService.takeRecipeExtensionRequestList();
+                    Map<Integer, String> recipeList = pharmService.takeRecipeExtensionRequestList();
                     request.setAttribute(RECIPE_LIST, recipeList);
                     response = JspPageName.DOCTOR_PAGE;
                 }

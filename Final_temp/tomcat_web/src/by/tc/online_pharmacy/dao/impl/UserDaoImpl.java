@@ -4,7 +4,7 @@ import by.tc.online_pharmacy.bean.User;
 import by.tc.online_pharmacy.dao.UserDao;
 import by.tc.online_pharmacy.dao.connection_pool.ConnectionPool;
 import by.tc.online_pharmacy.dao.exception.DaoException;
-import by.tc.online_pharmacy.dao.queries.UserQueryStore;
+import by.tc.online_pharmacy.dao.query.UserQueryStore;
 
 import java.sql.*;
 

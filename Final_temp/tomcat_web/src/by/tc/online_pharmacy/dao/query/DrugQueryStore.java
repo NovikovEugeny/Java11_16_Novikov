@@ -1,7 +1,7 @@
-package by.tc.online_pharmacy.dao.queries;
+package by.tc.online_pharmacy.dao.query;
 
 
-public class DrugQueryStore {
+public final class DrugQueryStore {
 
     private DrugQueryStore() {}
 

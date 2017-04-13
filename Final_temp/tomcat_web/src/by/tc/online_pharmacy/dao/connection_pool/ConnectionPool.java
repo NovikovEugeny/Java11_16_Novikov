@@ -9,6 +9,8 @@ import java.util.concurrent.BlockingQueue;
 
 public final class ConnectionPool {
 
+    private final static ConnectionPool instance = new ConnectionPool();
+
     private String driverName;
     private String url;
     private String user;
@@ -17,8 +19,6 @@ public final class ConnectionPool {
 
     private BlockingQueue<Connection> availableConnections;
     private BlockingQueue<Connection> occupiedConnections;
-
-    private final static ConnectionPool instance = new ConnectionPool();
 
     private ConnectionPool() {
         this.driverName = DBParameter.DB_DRIVER;

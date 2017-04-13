@@ -31,7 +31,7 @@
     <fmt:message bundle="${loc}" key="label.searchmessage" var="searchMessage"/>
     <fmt:message bundle="${loc}" key="label.info" var="info"/>
     <fmt:message bundle="${loc}" key="copyright" var="copyright"/>
-    <title>${title}</title>
+    <title>${title}  ${sessionScope.local}</title>
 </head>
 <body>
 <header>

@@ -153,6 +153,7 @@
         document.querySelector("#quantity").setAttribute("max", quantity);
     })
 </script>
+
 <c:set var="response" value="${requestScope.executeMessage}"/>
 <c:if test="${not empty response}">
     <script>

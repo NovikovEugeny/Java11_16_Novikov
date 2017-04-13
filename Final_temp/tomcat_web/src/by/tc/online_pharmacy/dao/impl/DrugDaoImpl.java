@@ -4,8 +4,8 @@ import by.tc.online_pharmacy.bean.*;
 import by.tc.online_pharmacy.dao.DrugDao;
 import by.tc.online_pharmacy.dao.connection_pool.ConnectionPool;
 import by.tc.online_pharmacy.dao.exception.DaoException;
-import by.tc.online_pharmacy.dao.queries.DrugQueryStore;
-import by.tc.online_pharmacy.dao.queries.UserQueryStore;
+import by.tc.online_pharmacy.dao.query.DrugQueryStore;
+import by.tc.online_pharmacy.dao.query.UserQueryStore;
 
 import java.sql.*;
 import java.util.*;
@@ -68,13 +68,6 @@ public class DrugDaoImpl implements DrugDao {
             throw new DaoException(exc);
         } finally {
             try {
-                if (resultSet != null) {
-                    resultSet.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();///??????
-            }
-            try {
                 if (ps != null) {
                     ps.close();
                 }
@@ -104,13 +97,6 @@ public class DrugDaoImpl implements DrugDao {
             throw new DaoException(exc);
         } finally {
             try {
-                if (resultSet != null) {
-                    resultSet.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();///??????
-            }
-            try {
                 if (ps != null) {
                     ps.close();
                 }
@@ -139,13 +125,6 @@ public class DrugDaoImpl implements DrugDao {
         } catch (SQLException | InterruptedException exc) {
             throw new DaoException(exc);
         } finally {
-            try {
-                if (resultSet != null) {
-                    resultSet.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();///??????
-            }
             try {
                 if (ps != null) {
                     ps.close();
@@ -207,13 +186,6 @@ public class DrugDaoImpl implements DrugDao {
             exc.printStackTrace();
             throw new DaoException(exc);
         } finally {
-            try {
-                if (resultSet != null) {
-                    resultSet.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();///??????
-            }
             try {
                 if (ps != null) {
                     ps.close();
@@ -388,13 +360,6 @@ public class DrugDaoImpl implements DrugDao {
             throw new DaoException(exc);
         } finally {
             try {
-                if (resultSet != null) {
-                    resultSet.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            try {
                 if (ps != null) {
                     ps.close();
                 }
@@ -440,13 +405,6 @@ public class DrugDaoImpl implements DrugDao {
         } catch (SQLException | InterruptedException exc) {
             throw new DaoException(exc);
         } finally {
-            try {
-                if (resultSet != null) {
-                    resultSet.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
             try {
                 if (ps != null) {
                     ps.close();
@@ -596,13 +554,6 @@ public class DrugDaoImpl implements DrugDao {
             throw new DaoException(exc);
         } finally {
             try {
-                if (resultSet != null) {
-                    resultSet.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            try {
                 if (ps != null) {
                     ps.close();
                 }
@@ -635,13 +586,6 @@ public class DrugDaoImpl implements DrugDao {
             throw new DaoException(exc);
         } finally {
             try {
-                if (resultSet != null) {
-                    resultSet.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            try {
                 if (ps != null) {
                     ps.close();
                 }
@@ -673,6 +617,15 @@ public class DrugDaoImpl implements DrugDao {
             currentDrugQuantity = resultSet.getInt(1);
         } catch (SQLException | InterruptedException exc) {
             throw new DaoException(exc);
+        } finally {
+            try {
+                if (ps != null) {
+                    ps.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            ConnectionPool.getInstance().putBackConnection(connection);
         }
         return currentDrugQuantity;
     }
@@ -703,6 +656,18 @@ public class DrugDaoImpl implements DrugDao {
             }
             ConnectionPool.getInstance().putBackConnection(connection);
         }
+    }
+
+    @Override
+    public List<OrderDescription> takeSendingMessageList(int clientId) throws DaoException {
+
+        Connection connection = null;
+        PreparedStatement ps = null;
+/*
+        try {
+
+        }*/
+return null;
     }
 
     @Override

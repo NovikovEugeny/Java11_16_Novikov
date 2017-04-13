@@ -8,12 +8,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-/**
- * Created by Евгений on 17.02.2017.
- */
+
 public class Controller extends HttpServlet {
 
-    private CommandProvider provider = new CommandProvider();
+    private final CommandProvider provider = new CommandProvider();
     private final static String COMMAND = "command";
 
     @Override

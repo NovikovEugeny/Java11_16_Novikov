@@ -8760,7 +8760,7 @@ function ajaxConvert( s, response, jqXHR, isSuccess ) {
 
 jQuery.extend( {
 
-	// Counter for holding the number of active queries
+	// Counter for holding the number of active query
 	active: 0,
 
 	// Last-Modified header cache for next request

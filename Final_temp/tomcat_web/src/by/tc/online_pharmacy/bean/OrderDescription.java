@@ -4,15 +4,14 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Date;
 
-/**
- * Created by Евгений on 29.03.2017.
- */
+
 public class OrderDescription implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     private int orderId;
     private Date requestDate;
+    private Date responseDate;
     private String clientMobile;
     private String drugName;
     private String pharmacologicalGroup;
@@ -31,6 +30,10 @@ public class OrderDescription implements Serializable {
 
     public void setRequestDate(Timestamp requestDate) {
         this.requestDate = requestDate;
+    }
+
+    public void setResponseDate(Timestamp responseDate) {
+        this.responseDate = responseDate;
     }
 
     public void setClientMobile(String clientMobile) {
@@ -75,6 +78,10 @@ public class OrderDescription implements Serializable {
 
     public Date getRequestDate() {
         return requestDate;
+    }
+
+    public Date getResponseDate() {
+        return responseDate;
     }
 
     public String getClientMobile() {

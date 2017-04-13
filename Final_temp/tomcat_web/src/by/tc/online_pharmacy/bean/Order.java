@@ -4,9 +4,7 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Date;
 
-/**
- * Created by Евгений on 24.02.2017.
- */
+
 public class Order implements Serializable {
 
     private static final long serialVersionUID = 1L;

@@ -6,6 +6,7 @@ import by.tc.online_pharmacy.dao.exception.DaoException;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 
 public interface DrugDao {
@@ -41,6 +42,8 @@ public interface DrugDao {
     void linkOrderAndRecipe(int orderId, String recipeCode) throws DaoException;
 
     void send(int orderId, int pharmacistId) throws DaoException;
+
+    List<OrderDescription> takeSendingMessageList(int clientId) throws DaoException;
 
     void cancelOrder(int orderId) throws DaoException;
 

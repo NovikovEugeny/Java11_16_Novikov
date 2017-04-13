@@ -5,7 +5,7 @@
     <title>index</title>
 </head>
 <body>
-    <jsp:forward page="/WEB-INF/jsp/startPage.jsp"/>
+    <c:redirect url="/startPage"/>
 </body>
 </html>
 
