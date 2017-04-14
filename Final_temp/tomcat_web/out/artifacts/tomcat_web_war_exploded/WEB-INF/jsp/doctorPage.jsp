@@ -43,6 +43,7 @@
                     <table class="table table-bordered">
                         <thead>
                         <tr>
+                            <th>дата заявки</th>
                             <th>код рецепта</th>
                             <th></th>
                             <th></th>
@@ -51,20 +52,21 @@
                         <tbody>
                         <c:forEach var="element" items="${requestScope.recipeList}">
                             <tr bgcolor="#FFFFFF">
-                                <td><c:out value="${element.value}"/></td>
+                                <td><c:out value="${element.requestDate}"/></td>
+                                <td><c:out value="${element.recipeCode}"/></td>
                                 <td>
                                     <form action="controller" method="post">
                                         <input type="hidden" name="command" value="approve">
-                                        <input type="hidden" name="id" value="${element.key}">
-                                        <input type="hidden" name="recipeCode" value="${element.value}">
+                                        <input type="hidden" name="id" value="${element.id}">
+                                        <input type="hidden" name="recipeCode" value="${element.recipeCode}">
                                         <button type="submit">approve</button>
                                     </form>
                                 </td>
                                 <td>
                                     <form action="controller" method="post">
                                         <input type="hidden" name="command" value="deny">
-                                        <input type="hidden" name="id" value="${element.key}">
-                                        <input type="hidden" name="recipeCode" value="${element.value}">
+                                        <input type="hidden" name="id" value="${element.id}">
+                                        <input type="hidden" name="recipeCode" value="${element.recipeCode}">
                                         <button type="submit">deny</button>
                                     </form>
                                 </td>

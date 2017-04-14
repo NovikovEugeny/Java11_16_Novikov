@@ -65,7 +65,7 @@
                 <h3>Заказ по электронному рецепту</h3>
                 <form action="controller" method="post">
                     <div class="form-group">
-                        <input type="hidden" name="command" value="show_er_recipe_description">
+                        <input type="hidden" name="command" value="show_er_recipe">
                         <label for="code">recipe code:</label>
                         <input type="text" class="form-control" id="code" name="recipeCode">
                     </div>

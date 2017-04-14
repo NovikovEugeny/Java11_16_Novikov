@@ -45,25 +45,21 @@ public interface DrugDao {
 
     List<OrderDescription> takeSendingMessageList(int clientId) throws DaoException;
 
+    List<RERDescription> takeDoctorResponseMessageList(int clientId) throws DaoException;
+
     void cancelOrder(int orderId) throws DaoException;
 
-    void addRecipeExtensionRequest(String recipeCode) throws DaoException;
+    void addRecipeExtensionRequest(String recipeCode, int clientId) throws DaoException;
 
-    Map<Integer, String> takeRecipeExtensionRequestList() throws DaoException;
+    List<RERDescription> takeRecipeExtensionRequestList() throws DaoException;
 
-    void approve(int id, String recipeCode) throws DaoException;
+    void approve(RERDescription rerDescription) throws DaoException;
 
-    void deny (int id, String recipeCode) throws DaoException;
+    void deny (RERDescription rerDescription) throws DaoException;
 
-
-
-
+    void reportAboutDelivery(int orderId) throws DaoException;
 
 
-
-
-
-    void sendFeedback(int recipeId, String feedback) throws DaoException;
 
 
 }

@@ -24,6 +24,9 @@ public class OrderWithoutRecipe implements Command {
     private final static String GROUP = "group";
     private final static String EXECUTE_MESSAGE = "executeMessage";
 
+    private String messageContent;
+
+
     @Override
     public String execute(HttpServletRequest request) {
         String response = null;
@@ -41,12 +44,23 @@ public class OrderWithoutRecipe implements Command {
             ServiceFactory serviceFactory = ServiceFactory.getInstance();
             PharmService pharmService = serviceFactory.getPharmService();
 
-            String executeMessage = pharmService.orderWithoutRecipe(order);
+            double currentClientBalance = pharmService.showCurrentBalance(clientId);
+            int currentDrugQuantity = pharmService.showCurrentDrugQuantity(order.getDrugId());
+
+            if (currentClientBalance < order.getCost()) {
+                messageContent = "not enough money";
+            } else if (currentDrugQuantity < order.getQuantity()) {
+                messageContent = "not enough drugs";
+            } else {
+                pharmService.orderWithoutRecipe(order);
+                messageContent = "successfully";
+            }
+
+            request.setAttribute(EXECUTE_MESSAGE, messageContent);
 
             String group = request.getParameter(GROUP);
             List<Drug> drugs = pharmService.takeDrugGroup(group);
             request.setAttribute(DRUGS, drugs);
-            request.setAttribute(EXECUTE_MESSAGE, executeMessage);
 
             response = JspPageName.CLIENT_DRUG_LIST_TO_ORDER;
         } catch (ServiceException exc) {

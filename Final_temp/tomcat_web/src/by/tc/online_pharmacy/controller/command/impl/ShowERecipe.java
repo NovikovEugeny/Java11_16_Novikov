@@ -9,8 +9,9 @@ import by.tc.online_pharmacy.service.exception.ServiceException;
 import by.tc.online_pharmacy.service.factory.ServiceFactory;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 
-public class ShowERecipeDescription implements Command {
+public class ShowERecipe implements Command {
 
     private final String RECIPE_CODE = "recipeCode";
     private final String RD = "RD";
@@ -25,10 +26,10 @@ public class ShowERecipeDescription implements Command {
 
            String recipeCode = request.getParameter(RECIPE_CODE);
 
-           RecipeDescription recipeDescription =
-                   pharmService.takeRecipeDescription(recipeCode);
+           RecipeDescription recipeDescription = pharmService.takeRecipeDescription(recipeCode);
 
            request.setAttribute(RD, recipeDescription);
+
            response = JspPageName.CLIENT_RECIPE_DESCRIPTION;
        } catch (ServiceException exc) {
            //logger

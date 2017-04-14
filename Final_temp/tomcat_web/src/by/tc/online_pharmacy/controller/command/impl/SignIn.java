@@ -1,6 +1,7 @@
 package by.tc.online_pharmacy.controller.command.impl;
 
 import by.tc.online_pharmacy.bean.OrderDescription;
+import by.tc.online_pharmacy.bean.RERDescription;
 import by.tc.online_pharmacy.bean.User;
 import by.tc.online_pharmacy.controller.JspPageName;
 import by.tc.online_pharmacy.controller.command.Command;
@@ -27,6 +28,8 @@ public class SignIn implements Command {
     private final static String ERROR_MAP = "errorMap";
     private final static String RECIPE_LIST = "recipeList";
     private final static String ORDER_LIST = "orderList";
+    private final static String ORDER_MESSAGE_LIST = "orderMessageList";
+    private final static String RECIPE_MESSAGE_LIST = "recipeMessageList";
 
 
     @Override
@@ -51,12 +54,17 @@ public class SignIn implements Command {
                     response = JspPageName.PHARMACIST_START_PAGE;
                 }
                 if (user.getPosition().equals(DOCTOR)) {
-                    Map<Integer, String> recipeList = pharmService.takeRecipeExtensionRequestList();
+                    List<RERDescription> recipeList = pharmService.takeRecipeExtensionRequestList();
                     request.setAttribute(RECIPE_LIST, recipeList);
                     response = JspPageName.DOCTOR_PAGE;
                 }
                 if (user.getPosition().equals(CLIENT)) {
-                    //messages
+                    List<OrderDescription> orderMessageList =
+                            pharmService.takeSendingMessageList(user.getId());
+                    List<RERDescription> recipeMessageList =
+                            pharmService.takeDoctorResponseMessageList(user.getId());
+                    request.setAttribute(ORDER_MESSAGE_LIST, orderMessageList);
+                   // request.setAttribute(RECIPE_MESSAGE_LIST, recipeMessageList);
                     response = JspPageName.CLIENT_START_PAGE;
                 }
                 request.getSession(true).setAttribute(USER, user);
@@ -67,6 +75,7 @@ public class SignIn implements Command {
         } catch (ServiceException exc) {
             //logger
             //response?
+            exc.printStackTrace();
         } catch (ValidatorException exc) {
             request.setAttribute(ERROR_MAP, exc.getErrors());
             response = JspPageName.SIGN_IN_PAGE;

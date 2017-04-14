@@ -89,7 +89,7 @@
     <listener>
         <listener-class>by.tc.online_pharmacy.listener.Listener</listener-class>
     </listener>
-
+<!--
     <filter>
         <filter-name>LocalizationFilter</filter-name>
         <filter-class>by.tc.online_pharmacy.filter.LocalizationFilter</filter-class>
@@ -102,7 +102,7 @@
         <filter-name>LocalizationFilter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
-
+-->
     <!--
 
        <servlet>

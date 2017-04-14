@@ -661,13 +661,97 @@ public class DrugDaoImpl implements DrugDao {
     @Override
     public List<OrderDescription> takeSendingMessageList(int clientId) throws DaoException {
 
+        final String ORDER_ID = "id";
+        final String DRUG_NAME = "name";
+        final String DRUG_AMOUNT = "drug_amount";
+        final String QUANTITY = "quantity";
+        final String COUNTRY = "country";
+        final String RESPONSE_DATE = "response_date";
+
         Connection connection = null;
         PreparedStatement ps = null;
-/*
-        try {
+        ResultSet resultSet = null;
 
-        }*/
-return null;
+        List<OrderDescription> orderDescriptionList = new ArrayList<>();
+
+        try {
+            connection = ConnectionPool.getInstance().takeConnection();
+
+            ps = connection.prepareStatement(DrugQueryStore.SELECT_SENDING_ORDERS_BY_CLIENT_ID);
+            ps.setInt(1, clientId);
+            resultSet = ps.executeQuery();
+
+            while (resultSet.next()) {
+                OrderDescription orderDescription = new OrderDescription();
+                orderDescription.setOrderId(resultSet.getInt(ORDER_ID));
+                orderDescription.setDrugName(resultSet.getString(DRUG_NAME));
+                orderDescription.setDrugAmount(resultSet.getString(DRUG_AMOUNT));
+                orderDescription.setQuantity(resultSet.getInt(QUANTITY));
+                orderDescription.setProductingCountry(resultSet.getString(COUNTRY));
+                orderDescription.setResponseDate(resultSet.getTimestamp(RESPONSE_DATE));
+
+                orderDescriptionList.add(orderDescription);
+            }
+
+        } catch (SQLException | InterruptedException exc) {
+            exc.printStackTrace();
+            throw new DaoException(exc);
+        } finally {
+            try {
+                if (ps != null) {
+                    ps.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            ConnectionPool.getInstance().putBackConnection(connection);
+        }
+
+        return orderDescriptionList;
+    }
+
+    @Override
+    public List<RERDescription> takeDoctorResponseMessageList(int clientId) throws DaoException {
+
+        final String RECIPE_CODE = "recipe_code";
+        final String RESPONSE_DATE = "response_date";
+        final String STATUS = "status";
+
+        Connection connection = null;
+        PreparedStatement ps = null;
+        ResultSet resultSet = null;
+
+        List<RERDescription> rerDescriptionList = new ArrayList<>();
+
+        try {
+            connection = ConnectionPool.getInstance().takeConnection();
+
+            ps = connection.prepareStatement(DrugQueryStore.SELECT_DOCTOR_RESPONSE_BY_CLIENT_ID);
+            ps.setInt(1, clientId);
+            resultSet = ps.executeQuery();
+
+            while (resultSet.next()) {
+                RERDescription rerDescription = new RERDescription();
+                rerDescription.setRecipeCode(resultSet.getString(RECIPE_CODE));
+                rerDescription.setResponseDate(resultSet.getTimestamp(RESPONSE_DATE));
+                rerDescription.setStatus(resultSet.getString(STATUS));
+
+                rerDescriptionList.add(rerDescription);
+            }
+
+            return rerDescriptionList;
+        } catch(SQLException | InterruptedException exc) {
+            throw new DaoException(exc);
+        } finally {
+            try {
+                if (ps != null) {
+                    ps.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            ConnectionPool.getInstance().putBackConnection(connection);
+        }
     }
 
     @Override
@@ -733,7 +817,7 @@ return null;
 
 
     @Override
-    public void addRecipeExtensionRequest(String recipeCode) throws DaoException {
+    public void addRecipeExtensionRequest(String recipeCode, int clientId) throws DaoException {
 
         Connection connection = null;
         PreparedStatement ps = null;
@@ -743,6 +827,7 @@ return null;
 
             ps = connection.prepareStatement(DrugQueryStore.INSERT_RECIPE_EXTENSION_REQUEST);
             ps.setString(1, recipeCode);
+            ps.setInt(2, clientId);
             ps.executeUpdate();
 
         } catch (SQLException | InterruptedException exc) {
@@ -761,16 +846,17 @@ return null;
 
 
     @Override
-    public Map<Integer, String> takeRecipeExtensionRequestList() throws DaoException {
+    public List<RERDescription> takeRecipeExtensionRequestList() throws DaoException {
 
         final String ID = "id";
         final String RECIPE_CODE = "recipe_code";
-
-        Map<Integer, String> recipeExtensionRequestList = new LinkedHashMap<>();
+        final String REQUEST_DATE = "request_date";
 
         Connection connection = null;
         Statement statement = null;
         ResultSet resultSet = null;
+
+        List<RERDescription> recipeExtensionRequestList = new ArrayList<>();
 
         try {
             connection = ConnectionPool.getInstance().takeConnection();
@@ -779,13 +865,17 @@ return null;
             resultSet = statement.executeQuery(DrugQueryStore.SELECT_NEW_RECIPE_EXTENSION_REQUEST);
 
             while (resultSet.next()) {
-                int id = resultSet.getInt(ID);
-                String recipeCode = resultSet.getString(RECIPE_CODE);
-                recipeExtensionRequestList.put(id, recipeCode);
+                RERDescription rerDescription = new RERDescription();
+                rerDescription.setId(resultSet.getInt(ID));
+                rerDescription.setRecipeCode(resultSet.getString(RECIPE_CODE));
+                rerDescription.setRequestDate(resultSet.getTimestamp(REQUEST_DATE));
+
+                recipeExtensionRequestList.add(rerDescription);
             }
 
             return recipeExtensionRequestList;
         } catch (SQLException | InterruptedException exc) {
+            exc.printStackTrace();
             throw new DaoException(exc);
         } finally {
             try {
@@ -801,7 +891,7 @@ return null;
 
 
     @Override
-    public void approve(int id, String recipeCode) throws DaoException {
+    public void approve(RERDescription rerDescription) throws DaoException {
 
         Connection connection = null;
         PreparedStatement ps = null;
@@ -812,17 +902,19 @@ return null;
 
             ps = connection.prepareStatement(DrugQueryStore.
                     UPDATE_RECIPE_EXTENSION_REQUEST_STATUS_APPROVED);
-            ps.setInt(1, id);
+            ps.setInt(1, rerDescription.getDoctorId());
+            ps.setInt(2, rerDescription.getId());
             ps.executeUpdate();
 
             ps = connection.prepareStatement(DrugQueryStore.
                     UPDATE_RECIPE_STATUS_OPEN_AND_EXTEND_DATE);
-            ps.setString(1, recipeCode);
+            ps.setString(1, rerDescription.getRecipeCode());
             ps.executeUpdate();
 
             connection.commit();
 
         } catch (SQLException | InterruptedException exc) {
+            exc.printStackTrace();
             try {
                 connection.rollback();
             } catch (SQLException e) {
@@ -847,7 +939,7 @@ return null;
     }
 
     @Override
-    public void deny(int id, String recipeCode) throws DaoException {
+    public void deny(RERDescription rerDescription) throws DaoException {
 
         Connection connection = null;
         PreparedStatement ps = null;
@@ -857,7 +949,8 @@ return null;
 
             ps = connection.prepareStatement(DrugQueryStore.
                     UPDATE_RECIPE_EXTENSION_REQUEST_STATUS_DENIED);
-            ps.setInt(1, id);
+            ps.setInt(1, rerDescription.getDoctorId());
+            ps.setInt(2, rerDescription.getId());
             ps.executeUpdate();
 
         } catch (SQLException | InterruptedException exc) {
@@ -874,25 +967,33 @@ return null;
         }
     }
 
-    @Override
-    public void sendFeedback(int recipeId, String feedback) throws DaoException {
 
-        /*final String updateRecipe = "UPDATE recipes SET feedback = ?, " +
-                "request_date = request_date WHERE id = ?";
+    @Override
+    public void reportAboutDelivery(int orderId) throws DaoException {
 
         Connection connection = null;
         PreparedStatement ps = null;
 
         try {
-            connection = DriverManager.getConnection(url, userName, password);
-            ps = connection.prepareStatement(updateRecipe);
-            ps.setString(1, feedback);
-            ps.setInt(2, recipeId);
+            connection = ConnectionPool.getInstance().takeConnection();
+
+            ps = connection.prepareStatement(DrugQueryStore.UPDATE_RECEIVE_ORDER_STATUS);
+            ps.setInt(1, orderId);
             ps.executeUpdate();
 
-        } catch (SQLException exc) {
+        } catch (SQLException | InterruptedException exc) {
             throw new DaoException(exc);
-        }*/
+        } finally {
+            try {
+                if (ps != null) {
+                    ps.close();
+                }
+            } catch (SQLException exc) {
+                exc.printStackTrace();
+            }
+            ConnectionPool.getInstance().putBackConnection(connection);
+        }
     }
+
 
 }

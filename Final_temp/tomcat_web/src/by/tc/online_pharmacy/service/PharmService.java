@@ -4,6 +4,7 @@ import by.tc.online_pharmacy.bean.*;
 import by.tc.online_pharmacy.service.exception.ServiceException;
 import by.tc.online_pharmacy.service.exception.ValidatorException;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -16,6 +17,12 @@ public interface PharmService {
 
     List<Drug> takeDrugsByName(String name) throws ServiceException, ValidatorException;
 
+    double showCurrentBalance(int clientId) throws ServiceException;
+
+    int showCurrentDrugQuantity(int drugId) throws ServiceException;
+
+    Date takeRecipeEndDate(String recipeCode) throws ServiceException;
+
     RecipeDescription takeRecipeDescription(String recipeCode) throws ServiceException;
 
     void addDrugQuantity(int id, int quantity) throws ServiceException;
@@ -24,9 +31,9 @@ public interface PharmService {
 
     void removeDrug(int id) throws ServiceException;
 
-    String orderWithoutRecipe(Order order) throws ServiceException;
+    void orderWithoutRecipe(Order order) throws ServiceException;
 
-    String orderWithRecipe(Order order, String recipeCode) throws ServiceException;
+    void orderWithRecipe(Order order, String recipeCode) throws ServiceException;
 
     List<OrderDescription> pharmacistShowOrderList() throws ServiceException;
 
@@ -34,17 +41,21 @@ public interface PharmService {
 
     void send(int orderId, int pharmacistId) throws ServiceException;
 
+    List<OrderDescription> takeSendingMessageList(int clientId) throws ServiceException;
+
+    List<RERDescription> takeDoctorResponseMessageList(int clientId) throws ServiceException;
+
     void cancelOrder(int orderId) throws ServiceException;
 
-    void addRecipeExtensionRequest(String recipeCode) throws ServiceException;
+    void sendRecipeExtensionRequest(String recipeCode, int clientId) throws ServiceException;
 
-    Map<Integer, String> takeRecipeExtensionRequestList() throws ServiceException;
+    List<RERDescription> takeRecipeExtensionRequestList() throws ServiceException;
 
-    void approve(int id, String recipeCode) throws ServiceException;
+    void approve(RERDescription rerDescription) throws ServiceException;
 
-    void deny(int id, String recipeCode) throws ServiceException;
+    void deny(RERDescription rerDescription) throws ServiceException;
 
+    void reportAboutDelivery(int orderId) throws ServiceException;
 
-    void sendFeedback(int recipeId, String feedback) throws ServiceException;
 
 }

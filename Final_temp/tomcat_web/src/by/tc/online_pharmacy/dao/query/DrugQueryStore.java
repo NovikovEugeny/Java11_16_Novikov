@@ -64,29 +64,37 @@ public final class DrugQueryStore {
                     "d.id = o.drug_id WHERE o.status = 'new' AND o.client_id = ?";
 
     public final static String UPDATE_SENT_ORDER_STATUS =
-            "UPDATE orders SET pharmacist_id = ?, status = 'sent', " +
-                    "request_date = request_date, response_date = NOW() " +
-                    "WHERE id = ?";
+            "UPDATE orders SET pharmacist_id = ?, status = 'sent', request_date = request_date, " +
+                    "response_date = NOW() WHERE id = ?";
 
     public final static String UPDATE_CANCEL_ORDER_STATUS =
-            "UPDATE orders SET status = 'canceled' WHERE id = ?";
+            "UPDATE orders SET status = 'canceled', request_date = request_date WHERE id = ?";
+
+    public final static String UPDATE_RECEIVE_ORDER_STATUS =
+            "UPDATE orders SET status = 'received', request_date = request_date WHERE id = ?";
 
     public final static String INSERT_ORDER =
-            "INSERT INTO orders(client_id, drug_id, quantity, cost, " +
-                    "request_date, status) VALUES (?,?,?,?,NOW(),?)";
+            "INSERT INTO orders(client_id, drug_id, quantity, cost, request_date, status) " +
+                    "VALUES (?,?,?,?,NOW(),?)";
+
+    public final static String SELECT_SENDING_ORDERS_BY_CLIENT_ID =
+            "SELECT o.id, d.name, d.drug_amount, o.quantity, d.country, o.response_date " +
+                    "FROM orders o INNER JOIN drug d ON d.id = o.drug_id WHERE o.client_id = ? " +
+                    "AND o.status = 'sent'";
+
 
     //recipe
     public final static String SELECT_END_RECIPE_DATE =
             "SELECT end_date FROM recipe WHERE code = ?";
 
     public final static String UPDATE_RECIPE_STATUS_CLOSED =
-            "UPDATE recipe SET status = 'closed' WHERE code = ?";
+            "UPDATE recipe SET status = 'closed', start_date = start_date WHERE code = ?";
 
     public final static String UPDATE_RECIPE_STATUS_OPEN =
-            "UPDATE recipe SET status = 'open' WHERE code = ?";
+            "UPDATE recipe SET status = 'open', start_date = start_date WHERE code = ?";
 
     public final static String UPDATE_RECIPE_STATUS_OPEN_AND_EXTEND_DATE =
-            "UPDATE recipe SET status = 'open', end_date = end_date + " +
+            "UPDATE recipe SET status = 'open', start_date = start_date, end_date = end_date + " +
                     "INTERVAL 6 MONTH WHERE code = ?";
 
     public final static String SELECT_RECIPE_DESCRIPTION_BY_CODE =
@@ -105,15 +113,21 @@ public final class DrugQueryStore {
 
     //recipe_extension_request
     public final static String INSERT_RECIPE_EXTENSION_REQUEST =
-            "INSERT INTO recipe_extension_request(recipe_code, status) VALUES" +
-                    " (?, 'new')";
+            "INSERT INTO recipe_extension_request(recipe_code, client_id, request_date, status) " +
+                    "VALUES (?, ?, NOW(), 'new')";
 
     public final static String SELECT_NEW_RECIPE_EXTENSION_REQUEST =
             "SELECT * FROM recipe_extension_request WHERE status = 'new'";
 
     public final static String UPDATE_RECIPE_EXTENSION_REQUEST_STATUS_APPROVED =
-            "UPDATE recipe_extension_request SET status = 'approved' WHERE id = ?";
+            "UPDATE recipe_extension_request SET status = 'approved', doctor_id = ?, " +
+                    "request_date = request_date, response_date = NOW() WHERE id = ?";
 
     public final static String UPDATE_RECIPE_EXTENSION_REQUEST_STATUS_DENIED =
-            "UPDATE recipe_extension_request SET status = 'denied' WHERE id = ?";
+            "UPDATE recipe_extension_request SET status = 'denied', doctor_id = ?, " +
+                    "request_date = request_date, response_date = NOW() WHERE id = ?";
+
+    public final static String SELECT_DOCTOR_RESPONSE_BY_CLIENT_ID =
+            "SELECT recipe_code, response_date, status FROM recipe_extension_request WHERE " +
+                    "client_id = ?";
 }

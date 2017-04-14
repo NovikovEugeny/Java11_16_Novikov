@@ -154,6 +154,11 @@ footer {
 .service-list {
     margin-top: 35px;
 }
+/*
+.list-group-item button {
+    float: right;
+}
+*/
 
 .service-list button {
     width: 100%;

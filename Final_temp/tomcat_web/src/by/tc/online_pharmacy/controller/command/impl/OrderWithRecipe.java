@@ -9,6 +9,7 @@ import by.tc.online_pharmacy.service.exception.ServiceException;
 import by.tc.online_pharmacy.service.factory.ServiceFactory;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 
 public class OrderWithRecipe implements Command {
 
@@ -19,6 +20,8 @@ public class OrderWithRecipe implements Command {
     private final static String NEW = "new";
     private final static String RECIPE_CODE = "recipeCode";
     private final static String EXECUTE_MESSAGE = "executeMessage";
+
+    private String messageContent;
 
     @Override
     public String execute(HttpServletRequest request) {
@@ -39,8 +42,24 @@ public class OrderWithRecipe implements Command {
             ServiceFactory serviceFactory = ServiceFactory.getInstance();
             PharmService pharmService = serviceFactory.getPharmService();
 
-            String executeMessage = pharmService.orderWithRecipe(order, recipeCode);
-            request.setAttribute(EXECUTE_MESSAGE, executeMessage);
+            Date currentDate = new Date();
+            Date recipeEndDate = pharmService.takeRecipeEndDate(recipeCode);
+
+            double currentClientBalance = pharmService.showCurrentBalance(clientId);
+            int currentDrugQuantity = pharmService.showCurrentDrugQuantity(order.getDrugId());
+
+            if (currentDate.getTime() > recipeEndDate.getTime()) {
+                messageContent = "expired";
+            } else if (currentClientBalance < order.getCost()) {
+                messageContent = "is not enough money";
+            } else if (currentDrugQuantity < order.getQuantity()) {
+                messageContent = "is not enough drugs";
+            } else {
+                pharmService.orderWithRecipe(order, recipeCode);
+                messageContent = "successfully";
+            }
+
+            request.setAttribute(EXECUTE_MESSAGE, messageContent);
 
             response = JspPageName.CLIENT_ORDER_BY_ER_RECIPE;
         } catch (ServiceException exc) {

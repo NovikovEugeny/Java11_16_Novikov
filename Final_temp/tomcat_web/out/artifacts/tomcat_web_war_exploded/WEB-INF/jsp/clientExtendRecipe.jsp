@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -74,5 +75,11 @@
         </div>
     </div>
 </div>
+<c:set var="response" value="${requestScope.executeMessage}"/>
+<c:if test="${not empty response}">
+    <script>
+        alert("${response}");
+    </script>
+</c:if>
 </body>
 </html>

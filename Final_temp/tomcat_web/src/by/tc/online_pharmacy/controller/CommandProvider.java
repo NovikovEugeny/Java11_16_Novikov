@@ -25,7 +25,7 @@ public class CommandProvider {
         repository.put(CommandName.SHOW_DRUGS_TO_UPDATE, new ShowDrugsToUpdate());
         repository.put(CommandName.ORDER_WITHOUT_RECIPE, new OrderWithoutRecipe());
         repository.put(CommandName.ORDER_WITH_RECIPE, new OrderWithRecipe());
-        repository.put(CommandName.SHOW_ER_RECIPE_DESCRIPTION, new ShowERecipeDescription());
+        repository.put(CommandName.SHOW_ER_RECIPE, new ShowERecipe());
         repository.put(CommandName.PHARMACIST_SHOW_ORDER_LIST, new PharmacistShowOrderList());
         repository.put(CommandName.CLIENT_SHOW_ORDER_LIST, new ClientShowOrderList());
         repository.put(CommandName.SEND, new Send());
@@ -34,8 +34,8 @@ public class CommandProvider {
         repository.put(CommandName.SEND_RECIPE_EXTENSION_REQUEST, new SendRecipeExtensionRequest());
         repository.put(CommandName.APPROVE, new Approve());
         repository.put(CommandName.DENY, new Deny());
+        repository.put(CommandName.REPORT_ABOUT_DELIVERY, new ReportAboutDelivery());
 
-        //repository.put(CommandName.SEND_FEEDBACK, new SendFeedback());
     }
 
     public Command getCommand(String name) {

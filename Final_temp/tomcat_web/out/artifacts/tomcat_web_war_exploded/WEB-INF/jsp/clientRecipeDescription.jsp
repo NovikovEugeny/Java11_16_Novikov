@@ -66,54 +66,58 @@
                 <c:choose>
                     <c:when test="${not empty recipe and recipe.status eq 'open'}">
                         <h3>Описание рецепта</h3>
-                        <ul class="list-group">
-                            <li class="list-group-item">
-                                Препарат: ${recipe.drugName}
-                            </li>
-                            <li class="list-group-item">
-                                Фармакологическая группа: ${recipe.drugGroup}
-                            </li>
-                            <li class="list-group-item">
-                                Форма: ${recipe.drugForm}
-                            </li>
-                            <li class="list-group-item">
-                                кол-во препарата: ${recipe.activeSubstances}
-                            </li>
-                            <li class="list-group-item">
-                                Страна производитель: ${recipe.country}
-                            </li>
-                            <li class="list-group-item">
-                                Стоимость: ${recipe.price}
-                            </li>
-                            <li class="list-group-item">
-                                кол-во шт: ${recipe.quantity}
-                            </li>
-                            <li class="list-group-item">
-                                Статус рецепта: ${recipe.status}
-                            </li>
-                            <li class="list-group-item">
-                                Действителен до: ${recipe.endDate}
-                            </li>
-                            <li class="list-group-item">
-                                Сумма к оплате: ${recipe.cost}
-                            </li>
-                        </ul>
-                        <form action="controller" method="post">
-                            <input type="hidden" name="command" value="order_with_recipe">
-                            <input type="hidden" name="recipeCode" value="${recipe.recipeCode}">
-                            <input type="hidden" name="drugId" value="${recipe.drugId}">
-                            <input type="hidden" name="quantity" value="${recipe.quantity}">
-                            <input type="hidden" name="cost" value="${recipe.cost}">
-                            <button type="submit">заказать</button>
-                        </form>
                     </c:when>
                     <c:when test="${recipe.status eq 'closed'}">
-                        <p align="center">Данный рецепт закрыт</p>
+                        <h3>Данный рецепт закрыт</h3>
                     </c:when>
                     <c:when test="${empty recipe}">
-                        <p align="center">Такой рецепт не существует, проверьте правильность ввода</p>
+                        <h3>Такой рецепт не существует, проверьте правильность ввода</h3>
                     </c:when>
                 </c:choose>
+                <c:if test="${not empty recipe}">
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            Препарат: ${recipe.drugName}
+                        </li>
+                        <li class="list-group-item">
+                            Фармакологическая группа: ${recipe.drugGroup}
+                        </li>
+                        <li class="list-group-item">
+                            Форма: ${recipe.drugForm}
+                        </li>
+                        <li class="list-group-item">
+                            кол-во препарата: ${recipe.activeSubstances}
+                        </li>
+                        <li class="list-group-item">
+                            Страна производитель: ${recipe.country}
+                        </li>
+                        <li class="list-group-item">
+                            Стоимость: ${recipe.price}
+                        </li>
+                        <li class="list-group-item">
+                            кол-во шт: ${recipe.quantity}
+                        </li>
+                        <li class="list-group-item">
+                            Статус рецепта: ${recipe.status}
+                        </li>
+                        <li class="list-group-item">
+                            Действителен до: ${recipe.endDate}
+                        </li>
+                        <li class="list-group-item">
+                            Сумма к оплате: ${recipe.cost}
+                        </li>
+                    </ul>
+                </c:if>
+                <c:if test="${not empty recipe and recipe.status eq 'open'}">
+                    <form action="controller" method="post">
+                        <input type="hidden" name="command" value="order_with_recipe">
+                        <input type="hidden" name="recipeCode" value="${recipe.recipeCode}">
+                        <input type="hidden" name="drugId" value="${recipe.drugId}">
+                        <input type="hidden" name="quantity" value="${recipe.quantity}">
+                        <input type="hidden" name="cost" value="${recipe.cost}">
+                        <button type="submit">заказать</button>
+                    </form>
+                </c:if>
             </section>
         </div>
     </div>

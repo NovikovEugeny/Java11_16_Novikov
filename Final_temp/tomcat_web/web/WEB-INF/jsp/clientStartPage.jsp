@@ -16,6 +16,7 @@
     <fmt:message bundle="${loc}" key="button.allergy" var="allergy"/>
     <fmt:message bundle="${loc}" key="button.gastr" var="gastr"/>
     <fmt:message bundle="${loc}" key="button.antipyretics" var="antipyr"/>
+
     <title>Client page</title>
 </head>
 <body>
@@ -75,6 +76,25 @@
         <div class="col-xs-8 col-sm-8 col-md-8 col-lg-9">
             <section class="client-messages">
                 <h3>Сообщения</h3>
+                <ul class="list-group">
+                    <c:forEach var="element" items="${requestScope.orderMessageList}">
+                        <li class="list-group-item">
+                            ${element.responseDate}  ${element.drugName}  ${element.drugAmount}
+                            ${element.quantity}шт.  ${element.productingCountry}  отправлен на ваш адрес
+                            <form action="controller" method="post">
+                                <input type="hidden" name="command" value="report_about_delivery">
+                                <input type="hidden" name="orderId" value="${element.orderId}">
+                                <button type="submit" class="btn-success">received</button>
+                            </form>
+                        </li>
+                    </c:forEach>
+                    <c:forEach var="element" items="${requestScope.recipeMessageList}">
+                        <li class="list-group-item">
+                                Рецепт с кодом ${element.recipeCode} ${element.status}
+                                ${element.responseDate}
+                        </li>
+                    </c:forEach>
+                </ul>
             </section>
         </div>
     </div>
