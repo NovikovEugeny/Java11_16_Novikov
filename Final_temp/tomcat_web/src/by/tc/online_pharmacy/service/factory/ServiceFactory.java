@@ -1,18 +1,17 @@
 package by.tc.online_pharmacy.service.factory;
 
-import by.tc.online_pharmacy.service.PharmService;
-import by.tc.online_pharmacy.service.UserService;
-import by.tc.online_pharmacy.service.impl.PharmServiceImpl;
-import by.tc.online_pharmacy.service.impl.UserServiceImpl;
+import by.tc.online_pharmacy.service.*;
+import by.tc.online_pharmacy.service.impl.*;
 
-/**
- * Created by Евгений on 17.02.2017.
- */
+
 public class ServiceFactory {
+
     private static final ServiceFactory instance = new ServiceFactory();
 
-    private final UserService userService = new UserServiceImpl();
-    private final PharmService pharmService = new PharmServiceImpl();
+    private final ClientService clientService = new ClientServiceImpl();
+    private final PharmacistService pharmacistService = new PharmacistServiceImpl();
+    private final DoctorService doctorService = new DoctorServiceImpl();
+    private final CommonService commonService = new CommonServiceImpl();
 
     private ServiceFactory() {}
 
@@ -20,11 +19,19 @@ public class ServiceFactory {
         return instance;
     }
 
-    public UserService getUserService() {
-        return userService;
+    public ClientService getClientService() {
+        return clientService;
     }
 
-    public PharmService getPharmService() {
-        return pharmService;
+    public PharmacistService getPharmacistService() {
+        return pharmacistService;
+    }
+
+    public DoctorService getDoctorService() {
+        return doctorService;
+    }
+
+    public CommonService getCommonService() {
+        return commonService;
     }
 }

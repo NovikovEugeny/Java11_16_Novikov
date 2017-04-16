@@ -5,6 +5,7 @@ public final class UserQueryStore {
 
     private UserQueryStore() {}
 
+    //aythorization
     public final static String SIGN_IN_SELECT =
             "SELECT * FROM user WHERE mobile_phone = ? AND password = ?";
 
@@ -27,4 +28,7 @@ public final class UserQueryStore {
 
     public final static String UPDATE_MINUS_BALANCE =
             "UPDATE account SET balance = balance - ? WHERE client_id = ?";
+
+    public final static String INSERT_NEW_ACCOUNT =
+            "INSERT INTO account(client_id, balance) VALUES (?, 0)";
 }

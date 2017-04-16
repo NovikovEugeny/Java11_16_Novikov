@@ -32,9 +32,7 @@ public class Controller extends HttpServlet {
 
         Command command = provider.getCommand(commandName);
 
-        String page = command.execute(request);
-
-        request.getRequestDispatcher(page).forward(request, response);
+        command.execute(request, response);
     }
 
 }

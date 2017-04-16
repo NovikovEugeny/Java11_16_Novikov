@@ -8,6 +8,7 @@ import java.security.NoSuchAlgorithmException;
 
 
 public class Encoder {
+
     public static String encode(String str) throws ServiceException {
 
         MessageDigest messageDigest = null;

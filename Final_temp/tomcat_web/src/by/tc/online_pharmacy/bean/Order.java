@@ -1,7 +1,6 @@
 package by.tc.online_pharmacy.bean;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
 import java.util.Date;
 
 
@@ -45,11 +44,11 @@ public class Order implements Serializable {
         this.cost = cost;
     }
 
-    public void setRequestDate(Timestamp requestDate) {
+    public void setRequestDate(Date requestDate) {
         this.requestDate = requestDate;
     }
 
-    public void setResponseDate(Timestamp responseDate) {
+    public void setResponseDate(Date responseDate) {
         this.responseDate = responseDate;
     }
 

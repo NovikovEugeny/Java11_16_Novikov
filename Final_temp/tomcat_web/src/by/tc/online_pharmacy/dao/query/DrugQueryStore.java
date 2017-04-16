@@ -82,6 +82,13 @@ public final class DrugQueryStore {
                     "FROM orders o INNER JOIN drug d ON d.id = o.drug_id WHERE o.client_id = ? " +
                     "AND o.status = 'sent'";
 
+    public final static String SELECT_ORDER_DESCRIPTION_BY_CLIENT_ID =
+            "SELECT o.request_date, d.name, d.pharm_group, d.drug_amount, d.country, o.quantity, " +
+                    "o.cost FROM orders o INNER JOIN drug d ON d.id = o.drug_id WHERE " +
+                    "client_id = ? AND status != 'canceled'";
+
+    public final static String SELECT_ORDER_DESCRIPTION_TO_SALES_REPORT =
+            "";
 
     //recipe
     public final static String SELECT_END_RECIPE_DATE =
@@ -113,8 +120,8 @@ public final class DrugQueryStore {
 
     //recipe_extension_request
     public final static String INSERT_RECIPE_EXTENSION_REQUEST =
-            "INSERT INTO recipe_extension_request(recipe_code, client_id, request_date, status) " +
-                    "VALUES (?, ?, NOW(), 'new')";
+            "INSERT INTO recipe_extension_request(recipe_code, client_id, request_date, status, " +
+                    "is_read) VALUES (?, ?, NOW(), 'new', 'no')";
 
     public final static String SELECT_NEW_RECIPE_EXTENSION_REQUEST =
             "SELECT * FROM recipe_extension_request WHERE status = 'new'";
@@ -128,6 +135,11 @@ public final class DrugQueryStore {
                     "request_date = request_date, response_date = NOW() WHERE id = ?";
 
     public final static String SELECT_DOCTOR_RESPONSE_BY_CLIENT_ID =
-            "SELECT recipe_code, response_date, status FROM recipe_extension_request WHERE " +
-                    "client_id = ?";
+            "SELECT id, recipe_code, response_date, status FROM recipe_extension_request " +
+                    "WHERE client_id = ? AND is_read = 'no' AND (status = 'approved' OR " +
+                    "status = 'denied')";
+
+    public final static String UPDATE_RECIPE_EXTENSION_REQUEST_IS_READ_YES =
+            "UPDATE recipe_extension_request SET is_read = 'yes', request_date = request_date " +
+                    "WHERE id = ?";
 }

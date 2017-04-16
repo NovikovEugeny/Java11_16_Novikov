@@ -7,45 +7,32 @@ public final class JspPageName {
 
     //public final static String ERROR_PAGE = "/WEB-INF/jsp/error.jsp";
 
-    public final static String START_PAGE = "/WEB-INF/jsp/startPage.jsp";
+    //common
+    public final static String START_PAGE = "/WEB-INF/jsp/common/startPage.jsp";
+    public final static String DRUG_LIST_PAGE = "/WEB-INF/jsp/common/drugList.jsp";
+    public final static String SIGN_IN_PAGE = "/WEB-INF/jsp/common/signIn.jsp";
+    public final static String SIGN_UP_PAGE = "/WEB-INF/jsp/common/signUp.jsp";
 
-    public final static String DRUG_LIST_PAGE = "/WEB-INF/jsp/drugList.jsp";
-
-    public final static String SIGN_IN_PAGE = "/WEB-INF/jsp/signIn.jsp";
-
-    public final static String SIGN_UP_PAGE = "/WEB-INF/jsp/signUp.jsp";
-
-    public final static String DOCTOR_PAGE = "/WEB-INF/jsp/doctorPage.jsp";
-
-    public final static String PHARMACIST_START_PAGE =
-            "/WEB-INF/jsp/pharmacistStartPage.jsp";
-
-    public final static String PHARMACIST_ADD_DRUG_PAGE =
-            "/WEB-INF/jsp/pharmacistAddDrug.jsp";
-
-    public final static String PHARMACIST_DRUG_LIST_TO_UPDATE =
-            "/WEB-INF/jsp/pharmacistDrugListToUpdate.jsp";
-
-    public final static String CLIENT_START_PAGE =
-            "/WEB-INF/jsp/clientStartPage.jsp";
-
-    public final static String CLIENT_DRUG_LIST_TO_ORDER =
-            "/WEB-INF/jsp/clientDrugListToOrder.jsp";
-
-    public final static String CLIENT_CANCEL_ORDER_PAGE =
-            "/WEB-INF/jsp/clientCancelOrder.jsp";
-
-    public final static String CLIENT_EXTEND_RECIPE_PAGE =
-            "/WEB-INF/jsp/clientExtendRecipe.jsp";
-
-    public final static String CLIENT_RECIPE_DESCRIPTION =
-            "/WEB-INF/jsp/clientRecipeDescription.jsp";
-
-    public final static String CLIENT_ORDER_BY_ER_RECIPE =
-            "/WEB-INF/jsp/clientOrderByERecipe.jsp";
+    //pharmacist
+    public final static String PHARMACIST_HOME_PAGE = "/WEB-INF/jsp/pharmacist/homePage.jsp";
+    public final static String PHARMACIST_ADD_DRUG_PAGE = "/WEB-INF/jsp/pharmacist/addDrug.jsp";
+    public final static String PHARMACIST_GROUPS_TO_UPDATE = "/WEB-INF/jsp/pharmacist/groupsToUpdate.jsp";
+    public final static String PHARMACIST_DRUG_LIST_TO_UPDATE = "/WEB-INF/jsp/pharmacist/drugListToUpdate.jsp";
 
 
+    //client
+    public final static String CLIENT_HOME_PAGE = "/WEB-INF/jsp/client/homePage.jsp";
+    public final static String CLIENT_DRUG_LIST_TO_ORDER = "/WEB-INF/jsp/client/drugListToOrder.jsp";
+    public final static String CLIENT_CANCEL_ORDER_PAGE = "/WEB-INF/jsp/client/cancelOrder.jsp";
+    public final static String CLIENT_EXTEND_RECIPE_PAGE = "/WEB-INF/jsp/client/extendRecipe.jsp";
+    public final static String CLIENT_RECIPE_DESCRIPTION = "/WEB-INF/jsp/client/recipeDescription.jsp";
+    public final static String CLIENT_ORDER_BY_ERECIPE = "/WEB-INF/jsp/client/orderByERecipe.jsp";
+    public final static String CLIENT_PHARM_GROUPS = "/WEB-INF/jsp/client/pharmGroups.jsp";
+    public final static String CLIENT_BALANCE = "WEB-INF/jsp/client/balance.jsp";
+    public final static String CLIENT_SHOPPING_LIST = "WEB-INF/jsp/client/shoppingList.jsp";
 
 
+    //doctor
+    public final static String DOCTOR_HOME_PAGE = "/WEB-INF/jsp/doctor/homePage.jsp";
 
 }

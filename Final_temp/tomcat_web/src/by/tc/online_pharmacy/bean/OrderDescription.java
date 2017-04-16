@@ -28,11 +28,11 @@ public class OrderDescription implements Serializable {
         this.orderId = orderId;
     }
 
-    public void setRequestDate(Timestamp requestDate) {
+    public void setRequestDate(Date requestDate) {
         this.requestDate = requestDate;
     }
 
-    public void setResponseDate(Timestamp responseDate) {
+    public void setResponseDate(Date responseDate) {
         this.responseDate = responseDate;
     }
 
