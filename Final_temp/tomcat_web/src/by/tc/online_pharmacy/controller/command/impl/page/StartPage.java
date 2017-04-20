@@ -9,10 +9,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class StartPage implements Command {
-
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-
         String page = JspPageName.START_PAGE;
         request.getRequestDispatcher(page).forward(request, response);
     }

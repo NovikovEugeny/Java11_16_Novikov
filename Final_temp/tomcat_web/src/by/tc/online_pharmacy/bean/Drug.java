@@ -2,12 +2,10 @@ package by.tc.online_pharmacy.bean;
 
 import java.io.Serializable;
 
-/**
- * Created by Евгений on 17.02.2017.
- */
+
 public class Drug implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = -7014785221162478818L;
 
     private int id;
     private String name;
@@ -20,7 +18,8 @@ public class Drug implements Serializable {
     private double price;
     private int quantity;
 
-    public Drug() {}
+    public Drug() {
+    }
 
     public void setId(int id) {
         this.id = id;
@@ -101,4 +100,92 @@ public class Drug implements Serializable {
     public int getQuantity() {
         return quantity;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+
+        Drug drug = (Drug) obj;
+        if (id != drug.id) {
+            return false;
+        }
+        if (null == name) {
+            return (name == drug.name);
+        }
+        if (!name.equals(drug.name)) {
+            return false;
+        }
+        if (null == group) {
+            return (group == drug.group);
+        }
+        if (!group.equals(drug.group)) {
+            return false;
+        }
+        if (null == form) {
+            return (form == drug.form);
+        }
+        if (!form.equals(drug.form)) {
+            return false;
+        }
+        if (null == drugAmount) {
+            return (drugAmount == drug.drugAmount);
+        }
+        if (!drugAmount.equals(drug.drugAmount)) {
+            return false;
+        }
+        if (null == activeSubstances) {
+            return (activeSubstances == drug.activeSubstances);
+        }
+        if (!activeSubstances.equals(drug.activeSubstances)) {
+            return false;
+        }
+        if (null == country) {
+            return (country == drug.country);
+        }
+        if (!country.equals(drug.country)) {
+            return false;
+        }
+        if (null == dispensing) {
+            return (dispensing == drug.dispensing);
+        }
+        if (!dispensing.equals(drug.dispensing)) {
+            return false;
+        }
+        if (price != drug.price) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 31;
+        hash = hash * 11 * (0 == id ? 11 : id);
+        hash = hash * 11 + (null == name ? 0 : name.hashCode());
+        hash = hash * 11 + (null == group ? 0 : group.hashCode());
+        hash = hash * 11 + (null == form ? 0 : form.hashCode());
+        hash = hash * 11 + (null == drugAmount ? 0 : drugAmount.hashCode());
+        hash = hash * 11 + (null == activeSubstances ? 0 : activeSubstances.hashCode());
+        hash = hash * 11 + (null == country ? 0 : country.hashCode());
+        hash = hash * 11 + (null == dispensing ? 0 : dispensing.hashCode());
+        hash = (int) (hash * 11 + price);
+        hash = hash * 11 * (0 == quantity ? 11 : quantity);
+        return hash;
+    }
+
+    @Override
+    public String toString() {
+        return "Drug[id=" + id + ", name=" + name + ", group=" + group + ", form=" + form + ", drugAmount=" +
+                drugAmount + ", activeSubstances=" + activeSubstances + ", country=" + country + ", dispensing=" +
+                dispensing + ", price=" + price + ", quantity=" + quantity + "]";
+    }
+
 }

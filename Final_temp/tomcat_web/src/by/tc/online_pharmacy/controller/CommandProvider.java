@@ -32,10 +32,10 @@ public class CommandProvider {
         //common
         repository.put(CommandName.CHANGE_LOCALE, new ChangeLocale());
         repository.put(CommandName.SIGN_IN, new SignIn());
-        repository.put(CommandName.SIGN_UP, new SignUp());
         repository.put(CommandName.LOG_OUT, new LogOut());
         repository.put(CommandName.SHOW_DRUGS, new ShowDrugs());
         repository.put(CommandName.SEARCH, new Search());
+        repository.put(CommandName.WRONG_REQUEST_PAGE, new WrongRequestPage());
 
         //pharmacist
         repository.put(CommandName.ADD_NEW_DRUG, new AddNewDrug());
@@ -45,8 +45,10 @@ public class CommandProvider {
         repository.put(CommandName.PHARMACIST_SHOW_ORDER_LIST, new PharmacistShowOrderList());
         repository.put(CommandName.SEND, new Send());
         repository.put(CommandName.PHARMACIST_CANCEL_ORDER, new PharmacistCancelOrder());
+        repository.put(CommandName.SHOW_SALES_REPORT, new ShowSalesReport());
 
         //client
+        repository.put(CommandName.SIGN_UP, new SignUp());
         repository.put(CommandName.SHOW_DRUGS_TO_ORDER, new ShowDrugsToOrder());
         repository.put(CommandName.ORDER_WITHOUT_RECIPE, new OrderWithoutRecipe());
         repository.put(CommandName.ORDER_WITH_RECIPE, new OrderWithRecipe());
@@ -66,6 +68,7 @@ public class CommandProvider {
     }
 
     public Command getCommand(String name) {
+
         CommandName commandName = null;
         Command command = null;
 
@@ -73,7 +76,7 @@ public class CommandProvider {
             commandName = CommandName.valueOf(name.toUpperCase());
             command = repository.get(commandName);
         } catch (IllegalArgumentException | NullPointerException e) {
-            System.out.println("no such command");
+            command = repository.get(CommandName.WRONG_REQUEST_PAGE);
         }
         return command;
     }

@@ -5,6 +5,11 @@ import by.tc.online_pharmacy.dao.DoctorDao;
 import by.tc.online_pharmacy.dao.connection_pool.ConnectionPool;
 import by.tc.online_pharmacy.dao.exception.DaoException;
 import by.tc.online_pharmacy.dao.query.DrugQueryStore;
+import by.tc.online_pharmacy.dao.util.DaoErrorMessage;
+import by.tc.online_pharmacy.dao.util.TableColumnName;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -13,18 +18,14 @@ import java.util.List;
 
 public class DoctorDaoImpl implements DoctorDao {
 
+    private static final Logger logger = LogManager.getLogger(DoctorDaoImpl.class.getName());
+
     @Override
     public List<RERDescription> takeRecipeExtensionRequestList() throws DaoException {
-
-        final String ID = "id";
-        final String RECIPE_CODE = "recipe_code";
-        final String REQUEST_DATE = "request_date";
 
         Connection connection = null;
         Statement statement = null;
         ResultSet resultSet = null;
-
-        List<RERDescription> recipeExtensionRequestList = new ArrayList<>();
 
         try {
             connection = ConnectionPool.getInstance().takeConnection();
@@ -32,26 +33,25 @@ public class DoctorDaoImpl implements DoctorDao {
             statement = connection.createStatement();
             resultSet = statement.executeQuery(DrugQueryStore.SELECT_NEW_RECIPE_EXTENSION_REQUEST);
 
+            List<RERDescription> recipeExtensionRequestList = new ArrayList<>();
+
             while (resultSet.next()) {
                 RERDescription rerDescription = new RERDescription();
-                rerDescription.setId(resultSet.getInt(ID));
-                rerDescription.setRecipeCode(resultSet.getString(RECIPE_CODE));
-                rerDescription.setRequestDate(resultSet.getTimestamp(REQUEST_DATE));
+                rerDescription.setId(resultSet.getInt(TableColumnName.ID));
+                rerDescription.setRecipeCode(resultSet.getString(TableColumnName.RECIPE_CODE));
+                rerDescription.setRequestDate(resultSet.getTimestamp(TableColumnName.REQUEST_DATE));
 
                 recipeExtensionRequestList.add(rerDescription);
             }
 
             return recipeExtensionRequestList;
         } catch (SQLException | InterruptedException exc) {
-            exc.printStackTrace();
             throw new DaoException(exc);
         } finally {
             try {
-                if (statement != null) {
-                    statement.close();
-                }
+                if (statement != null) { statement.close(); }
             } catch (SQLException exc) {
-                exc.printStackTrace();
+                logger.log(Level.WARN, DaoErrorMessage.CLOSING_RESOURCES_ERROR, exc);
             }
             ConnectionPool.getInstance().putBackConnection(connection);
         }
@@ -81,25 +81,22 @@ public class DoctorDaoImpl implements DoctorDao {
             connection.commit();
 
         } catch (SQLException | InterruptedException exc) {
-            exc.printStackTrace();
             try {
                 connection.rollback();
             } catch (SQLException e) {
-                e.printStackTrace();
+                logger.log(Level.ERROR, DaoErrorMessage.ROLLBACK_ERROR, exc);
             }
             throw new DaoException(exc);
         } finally {
             try {
-                if (ps != null) {
-                    ps.close();
-                }
+                if (ps != null) { ps.close(); }
             } catch (SQLException exc) {
-                exc.printStackTrace();
+                logger.log(Level.WARN, DaoErrorMessage.CLOSING_RESOURCES_ERROR, exc);
             }
             try {
                 connection.setAutoCommit(true);
             } catch (SQLException exc) {
-                exc.printStackTrace();
+                logger.log(Level.ERROR, DaoErrorMessage.SET_AUTO_COMMIT_TRUE_ERROR, exc);
             }
             ConnectionPool.getInstance().putBackConnection(connection);
         }
@@ -124,9 +121,7 @@ public class DoctorDaoImpl implements DoctorDao {
             throw new DaoException(exc);
         } finally {
             try {
-                if (ps != null) {
-                    ps.close();
-                }
+                if (ps != null) { ps.close(); }
             } catch (SQLException exc) {
                 exc.printStackTrace();
             }

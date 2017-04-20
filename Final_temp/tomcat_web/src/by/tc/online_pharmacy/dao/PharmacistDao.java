@@ -19,4 +19,5 @@ public interface PharmacistDao {
 
     void send(int orderId, int pharmacistId) throws DaoException;
 
+    List<OrderDescription> takeOrders() throws DaoException;
 }

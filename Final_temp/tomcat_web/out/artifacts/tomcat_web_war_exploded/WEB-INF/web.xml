@@ -14,6 +14,15 @@
         <url-pattern>/controller</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>drugForm</servlet-name>
+        <jsp-file>/WEB-INF/jsp/pharmacist/addDrug.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>drugForm</servlet-name>
+        <url-pattern>/drugForm</url-pattern>
+    </servlet-mapping>
+
     <listener>
         <listener-class>by.tc.online_pharmacy.listener.Listener</listener-class>
     </listener>

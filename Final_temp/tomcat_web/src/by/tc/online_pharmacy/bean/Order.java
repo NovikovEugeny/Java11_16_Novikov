@@ -6,7 +6,7 @@ import java.util.Date;
 
 public class Order implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 7946715111086122031L;
 
     private int id;
     private int clientId;
@@ -18,7 +18,8 @@ public class Order implements Serializable {
     private Date responseDate;
     private String status;
 
-    public Order() {}
+    public Order() {
+    }
 
     public void setId(int id) {
         this.id = id;
@@ -91,4 +92,79 @@ public class Order implements Serializable {
     public String getStatus() {
         return status;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+
+        Order order = (Order) obj;
+        if (id != order.id) {
+            return false;
+        }
+        if (clientId != order.clientId) {
+            return false;
+        }
+        if (pharmacistId != order.pharmacistId) {
+            return false;
+        }
+        if (drugId != order.drugId) {
+            return false;
+        }
+        if (quantity != order.quantity) {
+            return false;
+        }
+        if (cost != order.cost) {
+            return false;
+        }
+        if (null == requestDate) {
+            return (requestDate == order.requestDate);
+        }
+        if (!requestDate.equals(order.requestDate)) {
+            return false;
+        }
+        if (null == responseDate) {
+            return (responseDate == order.responseDate);
+        }
+        if (!responseDate.equals(order.responseDate)) {
+            return false;
+        }
+        if (null == status) {
+            return (status == order.status);
+        }
+        if (!status.equals(order.status)) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 33;
+        hash = hash * 17 * (0 == id ? 11 : id);
+        hash = hash * 17 * (0 == clientId ? 11 : clientId);
+        hash = hash * 17 * (0 == pharmacistId ? 11 : pharmacistId);
+        hash = hash * 17 * (0 == drugId ? 11 : drugId);
+        hash = hash * 17 * (0 == quantity ? 11 : quantity);
+        hash = (int) (hash * 17 * (0 == cost ? 11 : cost));
+        hash = hash * 17 * (null == requestDate ? 11 : requestDate.hashCode());
+        hash = hash * 17 * (null == responseDate ? 11 : responseDate.hashCode());
+        hash = hash * 17 * (null == status ? 11 : status.hashCode());
+        return hash;
+    }
+
+    @Override
+    public String toString() {
+        return "Order[id=" + id + ", clientId=" + clientId + ", pharmacistId=" + pharmacistId + ", drugId=" + drugId +
+                ", quantity=" + quantity + ", cost=" + cost + ", requestDate=" + requestDate + ", responseDate=" +
+                responseDate + ", status=" + "]";
+    }
+
 }

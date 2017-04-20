@@ -35,7 +35,6 @@ public class CommonServiceImpl implements CommonService {
 
     @Override
     public List<Drug> showDrugsByName(String name) throws ServiceException, ValidatorException {
-        List<Drug> drugs = null;
 
         Validator.searchValidate(name);
 
@@ -43,26 +42,22 @@ public class CommonServiceImpl implements CommonService {
             DaoFactory daoFactory = DaoFactory.getInstance();
             CommonDao commonDao = daoFactory.getCommonDao();
 
-            drugs = commonDao.takeDrugsByName(name);
+            return commonDao.takeDrugsByName(name);
         } catch (DaoException exc) {
             throw new ServiceException(exc);
         }
-        return drugs;
     }
 
     @Override
     public List<Drug> showDrugGroup(String group) throws ServiceException {
-        List<Drug> drugs = null;
-
         try {
             DaoFactory daoFactory = DaoFactory.getInstance();
             CommonDao commonDao = daoFactory.getCommonDao();
 
-            drugs = commonDao.takeDrugGroup(group);
+            return commonDao.takeDrugGroup(group);
         } catch (DaoException exc) {
             throw new ServiceException(exc);
         }
-        return drugs;
     }
 
     @Override

@@ -5,7 +5,7 @@ import java.io.Serializable;
 
 public class User implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = -1847441506455808683L;
 
     private int id;
     private String position;
@@ -16,7 +16,8 @@ public class User implements Serializable {
     private String password;
     private String confirmPassword;
 
-    public User() {}
+    public User() {
+    }
 
     public void setId(int id) {
         this.id = id;
@@ -81,6 +82,89 @@ public class User implements Serializable {
     public String getConfirmPassword() {
         return confirmPassword;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+
+        User user = (User) obj;
+        if (id != user.id) {
+            return false;
+        }
+        if (null == position) {
+            return (position == user.position);
+        }
+        if (!position.equals(user.position)) {
+            return false;
+        }
+        if (null == surname) {
+            return (surname == user.surname);
+        }
+        if (!surname.equals(user.surname)) {
+            return false;
+        }
+        if (null == name) {
+            return (name == user.name);
+        }
+        if (!name.equals(user.name)) {
+            return false;
+        }
+        if (null == patronymic) {
+            return (patronymic == user.patronymic);
+        }
+        if (!patronymic.equals(user.patronymic)) {
+            return false;
+        }
+        if (null == mobilePhone) {
+            return (mobilePhone == user.mobilePhone);
+        }
+        if (!mobilePhone.equals(user.mobilePhone)) {
+            return false;
+        }
+        if (null == password) {
+            return (password == user.password);
+        }
+        if (!password.equals(user.password)) {
+            return false;
+        }
+        if (null == confirmPassword) {
+            return (confirmPassword == user.confirmPassword);
+        }
+        if (!confirmPassword.equals(user.confirmPassword)) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 59;
+        hash = hash * 31 + 31 * id;
+        hash = hash * 31 + (null == position ? 0 : position.hashCode());
+        hash = hash * 31 + (null == surname ? 0 : surname.hashCode());
+        hash = hash * 31 + (null == name ? 0 : name.hashCode());
+        hash = hash * 31 + (null == patronymic ? 0 : patronymic.hashCode());
+        hash = hash * 31 + (null == mobilePhone ? 0 : mobilePhone.hashCode());
+        hash = hash * 31 + (null == password ? 0 : password.hashCode());
+        hash = hash * 31 + (null == confirmPassword ? 0 : confirmPassword.hashCode());
+        return hash;
+    }
+
+    @Override
+    public String toString() {
+        return "User[id=" + id + ", position=" + position + ", surname=" + surname + ", name=" + name +
+                ", patronymic=" + patronymic + ", mobilePhone=" + mobilePhone + ", password=" + password +
+                ", confirmPassowrd=" + confirmPassword + "]";
+    }
+
 }
 
 

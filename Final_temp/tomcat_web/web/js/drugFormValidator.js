@@ -1,97 +1,140 @@
-function validateName() {
-    var isValid = true;
+var RU = "ru";
 
-    var pattern_en = /^[A-Z][a-z]{2,}$/;
-    var pattern_ru = /^[А-Я][а-я]{2,}$/;
-    var errorMessage = "*At least 3 letters(first capital)";
+var NAME_PATTERN_RU = /^[А-Я][а-я]{2,}$/;
+var NAME_PATTERN_EN = /^[A-Z][a-z]{2,}$/;
+
+var AMOUNT_PATTERN_EN = /^\d{1,4}\s[a-z]+$/;
+var AMOUNT_PATTERN_RU = /^\d{1,4}\s[а-я]+$/;
+
+var ACTICE_SUBSTANCES_PATTERN_EN = /^([A-Za-z][a-z]+\s?-\s?\d+\s?[a-z/]+[,;]?\s?)+$/;
+var ACTICE_SUBSTANCES_PATTERN_RU = /^([А-Яа-я][а-я]+\s?-\s?\d+\s?[а-я/]+[,;]?\s?)+$/;
+
+var COUNTRY_PATTERN_EN = /^[A-Z][A-Za-z]{2,}$/;
+var COUNTRY_PATTERN_RU = /^[А-Я][А-Яа-я]{2,}$/;
+
+var PRICE_PATTERN = /^\d{1,3}(\.\d{1,2})?$/;
+
+var NAME_ERROR_MESSAGE_EN = "*At least 3 letters(first capital)";
+var NAME_ERROR_MESSAGE_RU = "*Минимум 3 буквы(первая заглавная)";
+
+var AMOUNT_ERROR_MESSAGE_EN = "*Correct form: 20 pills(example)";
+var AMOUNT_ERROR_MESSAGE_RU = "*Правильная форма: 20 таблеток(пример)";
+
+var ACTIVE_SUBSTANCES_ERROR_MESSAGE_EN = "*Correct form: substance - xx mg/g/ml..., ...";
+var ACTIVE_SUBSTANCES_ERROR_MESSAGE_RU = "*Правильная форма: вещ-во - хх мг/г/мл..., ...";
+
+var COUNTRY_ERROR_MESSAGE_EN = "*At least 3 letters(first capital)";
+var COUNTRY_ERROR_MESSAGE_RU = "*Минимум 3 буквы(первая заглавная)";
+
+var PRICE_ERROR_MESSAGE_EN = "*Only integer or fractional number(not more than 999.99)";
+var PRICE_ERROR_MESSAGE_RU = "*Только целое или дробное число(не более 999.99)";
+
+var QUANTITY_ERROR_MESSAGE_EN = "*required";
+var QUANTITY_ERROR_MESSAGE_RU = "*обязательно для заполнения";
+
+
+function validateName(locale) {
+    var isValid = true;
 
     var name = document.getElementById("name").value;
 
-    if (!(pattern_en.test(name) || pattern_ru.test(name))) {
-        document.getElementById("nameErr").innerHTML = errorMessage;
+    if (!(NAME_PATTERN_EN.test(name) || NAME_PATTERN_RU.test(name))) {
+        if (locale == RU) {
+            document.getElementById("nameErr").innerHTML = NAME_ERROR_MESSAGE_RU;
+        } else {
+            document.getElementById("nameErr").innerHTML = NAME_ERROR_MESSAGE_EN;
+        }
+
         isValid = false;
     }
 
     return isValid;
 }
 
-function validateAmount() {
+function validateAmount(locale) {
     var isValid = true;
-
-    var pattern_en = /^\d{1,3}\s[a-z]+$/;
-    var pattern_ru = /^\d{1,3}\s[а-я]+$/;
-    var errorMessage = "*correct form: 20 pills";
 
     var amount = document.getElementById("amount").value;
 
-    if (!(pattern_en.test(amount) || pattern_ru.test(amount))) {
-        document.getElementById("amountErr").innerHTML = errorMessage;
+    if (!(AMOUNT_PATTERN_EN.test(amount) || AMOUNT_PATTERN_RU.test(amount))) {
+        if (locale == RU) {
+            document.getElementById("amountErr").innerHTML = AMOUNT_ERROR_MESSAGE_RU;
+        } else {
+            document.getElementById("amountErr").innerHTML = AMOUNT_ERROR_MESSAGE_EN;
+        }
+
         isValid = false;
     }
 
     return isValid;
 }
 
-function validateActiveSubstances() {
+function validateActiveSubstances(locale) {
     var isValid = true;
-
-    var pattern_en = /^([A-Za-z][a-z]+\s?-\s?\d+\s?[a-z/]+[,;]?\s?)+$/;
-    var pattern_ru = /^([А-Яа-я][а-я]+\s?-\s?\d+\s?[а-я/]+[,;]?\s?)+$/;
-    var errorMessage = "*correct form: substance - xx mg/g/ml..., ...";
 
     var aS = document.getElementById("as").value;
 
-    if (!(pattern_en.test(aS) || pattern_ru.test(aS))) {
-        document.getElementById("activeSubstancesErr").innerHTML = errorMessage;
+    if (!(ACTICE_SUBSTANCES_PATTERN_EN.test(aS) || ACTICE_SUBSTANCES_PATTERN_RU.test(aS))) {
+        if (locale == RU) {
+            document.getElementById("activeSubstancesErr").innerHTML = ACTIVE_SUBSTANCES_ERROR_MESSAGE_RU;
+        } else {
+            document.getElementById("activeSubstancesErr").innerHTML = ACTIVE_SUBSTANCES_ERROR_MESSAGE_EN;
+        }
+
         isValid = false;
     }
 
     return isValid;
 }
 
-function validateCountry() {
+function validateCountry(locale) {
     var isValid = true;
-
-    var pattern_en = /^[A-Z][A-Za-z]{2,}$/;
-    var pattern_ru = /^[А-Я][А-Яа-я]{2,}$/;
-    var errorMessage = "*At least 3 letters(first capital)";
 
     var country = document.getElementById("country").value;
 
-    if (!(pattern_en.test(country) || pattern_ru.test(country))) {
-        document.getElementById("countryErr").innerHTML = errorMessage;
+    if (!(COUNTRY_PATTERN_EN.test(country) || COUNTRY_PATTERN_RU.test(country))) {
+        if (locale == RU) {
+            document.getElementById("countryErr").innerHTML = COUNTRY_ERROR_MESSAGE_RU;
+        } else {
+            document.getElementById("countryErr").innerHTML = COUNTRY_ERROR_MESSAGE_EN;
+        }
+
         isValid = false;
     }
 
     return isValid;
 }
 
-function validatePrice() {
+function validatePrice(locale) {
     var isValid = true;
-
-    var pattern = /^\d{1,3}(\.\d{1,2})?$/;
-    var errorMessage = "*Only integer or fractional number(not more than" +
-        " 999.99)";
 
     var price = document.getElementById("price").value;
 
-    if (!(pattern.test(price))) {
-        document.getElementById("priceErr").innerHTML = errorMessage;
+    if (!(PRICE_PATTERN.test(price))) {
+        if (locale == RU) {
+            document.getElementById("priceErr").innerHTML = PRICE_ERROR_MESSAGE_RU;
+        } else {
+            document.getElementById("priceErr").innerHTML = PRICE_ERROR_MESSAGE_EN;
+        }
+
         isValid = false;
     }
 
     return isValid;
 }
 
-function validateQuantity() {
+function validateQuantity(locale) {
     var isValid = true;
-
-    var errorMessage = "*required";
 
     var quantity = document.getElementById("quantity").value;
 
     if (quantity == "") {
-        document.getElementById("quantityErr").innerHTML = errorMessage;
+        if (locale == RU) {
+            document.getElementById("quantityErr").innerHTML = QUANTITY_ERROR_MESSAGE_RU;
+        } else {
+            document.getElementById("quantityErr").innerHTML = QUANTITY_ERROR_MESSAGE_EN;
+        }
+
         isValid = false;
     }
 
@@ -101,29 +144,31 @@ function validateQuantity() {
 function validate() {
     var isValid = true;
 
-    document.getElementById("nameErr").innerHTML = "";
-    document.getElementById("amountErr").innerHTML = "";
-    document.getElementById("activeSubstancesErr").innerHTML = "";
-    document.getElementById("countryErr").innerHTML = "";
-    document.getElementById("priceErr").innerHTML = "";
-    document.getElementById("quantityErr").innerHTML = "";
+    document.getElementById("nameErr").innerHTML = "<br>";
+    document.getElementById("amountErr").innerHTML = "<br>";
+    document.getElementById("activeSubstancesErr").innerHTML = "<br>";
+    document.getElementById("countryErr").innerHTML = "<br>";
+    document.getElementById("priceErr").innerHTML = "<br>";
+    document.getElementById("quantityErr").innerHTML = "<br>";
 
-    if (!validateName()) {
+    var local = document.getElementById("local").getAttribute("data-item");
+
+    if (!validateName(local)) {
         isValid = false;
     }
-    if (!validateAmount()) {
+    if (!validateAmount(local)) {
         isValid = false;
     }
-    if (!validateActiveSubstances()) {
+    if (!validateActiveSubstances(local)) {
         isValid = false;
     }
-    if (!validateCountry()) {
+    if (!validateCountry(local)) {
         isValid = false;
     }
-    if (!validatePrice()) {
+    if (!validatePrice(local)) {
         isValid = false;
     }
-    if (!validateQuantity()) {
+    if (!validateQuantity(local)) {
         isValid = false;
     }
 

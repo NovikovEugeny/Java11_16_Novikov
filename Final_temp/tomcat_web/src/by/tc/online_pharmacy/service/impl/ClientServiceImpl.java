@@ -26,7 +26,7 @@ public class ClientServiceImpl implements ClientService {
             ClientDao clientDao = daoFactory.getClientDao();
 
             if (!clientDao.isUnique(user.getMobilePhone())) {
-                throw new ValidatorException("This mobile phone already exists");
+                throw new ValidatorException("");
             }
 
             String password = user.getPassword();
@@ -53,32 +53,26 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public List<Drug> showDrugGroupToOrder(String group) throws ServiceException {
-        List<Drug> drugs = null;
-
         try {
             DaoFactory daoFactory = DaoFactory.getInstance();
             ClientDao clientDao = daoFactory.getClientDao();
 
-            drugs = clientDao.takeDrugGroupToOrder(group);
+            return clientDao.takeDrugGroupToOrder(group);
         } catch (DaoException exc) {
             throw new ServiceException(exc);
         }
-        return drugs;
     }
 
     @Override
     public RecipeDescription showRecipeDescription(String recipeCode) throws ServiceException {
-        RecipeDescription recipeDescription = null;
-
         try {
             DaoFactory daoFactory = DaoFactory.getInstance();
             ClientDao clientDao = daoFactory.getClientDao();
 
-            recipeDescription = clientDao.takeRecipeDescription(recipeCode);
+            return clientDao.takeRecipeDescription(recipeCode);
         } catch (DaoException exc) {
             throw new ServiceException(exc);
         }
-        return recipeDescription;
     }
 
     @Override
@@ -119,7 +113,6 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public void orderWithoutRecipe(Order order) throws ServiceException {
-
         try {
             DaoFactory daoFactory = DaoFactory.getInstance();
             ClientDao clientDao = daoFactory.getClientDao();
@@ -133,7 +126,6 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public void orderWithRecipe(Order order, String recipeCode) throws ServiceException {
-
         try {
             DaoFactory daoFactory = DaoFactory.getInstance();
             ClientDao clientDao = daoFactory.getClientDao();
@@ -149,49 +141,38 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public List<OrderDescription> clientShowOrderList(int id) throws ServiceException {
-        List<OrderDescription> orderList = null;
-
         try {
             DaoFactory daoFactory = DaoFactory.getInstance();
             ClientDao clientDao = daoFactory.getClientDao();
 
-            orderList = clientDao.takeClientOrderList(id);
+            return clientDao.takeClientOrderList(id);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
-        return orderList;
     }
 
     @Override
     public List<OrderDescription> showSendingMessageList(int clientId) throws ServiceException {
-
-        List<OrderDescription> orderDescriptionList = null;
-
         try {
             DaoFactory daoFactory = DaoFactory.getInstance();
             ClientDao clientDao = daoFactory.getClientDao();
 
-            orderDescriptionList = clientDao.takeSendingMessageList(clientId);
+            return clientDao.takeSendingMessageList(clientId);
         } catch (DaoException exc) {
             throw new ServiceException(exc);
         }
-        return orderDescriptionList;
     }
 
     @Override
     public List<RERDescription> showDoctorResponseMessageList(int clientId) throws ServiceException {
-
-        List<RERDescription> rerDescriptionList = null;
-
         try {
             DaoFactory daoFactory = DaoFactory.getInstance();
             ClientDao clientDao = daoFactory.getClientDao();
 
-            rerDescriptionList = clientDao.takeDoctorResponseMessageList(clientId);
+            return clientDao.takeDoctorResponseMessageList(clientId);
         } catch (DaoException exc) {
             throw new ServiceException(exc);
         }
-        return rerDescriptionList;
     }
 
     @Override
@@ -233,16 +214,13 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public List<OrderDescription> showShoppingList(int clientId) throws ServiceException {
-        List<OrderDescription> shoppingList = null;
-
         try {
             DaoFactory daoFactory = DaoFactory.getInstance();
             ClientDao clientDao = daoFactory.getClientDao();
 
-            shoppingList = clientDao.takeShoppingList(clientId);
+            return clientDao.takeShoppingList(clientId);
         } catch (DaoException exc) {
             throw new ServiceException(exc);
         }
-        return shoppingList;
     }
 }

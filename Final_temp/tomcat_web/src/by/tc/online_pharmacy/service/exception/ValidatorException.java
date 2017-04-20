@@ -7,6 +7,9 @@ public class ValidatorException extends Exception {
 
     private Map<String, String> errors;
 
+    public ValidatorException() {
+        super();
+    }
 
     public ValidatorException(String message) {
         super(message);

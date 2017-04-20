@@ -3,7 +3,8 @@ package by.tc.online_pharmacy.service.util.validator;
 
 public final class RegExp {
 
-    private RegExp() {}
+    private RegExp() {
+    }
 
     public final static String MOBILE_REG_EXP = "^\\+375\\d{9}$";
 
@@ -22,10 +23,8 @@ public final class RegExp {
     public final static String DRUG_AMOUNT_REG_EXP_RU = "^\\d{1,3}\\s[а-я]+$";
     public final static String DRUG_AMOUNT_REG_EXP_EN = "^\\d{1,3}\\s[a-z]+$";
 
-    public final static String ACTIVE_SUBSTANCES_REG_EXP_RU =
-            "^([А-Яа-я][а-я]+\\s?-\\s?\\d+\\s?[а-я/]+[,;]?\\s?)+$";
-    public final static String ACTIVE_SUBSTANCES_REG_EXP_EN =
-            "^([A-Za-z][a-z]+\\s?-\\s?\\d+\\s?[a-z/]+[,;]?\\s?)+$";
+    public final static String ACTIVE_SUBSTANCES_REG_EXP_RU = "^([А-Яа-я][а-я]+\\s?-\\s?\\d+\\s?[а-я/]+[,;]?\\s?)+$";
+    public final static String ACTIVE_SUBSTANCES_REG_EXP_EN = "^([A-Za-z][a-z]+\\s?-\\s?\\d+\\s?[a-z/]+[,;]?\\s?)+$";
 
     public final static String COUNTRY_REG_EXP_RU = "^[А-Я][А-Яа-я]{2,}$";
     public final static String COUNTRY_REG_EXP_EN = "^[A-Z][A-Za-z]{2,}$";

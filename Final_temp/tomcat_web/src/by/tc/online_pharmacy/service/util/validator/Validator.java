@@ -11,7 +11,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
-public class Validator {
+public final class Validator {
+
+    private final static String NOT_VALID = "notValid";
 
     private static boolean test(String regExp, String str) {
         Pattern p = Pattern.compile(regExp);
@@ -27,12 +29,10 @@ public class Validator {
         errors.put(InvalidFieldName.INVALID_PASSWORD, null);
 
         if (mobile.isEmpty()) {
-            errors.replace(InvalidFieldName.INVALID_MOBILE,
-                    ErrorMessage.EMPTY_MOBILE_MESSAGE);
+            errors.replace(InvalidFieldName.INVALID_MOBILE, NOT_VALID);
         }
         if (password.isEmpty()) {
-            errors.replace(InvalidFieldName.INVALID_PASSWORD,
-                    ErrorMessage.EMPTY_PASSWORD_MESSAGE);
+            errors.replace(InvalidFieldName.INVALID_PASSWORD, NOT_VALID);
         }
 
         Collection<String> values = errors.values();
@@ -48,6 +48,7 @@ public class Validator {
 
         Map<String, String> errors = new HashMap<>();
 
+
         errors.put(InvalidFieldName.INVALID_SURNAME, null);
         errors.put(InvalidFieldName.INVALID_NAME, null);
         errors.put(InvalidFieldName.INVALID_PATRONYMIC, null);
@@ -57,30 +58,24 @@ public class Validator {
 
         if (!test(RegExp.NAME_REG_EXP_EN, user.getSurname()) &&
                 !test(RegExp.NAME_REG_EXP_RU, user.getSurname())) {
-            errors.replace(InvalidFieldName.INVALID_SURNAME,
-                    ErrorMessage.INVALID_NAME_MESSAGE);
+            errors.replace(InvalidFieldName.INVALID_SURNAME, NOT_VALID);
         }
-        if (!test(RegExp.NAME_REG_EXP_EN,user.getName()) &&
+        if (!test(RegExp.NAME_REG_EXP_EN, user.getName()) &&
                 !test(RegExp.NAME_REG_EXP_RU, user.getName())) {
-            errors.replace(InvalidFieldName.INVALID_NAME,
-                    ErrorMessage.INVALID_NAME_MESSAGE);
+            errors.replace(InvalidFieldName.INVALID_NAME, NOT_VALID);
         }
-        if (!test(RegExp.NAME_REG_EXP_EN,user.getPatronymic()) &&
+        if (!test(RegExp.NAME_REG_EXP_EN, user.getPatronymic()) &&
                 !test(RegExp.NAME_REG_EXP_RU, user.getPatronymic())) {
-            errors.replace(InvalidFieldName.INVALID_PATRONYMIC,
-                    ErrorMessage.INVALID_NAME_MESSAGE);
+            errors.replace(InvalidFieldName.INVALID_PATRONYMIC, NOT_VALID);
         }
         if (!test(RegExp.MOBILE_REG_EXP, user.getMobilePhone())) {
-            errors.replace(InvalidFieldName.INVALID_MOBILE,
-                    ErrorMessage.INVALID_MOBILE_MESSAGE);
+            errors.replace(InvalidFieldName.INVALID_MOBILE, NOT_VALID);
         }
         if (!test(RegExp.PASSWORD_REG_EXP, user.getPassword())) {
-            errors.replace(InvalidFieldName.INVALID_PASSWORD,
-                    ErrorMessage.INVALID_PASSWORD_MESSAGE);
+            errors.replace(InvalidFieldName.INVALID_PASSWORD, NOT_VALID);
         }
         if (!user.getPassword().equals(user.getConfirmPassword())) {
-            errors.replace(InvalidFieldName.INVALID_CONFIRM,
-                    ErrorMessage.INVALID_CONFIRM_MESSAGE);
+            errors.replace(InvalidFieldName.INVALID_CONFIRM, NOT_VALID);
         }
 
         Collection<String> values = errors.values();
@@ -95,7 +90,7 @@ public class Validator {
     public static void searchValidate(String name) throws ValidatorException {
         if (!test(RegExp.DRUG_NAME_FOR_SEARCH_REG_EXP_EN, name) &&
                 !test(RegExp.DRUG_NAME_FOR_SEARCH_REG_EXP_RU, name)) {
-            throw new ValidatorException(ErrorMessage.INVALID_FOR_SEARCH_DRUG_NAME_MESSAGE);
+            throw new ValidatorException();
         }
     }
 
@@ -111,27 +106,22 @@ public class Validator {
 
         if (!test(RegExp.DRUG_NAME_REG_EXP_EN, drug.getName()) &&
                 !test(RegExp.DRUG_NAME_REG_EXP_RU, drug.getName())) {
-            errors.replace(InvalidFieldName.INVALID_DRUG_NAME,
-                    ErrorMessage.INVALID_DRUG_NAME_MESSAGE);
+            errors.replace(InvalidFieldName.INVALID_DRUG_NAME, NOT_VALID);
         }
         if (!test(RegExp.DRUG_AMOUNT_REG_EXP_EN, drug.getDrugAmount()) &&
                 !test(RegExp.DRUG_AMOUNT_REG_EXP_RU, drug.getDrugAmount())) {
-            errors.replace(InvalidFieldName.INVALID_DRUG_AMOUNT,
-                    ErrorMessage.INVALID_DRUG_AMOUNT_MESSAGE);
+            errors.replace(InvalidFieldName.INVALID_DRUG_AMOUNT, NOT_VALID);
         }
         if (!test(RegExp.ACTIVE_SUBSTANCES_REG_EXP_EN, drug.getActiveSubstances()) &&
                 !test(RegExp.ACTIVE_SUBSTANCES_REG_EXP_RU, drug.getActiveSubstances())) {
-            errors.replace(InvalidFieldName.INVALID_ACTIVE_SUBSTANCES,
-                    ErrorMessage.INVALID_ACTIVE_SUBSTANCES_MESSAGE);
+            errors.replace(InvalidFieldName.INVALID_ACTIVE_SUBSTANCES, NOT_VALID);
         }
         if (!test(RegExp.COUNTRY_REG_EXP_EN, drug.getCountry()) &&
                 !test(RegExp.COUNTRY_REG_EXP_RU, drug.getCountry())) {
-            errors.replace(InvalidFieldName.INVALID_COUNTRY,
-                    ErrorMessage.INVALID_COUNTRY_MESSAGE);
+            errors.replace(InvalidFieldName.INVALID_COUNTRY, NOT_VALID);
         }
         if (!test(RegExp.PRICE_REG_EXP, Double.toString(drug.getPrice()))) {
-            errors.replace(InvalidFieldName.INVALID_PRICE,
-                    ErrorMessage.INVALID_PRICE_MESSAGE);
+            errors.replace(InvalidFieldName.INVALID_PRICE, NOT_VALID);
         }
 
         Collection<String> values = errors.values();

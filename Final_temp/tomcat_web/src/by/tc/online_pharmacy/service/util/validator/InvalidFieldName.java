@@ -3,7 +3,8 @@ package by.tc.online_pharmacy.service.util.validator;
 
 public final class InvalidFieldName {
 
-    private InvalidFieldName() {}
+    private InvalidFieldName() {
+    }
 
     //authorization
     public final static String INVALID_SURNAME = "invalidSurname";
@@ -12,6 +13,7 @@ public final class InvalidFieldName {
     public final static String INVALID_MOBILE = "invalidMobile";
     public final static String INVALID_PASSWORD = "invalidPassword";
     public final static String INVALID_CONFIRM = "invalidConfirm";
+
 
 
     //add new drug

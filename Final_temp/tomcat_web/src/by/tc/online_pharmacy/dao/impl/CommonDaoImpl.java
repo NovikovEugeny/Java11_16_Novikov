@@ -6,31 +6,28 @@ import by.tc.online_pharmacy.bean.User;
 import by.tc.online_pharmacy.dao.CommonDao;
 import by.tc.online_pharmacy.dao.connection_pool.ConnectionPool;
 import by.tc.online_pharmacy.dao.exception.DaoException;
-import by.tc.online_pharmacy.dao.impl.util.DrugListBuilder;
+import by.tc.online_pharmacy.dao.util.DaoErrorMessage;
+import by.tc.online_pharmacy.dao.util.DrugListMaker;
 import by.tc.online_pharmacy.dao.query.DrugQueryStore;
 import by.tc.online_pharmacy.dao.query.UserQueryStore;
+import by.tc.online_pharmacy.dao.util.TableColumnName;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
 import java.util.List;
 
 public class CommonDaoImpl implements CommonDao {
 
+    private static final Logger logger = LogManager.getLogger(CommonDaoImpl.class.getName());
+
     @Override
     public User signIn(String mobile, String password) throws DaoException {
-
-        final String ID = "id";
-        final String POSITION = "position";
-        final String SURNAME = "surname";
-        final String NAME = "name";
-        final String PATRONYMIC = "patronymic";
-        final String MOBILE_PHONE = "mobile_phone";
-        final String PASSWORD = "password";
 
         Connection connection = null;
         PreparedStatement ps = null;
         ResultSet resultSet = null;
-
-        User user = null;
 
         try {
             connection = ConnectionPool.getInstance().takeConnection();
@@ -39,15 +36,17 @@ public class CommonDaoImpl implements CommonDao {
             ps.setString(2, password);
             resultSet = ps.executeQuery();
 
+            User user = null;
+
             if (resultSet.next()) {
                 user = new User();
-                user.setId(resultSet.getInt(ID));
-                user.setPosition(resultSet.getString(POSITION));
-                user.setSurname(resultSet.getString(SURNAME));
-                user.setName(resultSet.getString(NAME));
-                user.setPatronymic(resultSet.getString(PATRONYMIC));
-                user.setMobilePhone(resultSet.getString(MOBILE_PHONE));
-                user.setPassword(resultSet.getString(PASSWORD));
+                user.setId(resultSet.getInt(TableColumnName.ID));
+                user.setPosition(resultSet.getString(TableColumnName.POSITION));
+                user.setSurname(resultSet.getString(TableColumnName.SURNAME));
+                user.setName(resultSet.getString(TableColumnName.NAME));
+                user.setPatronymic(resultSet.getString(TableColumnName.PATRONYMIC));
+                user.setMobilePhone(resultSet.getString(TableColumnName.MOBILE_PHONE));
+                user.setPassword(resultSet.getString(TableColumnName.PASSWORD));
             }
 
             return user;
@@ -55,11 +54,9 @@ public class CommonDaoImpl implements CommonDao {
             throw new DaoException(exc);
         } finally {
             try {
-                if (ps != null) {
-                    ps.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();//???
+                if (ps != null) { ps.close(); }
+            } catch (SQLException exc) {
+                logger.log(Level.WARN, DaoErrorMessage.CLOSING_RESOURCES_ERROR, exc);
             }
             ConnectionPool.getInstance().putBackConnection(connection);
         }
@@ -79,16 +76,14 @@ public class CommonDaoImpl implements CommonDao {
             ps.setString(1, group);
             resultSet = ps.executeQuery();
 
-            return DrugListBuilder.getDrugList(resultSet);
+            return DrugListMaker.makeList(resultSet);
         } catch (SQLException | InterruptedException exc) {
             throw new DaoException(exc);
         } finally {
             try {
-                if (ps != null) {
-                    ps.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();///????
+                if (ps != null) { ps.close(); }
+            } catch (SQLException exc) {
+                logger.log(Level.WARN, DaoErrorMessage.CLOSING_RESOURCES_ERROR, exc);
             }
             ConnectionPool.getInstance().putBackConnection(connection);
         }
@@ -108,16 +103,14 @@ public class CommonDaoImpl implements CommonDao {
             ps.setString(1, name);
             resultSet = ps.executeQuery();
 
-            return DrugListBuilder.getDrugList(resultSet);
+            return DrugListMaker.makeList(resultSet);
         } catch (SQLException | InterruptedException exc) {
             throw new DaoException(exc);
         } finally {
             try {
-                if (ps != null) {
-                    ps.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();///????
+                if (ps != null) { ps.close(); }
+            } catch (SQLException exc) {
+                logger.log(Level.WARN, DaoErrorMessage.CLOSING_RESOURCES_ERROR, exc);
             }
             ConnectionPool.getInstance().putBackConnection(connection);
         }
@@ -164,21 +157,19 @@ public class CommonDaoImpl implements CommonDao {
             try {
                 connection.rollback();
             } catch (SQLException e) {
-                e.printStackTrace();
+                logger.log(Level.ERROR, DaoErrorMessage.ROLLBACK_ERROR, e);
             }
             throw new DaoException(exc);
         } finally {
             try {
-                if (ps != null) {
-                    ps.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
+                if (ps != null) { ps.close(); }
+            } catch (SQLException exc) {
+                logger.log(Level.WARN, DaoErrorMessage.CLOSING_RESOURCES_ERROR, exc);
             }
             try {
                 connection.setAutoCommit(true);
-            } catch (SQLException e) {
-                e.printStackTrace();
+            } catch (SQLException exc) {
+                logger.log(Level.ERROR, DaoErrorMessage.SET_AUTO_COMMIT_TRUE_ERROR, exc);
             }
             ConnectionPool.getInstance().putBackConnection(connection);
         }

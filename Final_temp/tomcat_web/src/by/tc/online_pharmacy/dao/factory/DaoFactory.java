@@ -1,7 +1,13 @@
 package by.tc.online_pharmacy.dao.factory;
 
-import by.tc.online_pharmacy.dao.*;
-import by.tc.online_pharmacy.dao.impl.*;
+import by.tc.online_pharmacy.dao.ClientDao;
+import by.tc.online_pharmacy.dao.CommonDao;
+import by.tc.online_pharmacy.dao.DoctorDao;
+import by.tc.online_pharmacy.dao.PharmacistDao;
+import by.tc.online_pharmacy.dao.impl.ClientDaoImpl;
+import by.tc.online_pharmacy.dao.impl.CommonDaoImpl;
+import by.tc.online_pharmacy.dao.impl.DoctorDaoImpl;
+import by.tc.online_pharmacy.dao.impl.PharmacistDaoImpl;
 
 
 public class DaoFactory {
@@ -13,7 +19,8 @@ public class DaoFactory {
     private final PharmacistDao pharmacistDao = new PharmacistDaoImpl();
     private final CommonDao commonDao = new CommonDaoImpl();
 
-    private DaoFactory() {}
+    private DaoFactory() {
+    }
 
     public static DaoFactory getInstance() {
         return instance;

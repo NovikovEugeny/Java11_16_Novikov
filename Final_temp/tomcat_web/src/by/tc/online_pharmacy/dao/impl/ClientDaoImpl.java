@@ -5,10 +5,15 @@ import by.tc.online_pharmacy.bean.*;
 import by.tc.online_pharmacy.dao.ClientDao;
 import by.tc.online_pharmacy.dao.connection_pool.ConnectionPool;
 import by.tc.online_pharmacy.dao.exception.DaoException;
-import by.tc.online_pharmacy.dao.impl.util.DrugListBuilder;
-import by.tc.online_pharmacy.dao.impl.util.OrderDescriptionListBuilder;
+import by.tc.online_pharmacy.dao.util.DaoErrorMessage;
+import by.tc.online_pharmacy.dao.util.DrugListMaker;
+import by.tc.online_pharmacy.dao.util.OrderDescriptionListMaker;
 import by.tc.online_pharmacy.dao.query.DrugQueryStore;
 import by.tc.online_pharmacy.dao.query.UserQueryStore;
+import by.tc.online_pharmacy.dao.util.TableColumnName;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -17,6 +22,7 @@ import java.util.List;
 
 public class ClientDaoImpl implements ClientDao {
 
+    private static final Logger logger = LogManager.getLogger(ClientDaoImpl.class.getName());
 
     @Override
     public int signUp(User user) throws DaoException {
@@ -52,19 +58,14 @@ public class ClientDaoImpl implements ClientDao {
             throw new DaoException(exc);
         } finally {
             try {
-                if (ps != null) {
-                    ps.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();////????
+                if (ps != null) { ps.close(); }
+            } catch (SQLException exc) {
+                logger.log(Level.WARN, DaoErrorMessage.CLOSING_RESOURCES_ERROR, exc);
             }
-
             try {
-                if (statement != null) {
-                    statement.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();//????
+                if (statement != null) { statement.close(); }
+            } catch (SQLException exc) {
+                logger.log(Level.WARN, DaoErrorMessage.CLOSING_RESOURCES_ERROR, exc);
             }
             ConnectionPool.getInstance().putBackConnection(connection);
         }
@@ -79,6 +80,7 @@ public class ClientDaoImpl implements ClientDao {
 
         try {
             connection = ConnectionPool.getInstance().takeConnection();
+
             ps = connection.prepareStatement(UserQueryStore.IS_UNIQUE_SELECT);
             ps.setString(1, mobile);
             resultSet = ps.executeQuery();
@@ -92,11 +94,9 @@ public class ClientDaoImpl implements ClientDao {
             throw new DaoException(exc);
         } finally {
             try {
-                if (ps != null) {
-                    ps.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
+                if (ps != null) { ps.close(); }
+            } catch (SQLException exc) {
+                logger.log(Level.WARN, DaoErrorMessage.CLOSING_RESOURCES_ERROR, exc);
             }
             ConnectionPool.getInstance().putBackConnection(connection);
         }
@@ -119,11 +119,9 @@ public class ClientDaoImpl implements ClientDao {
             throw new DaoException(exc);
         } finally {
             try {
-                if (ps != null) {
-                    ps.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
+                if (ps != null) { ps.close(); }
+            } catch (SQLException exc) {
+                logger.log(Level.WARN, DaoErrorMessage.CLOSING_RESOURCES_ERROR, exc);
             }
             ConnectionPool.getInstance().putBackConnection(connection);
         }
@@ -149,11 +147,9 @@ public class ClientDaoImpl implements ClientDao {
             throw new DaoException(exc);
         } finally {
             try {
-                if (ps != null) {
-                    ps.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
+                if (ps != null) { ps.close(); }
+            } catch (SQLException exc) {
+                logger.log(Level.WARN, DaoErrorMessage.CLOSING_RESOURCES_ERROR, exc);
             }
             ConnectionPool.getInstance().putBackConnection(connection);
         }
@@ -173,16 +169,14 @@ public class ClientDaoImpl implements ClientDao {
             ps.setString(1, group);
             resultSet = ps.executeQuery();
 
-            return DrugListBuilder.getDrugList(resultSet);
+            return DrugListMaker.makeList(resultSet);
         } catch (SQLException | InterruptedException exc) {
             throw new DaoException(exc);
         } finally {
             try {
-                if (ps != null) {
-                    ps.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();///????
+                if (ps != null) { ps.close(); }
+            } catch (SQLException exc) {
+                logger.log(Level.WARN, DaoErrorMessage.CLOSING_RESOURCES_ERROR, exc);
             }
             ConnectionPool.getInstance().putBackConnection(connection);
         }
@@ -230,28 +224,24 @@ public class ClientDaoImpl implements ClientDao {
             try {
                 connection.rollback();
             } catch (SQLException e) {
-                e.printStackTrace();
+                logger.log(Level.ERROR, DaoErrorMessage.ROLLBACK_ERROR, e);
             }
             throw new DaoException(exc);
         } finally {
             try {
-                if (ps != null) {
-                    ps.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
+                if (ps != null) { ps.close(); }
+            } catch (SQLException exc) {
+                logger.log(Level.WARN, DaoErrorMessage.CLOSING_RESOURCES_ERROR, exc);
             }
             try {
-                if (statement != null) {
-                    statement.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
+                if (statement != null) { statement.close(); }
+            } catch (SQLException exc) {
+                logger.log(Level.WARN, DaoErrorMessage.CLOSING_RESOURCES_ERROR, exc);
             }
             try {
                 connection.setAutoCommit(true);
             } catch (SQLException e) {
-                e.printStackTrace();
+                logger.log(Level.ERROR, DaoErrorMessage.SET_AUTO_COMMIT_TRUE_ERROR, e);
             }
             ConnectionPool.getInstance().putBackConnection(connection);
         }
@@ -271,16 +261,14 @@ public class ClientDaoImpl implements ClientDao {
             ps.setInt(1, id);
             resultSet = ps.executeQuery();
 
-            return OrderDescriptionListBuilder.getOrderDescriptionList(resultSet);
+            return OrderDescriptionListMaker.makeList(resultSet);
         } catch (SQLException | InterruptedException exc) {
             throw new DaoException(exc);
         } finally {
             try {
-                if (ps != null) {
-                    ps.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
+                if (ps != null) { ps.close(); }
+            } catch (SQLException exc) {
+                logger.log(Level.WARN, DaoErrorMessage.CLOSING_RESOURCES_ERROR, exc);
             }
             ConnectionPool.getInstance().putBackConnection(connection);
         }
@@ -306,11 +294,9 @@ public class ClientDaoImpl implements ClientDao {
             throw new DaoException(exc);
         } finally {
             try {
-                if (ps != null) {
-                    ps.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
+                if (ps != null) { ps.close(); }
+            } catch (SQLException exc) {
+                logger.log(Level.WARN, DaoErrorMessage.CLOSING_RESOURCES_ERROR, exc);
             }
             ConnectionPool.getInstance().putBackConnection(connection);
         }
@@ -319,24 +305,9 @@ public class ClientDaoImpl implements ClientDao {
     @Override
     public RecipeDescription takeRecipeDescription(String recipeCode) throws DaoException {
 
-        final String DRUG_ID = "drug_id";
-        final String DRUG_NAME = "drug_name";
-        final String PHARM_GROUP = "pharm_group";
-        final String FORM = "form";
-        final String DRUG_AMOUNT = "drug_amount";
-        final String AS = "active_substances";
-        final String COUNTRY = "country";
-        final String PRICE = "price";
-        final String QUANTITY = "quantity";
-        final String COST = "cost";
-        final String END_DATE = "end_date";
-        final String STATUS = "status";
-
         Connection connection = null;
         PreparedStatement ps = null;
         ResultSet resultSet = null;
-
-        RecipeDescription recipeDescription = null;
 
         try {
             connection = ConnectionPool.getInstance().takeConnection();
@@ -345,37 +316,36 @@ public class ClientDaoImpl implements ClientDao {
             ps.setString(1, recipeCode);
             resultSet = ps.executeQuery();
 
+            RecipeDescription recipeDescription = new RecipeDescription();
+
             if (resultSet.next()) {
-                recipeDescription = new RecipeDescription();
                 recipeDescription.setRecipeCode(recipeCode);
-                recipeDescription.setDrugId(resultSet.getInt(DRUG_ID));
-                recipeDescription.setDrugName(resultSet.getString(DRUG_NAME));
-                recipeDescription.setDrugGroup(resultSet.getString(PHARM_GROUP));
-                recipeDescription.setDrugForm(resultSet.getString(FORM));
-                recipeDescription.setDrugAmount(resultSet.getString(DRUG_AMOUNT));
-                recipeDescription.setActiveSubstances(resultSet.getString(AS));
-                recipeDescription.setCountry(resultSet.getString(COUNTRY));
-                recipeDescription.setPrice(resultSet.getDouble(PRICE));
-                recipeDescription.setQuantity(resultSet.getInt(QUANTITY));
-                recipeDescription.setCost(resultSet.getDouble(COST));
-                recipeDescription.setEndDate(resultSet.getTimestamp(END_DATE));
-                recipeDescription.setStatus(resultSet.getString(STATUS));
+                recipeDescription.setDrugId(resultSet.getInt(TableColumnName.DRUG_ID));
+                recipeDescription.setDrugName(resultSet.getString(TableColumnName.DRUG_NAME));
+                recipeDescription.setDrugGroup(resultSet.getString(TableColumnName.PHARM_GROUP));
+                recipeDescription.setDrugForm(resultSet.getString(TableColumnName.FORM));
+                recipeDescription.setDrugAmount(resultSet.getString(TableColumnName.DRUG_AMOUNT));
+                recipeDescription.setActiveSubstances(resultSet.getString(TableColumnName.ACTIVE_SUBSTANCES));
+                recipeDescription.setCountry(resultSet.getString(TableColumnName.COUNTRY));
+                recipeDescription.setPrice(resultSet.getDouble(TableColumnName.PRICE));
+                recipeDescription.setQuantity(resultSet.getInt(TableColumnName.QUANTITY));
+                recipeDescription.setCost(resultSet.getDouble(TableColumnName.COST));
+                recipeDescription.setEndDate(resultSet.getTimestamp(TableColumnName.END_DATE));
+                recipeDescription.setStatus(resultSet.getString(TableColumnName.STATUS));
             }
 
+            return recipeDescription;
         } catch (SQLException | InterruptedException exc) {
             exc.printStackTrace();
             throw new DaoException(exc);
         } finally {
             try {
-                if (ps != null) {
-                    ps.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();///????
+                if (ps != null) { ps.close(); }
+            } catch (SQLException exc) {
+                logger.log(Level.WARN, DaoErrorMessage.CLOSING_RESOURCES_ERROR, exc);
             }
             ConnectionPool.getInstance().putBackConnection(connection);
         }
-        return recipeDescription;
     }
 
     @Override
@@ -395,7 +365,7 @@ public class ClientDaoImpl implements ClientDao {
             Date endDate = null;
 
             if (resultSet.next()) {
-                endDate = resultSet.getTimestamp("end_date");
+                endDate = resultSet.getTimestamp(TableColumnName.END_DATE);
             }
 
             return endDate;
@@ -403,11 +373,9 @@ public class ClientDaoImpl implements ClientDao {
             throw new DaoException(exc);
         } finally {
             try {
-                if (ps != null) {
-                    ps.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
+                if (ps != null) { ps.close(); }
+            } catch (SQLException exc) {
+                logger.log(Level.WARN, DaoErrorMessage.CLOSING_RESOURCES_ERROR, exc);
             }
             ConnectionPool.getInstance().putBackConnection(connection);
         }
@@ -430,11 +398,9 @@ public class ClientDaoImpl implements ClientDao {
             throw new DaoException(exc);
         } finally {
             try {
-                if (ps != null) {
-                    ps.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
+                if (ps != null) { ps.close(); }
+            } catch (SQLException exc) {
+                logger.log(Level.WARN, DaoErrorMessage.CLOSING_RESOURCES_ERROR, exc);
             }
             ConnectionPool.getInstance().putBackConnection(connection);
         }
@@ -454,15 +420,12 @@ public class ClientDaoImpl implements ClientDao {
             ps.executeUpdate();
 
         } catch (SQLException | InterruptedException exc) {
-            exc.printStackTrace();
             throw new DaoException(exc);
         } finally {
             try {
-                if (ps != null) {
-                    ps.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
+                if (ps != null) { ps.close(); }
+            } catch (SQLException exc) {
+                logger.log(Level.WARN, DaoErrorMessage.CLOSING_RESOURCES_ERROR, exc);
             }
             ConnectionPool.getInstance().putBackConnection(connection);
         }
@@ -470,13 +433,6 @@ public class ClientDaoImpl implements ClientDao {
 
     @Override
     public List<OrderDescription> takeSendingMessageList(int clientId) throws DaoException {
-
-        final String ORDER_ID = "id";
-        final String DRUG_NAME = "name";
-        final String DRUG_AMOUNT = "drug_amount";
-        final String QUANTITY = "quantity";
-        final String COUNTRY = "country";
-        final String RESPONSE_DATE = "response_date";
 
         Connection connection = null;
         PreparedStatement ps = null;
@@ -493,27 +449,24 @@ public class ClientDaoImpl implements ClientDao {
 
             while (resultSet.next()) {
                 OrderDescription orderDescription = new OrderDescription();
-                orderDescription.setOrderId(resultSet.getInt(ORDER_ID));
-                orderDescription.setDrugName(resultSet.getString(DRUG_NAME));
-                orderDescription.setDrugAmount(resultSet.getString(DRUG_AMOUNT));
-                orderDescription.setQuantity(resultSet.getInt(QUANTITY));
-                orderDescription.setProductingCountry(resultSet.getString(COUNTRY));
-                orderDescription.setResponseDate(resultSet.getTimestamp(RESPONSE_DATE));
+                orderDescription.setOrderId(resultSet.getInt(TableColumnName.ID));
+                orderDescription.setDrugName(resultSet.getString(TableColumnName.NAME));
+                orderDescription.setDrugAmount(resultSet.getString(TableColumnName.DRUG_AMOUNT));
+                orderDescription.setQuantity(resultSet.getInt(TableColumnName.QUANTITY));
+                orderDescription.setProductingCountry(resultSet.getString(TableColumnName.COUNTRY));
+                orderDescription.setResponseDate(resultSet.getTimestamp(TableColumnName.RESPONSE_DATE));
 
                 orderDescriptionList.add(orderDescription);
             }
 
             return orderDescriptionList;
         } catch (SQLException | InterruptedException exc) {
-            exc.printStackTrace();
             throw new DaoException(exc);
         } finally {
             try {
-                if (ps != null) {
-                    ps.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
+                if (ps != null) { ps.close(); }
+            } catch (SQLException exc) {
+                logger.log(Level.WARN, DaoErrorMessage.CLOSING_RESOURCES_ERROR, exc);
             }
             ConnectionPool.getInstance().putBackConnection(connection);
         }
@@ -521,11 +474,6 @@ public class ClientDaoImpl implements ClientDao {
 
     @Override
     public List<RERDescription> takeDoctorResponseMessageList(int clientId) throws DaoException {
-
-        final String ID = "id";
-        final String RECIPE_CODE = "recipe_code";
-        final String RESPONSE_DATE = "response_date";
-        final String STATUS = "status";
 
         Connection connection = null;
         PreparedStatement ps = null;
@@ -542,10 +490,10 @@ public class ClientDaoImpl implements ClientDao {
 
             while (resultSet.next()) {
                 RERDescription rerDescription = new RERDescription();
-                rerDescription.setId(resultSet.getInt(ID));
-                rerDescription.setRecipeCode(resultSet.getString(RECIPE_CODE));
-                rerDescription.setResponseDate(resultSet.getTimestamp(RESPONSE_DATE));
-                rerDescription.setStatus(resultSet.getString(STATUS));
+                rerDescription.setId(resultSet.getInt(TableColumnName.ID));
+                rerDescription.setRecipeCode(resultSet.getString(TableColumnName.RECIPE_CODE));
+                rerDescription.setResponseDate(resultSet.getTimestamp(TableColumnName.RESPONSE_DATE));
+                rerDescription.setStatus(resultSet.getString(TableColumnName.STATUS));
 
                 rerDescriptionList.add(rerDescription);
             }
@@ -555,11 +503,9 @@ public class ClientDaoImpl implements ClientDao {
             throw new DaoException(exc);
         } finally {
             try {
-                if (ps != null) {
-                    ps.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
+                if (ps != null) { ps.close(); }
+            } catch (SQLException exc) {
+                logger.log(Level.WARN, DaoErrorMessage.CLOSING_RESOURCES_ERROR, exc);
             }
             ConnectionPool.getInstance().putBackConnection(connection);
         }
@@ -583,11 +529,9 @@ public class ClientDaoImpl implements ClientDao {
             throw new DaoException(exc);
         } finally {
             try {
-                if (ps != null) {
-                    ps.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
+                if (ps != null) { ps.close(); }
+            } catch (SQLException exc) {
+                logger.log(Level.WARN, DaoErrorMessage.CLOSING_RESOURCES_ERROR, exc);
             }
             ConnectionPool.getInstance().putBackConnection(connection);
         }
@@ -610,11 +554,9 @@ public class ClientDaoImpl implements ClientDao {
             throw new DaoException(exc);
         } finally {
             try {
-                if (ps != null) {
-                    ps.close();
-                }
+                if (ps != null) { ps.close(); }
             } catch (SQLException exc) {
-                exc.printStackTrace();
+                logger.log(Level.WARN, DaoErrorMessage.CLOSING_RESOURCES_ERROR, exc);
             }
             ConnectionPool.getInstance().putBackConnection(connection);
         }
@@ -629,8 +571,7 @@ public class ClientDaoImpl implements ClientDao {
         try {
             connection = ConnectionPool.getInstance().takeConnection();
 
-            ps = connection.prepareStatement(
-                    DrugQueryStore.UPDATE_RECIPE_EXTENSION_REQUEST_IS_READ_YES);
+            ps = connection.prepareStatement(DrugQueryStore.UPDATE_RECIPE_EXTENSION_REQUEST_IS_READ_YES);
             ps.setInt(1, requestId);
             ps.executeUpdate();
 
@@ -638,11 +579,9 @@ public class ClientDaoImpl implements ClientDao {
             throw new DaoException(exc);
         } finally {
             try {
-                if (ps != null) {
-                    ps.close();
-                }
+                if (ps != null) { ps.close(); }
             } catch (SQLException exc) {
-                exc.printStackTrace();
+                logger.log(Level.WARN, DaoErrorMessage.CLOSING_RESOURCES_ERROR, exc);
             }
             ConnectionPool.getInstance().putBackConnection(connection);
         }
@@ -651,14 +590,6 @@ public class ClientDaoImpl implements ClientDao {
 
     @Override
     public List<OrderDescription> takeShoppingList(int clientId) throws DaoException {
-
-        final String REQUEST_DATE = "request_date";
-        final String DRUG_NAME = "name";
-        final String GROUP = "pharm_group";
-        final String DRUG_AMOUNT = "drug_amount";
-        final String COUNTRY = "country";
-        final String QUANTITY = "quantity";
-        final String COST = "cost";
 
         Connection connection = null;
         PreparedStatement ps = null;
@@ -675,13 +606,13 @@ public class ClientDaoImpl implements ClientDao {
 
             while (resultSet.next()) {
                 OrderDescription orderDescription = new OrderDescription();
-                orderDescription.setRequestDate(resultSet.getTimestamp(REQUEST_DATE));
-                orderDescription.setDrugName(resultSet.getString(DRUG_NAME));
-                orderDescription.setPharmacologicalGroup(resultSet.getString(GROUP));
-                orderDescription.setDrugAmount(resultSet.getString(DRUG_AMOUNT));
-                orderDescription.setProductingCountry(resultSet.getString(COUNTRY));
-                orderDescription.setQuantity(resultSet.getInt(QUANTITY));
-                orderDescription.setCost(resultSet.getDouble(COST));
+                orderDescription.setRequestDate(resultSet.getTimestamp(TableColumnName.REQUEST_DATE));
+                orderDescription.setDrugName(resultSet.getString(TableColumnName.NAME));
+                orderDescription.setPharmacologicalGroup(resultSet.getString(TableColumnName.GROUP));
+                orderDescription.setDrugAmount(resultSet.getString(TableColumnName.DRUG_AMOUNT));
+                orderDescription.setProductingCountry(resultSet.getString(TableColumnName.COUNTRY));
+                orderDescription.setQuantity(resultSet.getInt(TableColumnName.QUANTITY));
+                orderDescription.setCost(resultSet.getDouble(TableColumnName.COST));
 
                 shoppingList.add(orderDescription);
             }
@@ -691,11 +622,9 @@ public class ClientDaoImpl implements ClientDao {
             throw new DaoException(exc);
         } finally {
             try {
-                if (ps != null) {
-                    ps.close();
-                }
+                if (ps != null) { ps.close(); }
             } catch (SQLException exc) {
-                exc.printStackTrace();
+                logger.log(Level.WARN, DaoErrorMessage.CLOSING_RESOURCES_ERROR, exc);
             }
             ConnectionPool.getInstance().putBackConnection(connection);
         }

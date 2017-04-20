@@ -35,10 +35,8 @@ public class ShowMessages implements Command {
             ServiceFactory serviceFactory = ServiceFactory.getInstance();
             ClientService clientService = serviceFactory.getClientService();
 
-            List<OrderDescription> sendingMessages =
-                    clientService.showSendingMessageList(clientId);
-            List<RERDescription> doctorResponseMessages =
-                    clientService.showDoctorResponseMessageList(clientId);
+            List<OrderDescription> sendingMessages = clientService.showSendingMessageList(clientId);
+            List<RERDescription> doctorResponseMessages = clientService.showDoctorResponseMessageList(clientId);
 
             request.setAttribute(SENDING_MESSAGES, sendingMessages);
             request.setAttribute(DOCTOR_RESPONSE_MESSAGES, doctorResponseMessages);

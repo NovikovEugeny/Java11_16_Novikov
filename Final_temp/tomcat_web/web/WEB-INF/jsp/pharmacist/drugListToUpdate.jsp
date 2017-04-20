@@ -38,7 +38,7 @@
 </header>
 <div class="center">
     <div class="row">
-        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-3">
+        <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
             <nav class="service-list">
                 <form action="controller" method="get">
                     <input type="hidden" name="command" value="pharmacist_show_order_list">
@@ -58,7 +58,7 @@
                 </form>
             </nav>
         </div>
-        <div class="col-xs-8 col-sm-8 col-md-8 col-lg-9">
+        <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
             <section>
                 <h3>Список препаратов:</h3>
                 <div class="table-responsive">

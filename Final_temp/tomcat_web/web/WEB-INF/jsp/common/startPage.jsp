@@ -7,12 +7,12 @@
     <link href="../../../css/main.css" rel="stylesheet">
     <script src="../../../js/jquery-3.2.0.js"></script>
     <script src="../../../js/bootstrap.js"></script>
+    <script src="../../../js/searchValidator.js"></script>
+    <div id="local" data-item="${sessionScope.local}"></div>
     <fmt:setLocale value="${sessionScope.local}"/>
     <fmt:setBundle basename="localization.local" var="loc"/>
     <fmt:message bundle="${loc}" key="title" var="title"/>
     <fmt:message bundle="${loc}" key="label.language" var="lang"/>
-    <fmt:message bundle="${loc}" key="button.ru" var="ru"/>
-    <fmt:message bundle="${loc}" key="button.en" var="en"/>
     <fmt:message bundle="${loc}" key="button.signin" var="signIn"/>
     <fmt:message bundle="${loc}" key="button.signup" var="singUp"/>
     <fmt:message bundle="${loc}" key="button.search" var="search"/>
@@ -31,7 +31,8 @@
     <fmt:message bundle="${loc}" key="label.searchmessage" var="searchMessage"/>
     <fmt:message bundle="${loc}" key="label.info" var="info"/>
     <fmt:message bundle="${loc}" key="copyright" var="copyright"/>
-    <title>${title}  ${sessionScope.local}</title>
+    <fmt:message bundle="${loc}" key="search.invalid" var="searchError"/>
+    <title>${title} ${sessionScope.local}</title>
 </head>
 <body>
 <header>
@@ -41,9 +42,8 @@
                 <div class="col-md-6">
                     <div class="lang">
                         ${lang}
-                        <a href="controller?command=change_locale&local=${ru}">
-                        ${ru}</a> /
-                        <a href="controller?command=change_locale&local=${en}">${en}</a>
+                        <a href="controller?command=change_locale&local=ru">ru</a> /
+                        <a href="controller?command=change_locale&local=en">en</a>
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -124,13 +124,15 @@
         <div class="col-xs-6 col-sm-8 col-md-8 col-lg-9">
             <section class="search">
                <c:out value="${searchMessage}"/>
-                <form action="controller" method="get">
+                <form action="controller" method="get" onsubmit="return validate()">
                     <input type="hidden" name="command" value="search">
-                    <input type="text" name="drugName">
+                    <input type="text" name="drugName" id="drugName">
                     <button type="submit">${search}</button>
                 </form>
                 <p id="search-error">
-                    <c:out value="${requestScope.errorMessage}"/>
+                    <c:if test="${requestScope.isValid eq 'no'}">
+                        <c:out value="${searchError}"/>
+                    </c:if>
                 </p>
             </section>
             <section class="info">

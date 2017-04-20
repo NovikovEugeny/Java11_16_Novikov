@@ -1,24 +1,56 @@
-function validateFullName() {
-    var isValid = true;
+var RU = "ru";
 
-    var pattern_en = /^[A-Z][a-z]+$/;
-    var pattern_ru = /^[А-Я][а-я]+$/;
-    var errorMessage = "*At least 2 letters(first capital)";
+var NAME_PATTERN_EN = /^[A-Z][a-z]+$/;
+var NAME_PATTERN_RU = /^[А-Я][а-я]+$/;
+
+var MOBILE_PATTERN = /^\+375\d{9}$/;
+var PASSWORD_PATTERN = /(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-ZА-Я])(?=.*[a-zа-я]).*$/;
+
+var NAME_ERROR_MESSAGE_EN = "*At least 2 letters(first capital)";
+var NAME_ERROR_MESSAGE_RU = "*Минимум 2 буквы(первая заглавная)";
+
+var MOBILE_ERROR_MESSAGE_RU = "*Правильная форма: +375xxxxxxxxx";
+var MOBILE_ERROR_MESSAGE_EN = "*Сorrect form: +375xxxxxxxxx";
+
+var PASSWORD_ERROR_MESSAGE_RU = "*Минимум 8 символов(1 цифра и по 1 букве в каждом регистре)";
+var PASSWORD_ERROR_MESSAGE_EN = "*At least 8 char.(one letter in each register and one digit)";
+
+var CONFIRM_ERROR_MESSAGE_RU = "*Пароли должны совпадать";
+var CONFIRM_ERROR_MESSAGE_EN = "*passwords must be equals";
+
+
+function validateFullName(local) {
+    var isValid = true;
 
     var surname = document.getElementById("surname").value;
     var name = document.getElementById("name").value;
     var patronymic = document.getElementById("patronymic").value;
 
-    if (!(pattern_en.test(surname) || pattern_ru.test(surname))) {
-        document.getElementById("surnameErr").innerHTML = errorMessage;
+    if (!(NAME_PATTERN_EN.test(surname) || NAME_PATTERN_RU.test(surname))) {
+        if (local == RU) {
+            document.getElementById("surnameErr").innerHTML = NAME_ERROR_MESSAGE_RU;
+        } else {
+            document.getElementById("surnameErr").innerHTML = NAME_ERROR_MESSAGE_EN;
+        }
+
         isValid = false;
     }
-    if (!(pattern_en.test(name) || pattern_ru.test(name))) {
-        document.getElementById("nameErr").innerHTML = errorMessage;
+    if (!(NAME_PATTERN_EN.test(name) || NAME_PATTERN_RU.test(name))) {
+        if (local == RU) {
+            document.getElementById("nameErr").innerHTML = NAME_ERROR_MESSAGE_RU;
+        } else {
+            document.getElementById("nameErr").innerHTML = NAME_ERROR_MESSAGE_EN;
+        }
+
         isValid = false;
     }
-    if (!(pattern_en.test(patronymic) || pattern_ru.test(patronymic))) {
-        document.getElementById("patronymicErr").innerHTML = errorMessage;
+    if (!(NAME_PATTERN_EN.test(patronymic) || NAME_PATTERN_RU.test(patronymic))) {
+        if (local == RU) {
+            document.getElementById("patronymicErr").innerHTML = NAME_ERROR_MESSAGE_RU;
+        } else {
+            document.getElementById("patronymicErr").innerHTML = NAME_ERROR_MESSAGE_EN;
+        }
+
         isValid = false;
     }
 
@@ -26,15 +58,18 @@ function validateFullName() {
 }
 
 
-function validateMobile() {
+function validateMobile(local) {
     var isValid = true;
-
-    var pattern = /^\+375\d{9}$/;
 
     var mobile = document.getElementById("mobile").value;
 
-    if (!pattern.test(mobile)) {
-        document.getElementById("mobileErr").innerHTML = "*correct form: +375xxxxxxxxx";
+    if (!MOBILE_PATTERN.test(mobile)) {
+        if (local == RU) {
+            document.getElementById("mobileErr").innerHTML = MOBILE_ERROR_MESSAGE_RU;
+        } else {
+            document.getElementById("mobileErr").innerHTML = MOBILE_ERROR_MESSAGE_EN;
+        }
+
         isValid = false;
     }
 
@@ -42,16 +77,18 @@ function validateMobile() {
 }
 
 
-function validatePassword() {
+function validatePassword(local) {
     var isValid = true;
-
-    var pattern = /(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-ZА-Я])(?=.*[a-zа-я]).*$/;
 
     var password = document.getElementById("password").value;
 
-    if (!pattern.test(password)) {
-        document.getElementById("passwordErr").innerHTML = "*At least" +
-            " 8 char.(one letter in each register and one digit)";
+    if (!PASSWORD_PATTERN.test(password)) {
+        if (local == RU) {
+            document.getElementById("passwordErr").innerHTML = PASSWORD_ERROR_MESSAGE_RU;
+        } else {
+            document.getElementById("passwordErr").innerHTML = PASSWORD_ERROR_MESSAGE_EN;
+        }
+
         isValid = false;
     }
 
@@ -59,16 +96,19 @@ function validatePassword() {
 }
 
 
-function validateConfirm() {
+function validateConfirm(local) {
     var isValid = true;
-
-    var pattern = /(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-ZА-Я])(?=.*[a-zа-я]).*$/;
 
     var confirm = document.getElementById("confirm").value;
 
-    if (!pattern.test(confirm)) {
-        document.getElementById("confirmErr").innerHTML = "*At least" +
-            " 8 char.(one letter in each register and one digit)";
+    if (!PASSWORD_PATTERN.test(confirm)) {
+
+        if (local == RU) {
+            document.getElementById("confirmErr").innerHTML = PASSWORD_ERROR_MESSAGE_RU;
+        } else {
+            document.getElementById("confirmErr").innerHTML = PASSWORD_ERROR_MESSAGE_EN;
+        }
+
         isValid = false;
     }
 
@@ -76,15 +116,19 @@ function validateConfirm() {
 }
 
 
-function isEquals() {
+function isEquals(local) {
     var isEquals = true;
 
     var password = document.getElementById("password").value;
     var confirmPassword = document.getElementById("confirm").value;
 
     if (password != confirmPassword) {
-        document.getElementById("confirmErr").innerHTML =
-            "*passwords must be equals";
+        if (local == RU) {
+            document.getElementById("confirmErr").innerHTML = CONFIRM_ERROR_MESSAGE_RU;
+        } else {
+            document.getElementById("confirmErr").innerHTML = CONFIRM_ERROR_MESSAGE_EN;
+        }
+
         isEquals = false;
     }
 
@@ -101,19 +145,21 @@ function validate() {
     document.getElementById("passwordErr").innerHTML = "<br>";
     document.getElementById("confirmErr").innerHTML = "<br>";
 
-    if (!validateFullName()) {
+    var local = document.getElementById("local").getAttribute("data-item");
+
+    if (!validateFullName(local)) {
         isValid = false;
     }
-    if (!validateMobile()) {
+    if (!validateMobile(local)) {
         isValid = false;
     }
-    if (!validatePassword()) {
+    if (!validatePassword(local)) {
         isValid = false;
     }
-    if (!validateConfirm()) {
+    if (!validateConfirm(local)) {
         isValid = false;
     }
-    if (!isEquals()) {
+    if (!isEquals(local)) {
         isValid = false;
     }
 

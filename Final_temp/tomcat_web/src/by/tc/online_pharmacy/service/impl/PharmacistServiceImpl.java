@@ -9,15 +9,17 @@ import by.tc.online_pharmacy.dao.factory.DaoFactory;
 import by.tc.online_pharmacy.service.PharmacistService;
 import by.tc.online_pharmacy.service.exception.ServiceException;
 import by.tc.online_pharmacy.service.exception.ValidatorException;
+import by.tc.online_pharmacy.service.util.ReportMaker;
 import by.tc.online_pharmacy.service.util.validator.Validator;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 public class PharmacistServiceImpl implements PharmacistService {
 
     @Override
     public void addDrugQuantity(int id, int quantity) throws ServiceException {
-
         try {
             DaoFactory daoFactory = DaoFactory.getInstance();
             PharmacistDao pharmacistDao = daoFactory.getPharmacistDao();
@@ -45,7 +47,6 @@ public class PharmacistServiceImpl implements PharmacistService {
 
     @Override
     public void removeDrug(int id) throws ServiceException {
-
         try {
             DaoFactory daoFactory = DaoFactory.getInstance();
             PharmacistDao pharmacistDao = daoFactory.getPharmacistDao();
@@ -58,22 +59,18 @@ public class PharmacistServiceImpl implements PharmacistService {
 
     @Override
     public List<OrderDescription> pharmacistShowOrderList() throws ServiceException {
-        List<OrderDescription> orderList = null;
-
         try {
             DaoFactory daoFactory = DaoFactory.getInstance();
             PharmacistDao pharmacistDao = daoFactory.getPharmacistDao();
 
-            orderList = pharmacistDao.takePharmacistOrderList();
+            return pharmacistDao.takePharmacistOrderList();
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
-        return orderList;
     }
 
     @Override
     public void send(int orderId, int pharmacistId) throws ServiceException {
-
         try {
             DaoFactory daoFactory = DaoFactory.getInstance();
             PharmacistDao pharmacistDao = daoFactory.getPharmacistDao();
@@ -84,4 +81,16 @@ public class PharmacistServiceImpl implements PharmacistService {
         }
     }
 
+    @Override
+    public Map<Date, List<Drug>> showSalesReport() throws ServiceException {
+        try {
+            DaoFactory daoFactory = DaoFactory.getInstance();
+            PharmacistDao pharmacistDao = daoFactory.getPharmacistDao();
+
+            List<OrderDescription> orders = pharmacistDao.takeOrders();
+            return ReportMaker.makeReport(orders);
+        } catch (DaoException exc) {
+            throw new ServiceException(exc);
+        }
+    }
 }
