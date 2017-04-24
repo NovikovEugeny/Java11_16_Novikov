@@ -4,6 +4,8 @@
 <head>
     <link href="../../../css/bootstrap.css" rel="stylesheet">
     <link href="../../../css/main.css" rel="stylesheet">
+    <script src="../../../js/jquery-3.2.0.js"></script>
+    <script src="../../../js/bootstrap.js"></script>
     <title>Title</title>
 </head>
 <body>
@@ -34,7 +36,7 @@
 </header>
 <div class="center">
     <div class="row">
-        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-3">
+        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
             <nav class="service-list">
                 <form action="controller" method="get">
                     <input type="hidden" name="command" value="groups_to_order_page">
@@ -66,24 +68,24 @@
                 </form>
             </nav>
         </div>
-        <div class="col-xs-8 col-sm-8 col-md-8 col-lg-9">
+        <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
             <section class="recipe-description">
                 <c:set var="recipe" value="${requestScope.RD}"/>
                 <c:choose>
-                    <c:when test="${not empty recipe and recipe.status eq 'open'}">
+                    <c:when test="${not empty pageScope.recipe and pageScope.recipe.status eq 'open'}">
                         <h3>Описание рецепта</h3>
                     </c:when>
-                    <c:when test="${recipe.status eq 'closed'}">
+                    <c:when test="${pageScope.recipe.status eq 'closed'}">
                         <h3>Данный рецепт закрыт</h3>
                     </c:when>
-                    <c:when test="${empty recipe}">
+                    <c:when test="${empty pageScope.recipe}">
                         <h3>Такой рецепт не существует, проверьте правильность ввода</h3>
                     </c:when>
                 </c:choose>
-                <c:if test="${not empty recipe}">
+                <c:if test="${not empty pageScope.recipe}">
                     <ul class="list-group">
                         <li class="list-group-item">
-                            Препарат: ${recipe.drugName}
+                            Препарат: ${pageScope.recipe.drugName}
                         </li>
                         <li class="list-group-item">
                             Фармакологическая группа: ${recipe.drugGroup}
@@ -114,17 +116,57 @@
                         </li>
                     </ul>
                 </c:if>
-                <c:if test="${not empty recipe and recipe.status eq 'open'}">
+                <c:if test="${recipe.status eq 'open'}">
                     <form action="controller" method="post">
                         <input type="hidden" name="command" value="order_with_recipe">
                         <input type="hidden" name="recipeCode" value="${recipe.recipeCode}">
                         <input type="hidden" name="drugId" value="${recipe.drugId}">
                         <input type="hidden" name="quantity" value="${recipe.quantity}">
                         <input type="hidden" name="cost" value="${recipe.cost}">
-                        <button type="submit">заказать</button>
+                        <button type="submit" class="btn-success btn-lg">заказать</button>
                     </form>
                 </c:if>
             </section>
+        </div>
+    </div>
+</div>
+<c:choose>
+    <c:when test="${requestScope.execution eq 'quantity'}">
+        <c:set var="errorMessage" value="quantity"/>
+        <script>
+            $(document).ready(function () {
+                $("#modal").modal('show');
+            });
+        </script>
+    </c:when>
+    <c:when test="${requestScope.execution eq 'time'}">
+        <c:set var="errorMessage" value="time"/>
+        <script>
+            $(document).ready(function () {
+                $("#modal").modal('show');
+            });
+        </script>
+    </c:when>
+    <c:when test="${requestScope.execution eq 'money'}">
+        <c:set var="errorMessage" value="money"/>
+        <script>
+            $(document).ready(function () {
+                $("#modal").modal('show');
+            });
+        </script>
+    </c:when>
+</c:choose>
+<!-- Modal-->
+<div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel1">error</h4>
+            </div>
+            <p align="center">${errorMessage}</p>
+            <div class="modal-footer">
+                <button type="submit" class="btn-success btn-lg" data-dismiss="modal">close</button>
+            </div>
         </div>
     </div>
 </div>

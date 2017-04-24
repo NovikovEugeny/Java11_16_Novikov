@@ -17,7 +17,6 @@ public final class ParameterName {
     public final static String CONFIRM = "confirm";
     public final static String RECIPE_CODE = "recipeCode";
     public final static String ID = "id";
-    public final static String USER = "user";
     public final static String LOCAL = "local";
     public final static String DRUG_NAME = "drugName";
     public final static String GROUP = "group";
@@ -28,11 +27,10 @@ public final class ParameterName {
     public final static String DISPENSING = "dispensing";
     public final static String PRICE = "price";
     public final static String QUANTITY = "quantity";
-
-
-
-
-
-
+    public final static String ORDER_ID = "orderId";
+    public final static String REQUEST_ID = "requestId";
+    public final static String DRUG_ID = "drugId";
+    public final static String STATUS_NEW = "new";
+    public final static String COST = "cost";
 
 }

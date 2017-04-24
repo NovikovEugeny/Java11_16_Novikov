@@ -3,6 +3,15 @@ body {
     font-size: 16px;
 }
 
+noscript {
+    color: red;
+}
+
+.center .recipe-list {
+    margin-top: 50px;
+    margin-left: 25%;
+}
+
 .row {
     margin: 0;
 }
@@ -211,8 +220,8 @@ footer {
 }
 
 .recipe-application button {
-    margin-top: 20px;
-    margin-left: 45%;
+    margin-top: 10px;
+    margin-left: 47%;
 }
 
 /*doctor page*/
@@ -410,4 +419,20 @@ footer {
 .server-error #message {
     text-align: center;
     font-size: 70px;
+}
+
+li .btn-success {
+    display: inline;
+    float: right;
+    height: 35px;
+    margin-top: -29px;
+}
+
+.btn-lg {
+    height: 40px;
+    padding: 5px 15px;
+}
+
+.recipe-description .btn-lg {
+    margin-left: 40%;
 }

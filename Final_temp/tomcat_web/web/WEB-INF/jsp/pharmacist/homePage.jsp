@@ -29,6 +29,7 @@
     <fmt:message bundle="${loc}" key="send" var="send"/>
     <fmt:message bundle="${loc}" key="are.you.sure" var="ays"/>
     <fmt:message bundle="${loc}" key="cancelation" var="cacelMessage"/>
+    <fmt:message bundle="${loc}" key="noscript" var="noscript"/>
     <title>${title}</title>
 </head>
 <body>
@@ -85,6 +86,9 @@
                     <p align="center">${noOrders}</p>
                 </c:if>
                 <c:if test="${not empty requestScope.orderList}">
+                    <noscript>
+                         <p align="center">${noscript}</p>
+                    </noscript>
                 <h3>${orderList}:</h3>
                 <div class="table-responsive">
                     <table class="table table-bordered">

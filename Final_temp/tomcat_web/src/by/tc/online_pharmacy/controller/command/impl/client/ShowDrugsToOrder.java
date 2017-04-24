@@ -3,9 +3,14 @@ package by.tc.online_pharmacy.controller.command.impl.client;
 import by.tc.online_pharmacy.bean.Drug;
 import by.tc.online_pharmacy.controller.JspPageName;
 import by.tc.online_pharmacy.controller.command.Command;
+import by.tc.online_pharmacy.controller.util.AttributeName;
+import by.tc.online_pharmacy.controller.util.ParameterName;
 import by.tc.online_pharmacy.service.ClientService;
 import by.tc.online_pharmacy.service.exception.ServiceException;
 import by.tc.online_pharmacy.service.factory.ServiceFactory;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -16,8 +21,7 @@ import java.util.List;
 
 public class ShowDrugsToOrder implements Command {
 
-    private final static String GROUP = "group";
-    private final static String DRUGS = "drugs";
+    private static final Logger logger = LogManager.getLogger(ShowDrugsToOrder.class.getName());
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -28,14 +32,16 @@ public class ShowDrugsToOrder implements Command {
             ServiceFactory serviceFactory = ServiceFactory.getInstance();
             ClientService clientService = serviceFactory.getClientService();
 
-            String group = request.getParameter(GROUP);
+            String group = request.getParameter(ParameterName.GROUP);
             List<Drug> drugs = clientService.showDrugGroupToOrder(group);
-            request.setAttribute(DRUGS, drugs);
+            request.setAttribute(AttributeName.DRUGS, drugs);
+
             page = JspPageName.CLIENT_DRUG_LIST_TO_ORDER;
 
-            request.getRequestDispatcher(page).forward(request, response);
         } catch (ServiceException exc) {
-            //logger
+            logger.log(Level.ERROR, exc);
+            page = JspPageName.SERVER_ERROR_PAGE;
         }
+        request.getRequestDispatcher(page).forward(request, response);
     }
 }

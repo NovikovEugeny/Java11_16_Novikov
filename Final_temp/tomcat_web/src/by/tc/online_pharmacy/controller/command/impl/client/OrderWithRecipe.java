@@ -4,9 +4,16 @@ import by.tc.online_pharmacy.bean.Order;
 import by.tc.online_pharmacy.bean.User;
 import by.tc.online_pharmacy.controller.JspPageName;
 import by.tc.online_pharmacy.controller.command.Command;
+import by.tc.online_pharmacy.controller.util.AttributeName;
+import by.tc.online_pharmacy.controller.util.ParameterName;
+import by.tc.online_pharmacy.controller.util.URLCommand;
 import by.tc.online_pharmacy.service.ClientService;
 import by.tc.online_pharmacy.service.exception.ServiceException;
+import by.tc.online_pharmacy.service.exception.ValidatorException;
 import by.tc.online_pharmacy.service.factory.ServiceFactory;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -16,30 +23,22 @@ import java.util.Date;
 
 public class OrderWithRecipe implements Command {
 
-    private final static String USER = "user";
-    private final static String DRUG_ID = "drugId";
-    private final static String QUANTITY = "quantity";
-    private final static String COST = "cost";
-    private final static String NEW = "new";
-    private final static String RECIPE_CODE = "recipeCode";
-    private final static String EXECUTE_MESSAGE = "executeMessage";
-
-    private String messageContent;
+    private static final Logger logger = LogManager.getLogger(OrderWithRecipe.class.getName());
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
         String page = null;
 
-        int clientId = ((User) request.getSession().getAttribute(USER)).getId();
+        int clientId = ((User) request.getSession().getAttribute(AttributeName.USER)).getId();
+        String recipeCode = request.getParameter(ParameterName.RECIPE_CODE);
 
         Order order = new Order();
         order.setClientId(clientId);
-        order.setDrugId(Integer.parseInt(request.getParameter(DRUG_ID)));
-        order.setQuantity(Integer.parseInt(request.getParameter(QUANTITY)));
-        order.setCost(Double.parseDouble(request.getParameter(COST)));
-        order.setStatus(NEW);
-
-        String recipeCode = request.getParameter(RECIPE_CODE);
+        order.setDrugId(Integer.parseInt(request.getParameter(ParameterName.DRUG_ID)));
+        order.setQuantity(Integer.parseInt(request.getParameter(ParameterName.QUANTITY)));
+        order.setCost(Double.parseDouble(request.getParameter(ParameterName.COST)));
+        order.setStatus(ParameterName.STATUS_NEW);
 
         try {
             ServiceFactory serviceFactory = ServiceFactory.getInstance();
@@ -52,23 +51,31 @@ public class OrderWithRecipe implements Command {
             int currentDrugQuantity = clientService.showCurrentDrugQuantity(order.getDrugId());
 
             if (currentDate.after(recipeEndDate)) {
-                messageContent = "expired";
-            } else if (currentClientBalance < order.getCost()) {
-                messageContent = "is not enough money";
+                request.setAttribute(AttributeName.EXECUTION, AttributeName.TIME_ERROR);
+                request.getRequestDispatcher(URLCommand.SHOW_ERECIPE + recipeCode).forward(request, response);
+
             } else if (currentDrugQuantity < order.getQuantity()) {
-                messageContent = "is not enough drugs";
+                request.setAttribute(AttributeName.EXECUTION, AttributeName.QUANTITY_ERROR);
+                request.getRequestDispatcher(URLCommand.SHOW_ERECIPE + recipeCode).forward(request, response);
+
+            } else if (currentClientBalance < order.getCost()) {
+                request.setAttribute(AttributeName.EXECUTION, AttributeName.MONEY_ERROR);
+                request.getRequestDispatcher(URLCommand.SHOW_ERECIPE + recipeCode).forward(request, response);
+
             } else {
                 clientService.orderWithRecipe(order, recipeCode);
-                messageContent = "successfully";
+                response.sendRedirect(URLCommand.ORDER_BY_ERECIPE);
             }
 
-            request.setAttribute(EXECUTE_MESSAGE, messageContent);
-
-            page = JspPageName.CLIENT_ORDER_BY_ERECIPE;
-
-            request.getRequestDispatcher(page).forward(request, response);
         } catch (ServiceException exc) {
-            //logger
+            logger.log(Level.ERROR, exc);
+            page = JspPageName.SERVER_ERROR_PAGE;
+            request.getRequestDispatcher(page).forward(request, response);
+            
+        } catch (ValidatorException exc) {
+            request.setAttribute(AttributeName.IS_VALID, AttributeName.NO);
+            page = JspPageName.CLIENT_EXTEND_RECIPE_PAGE;
+            request.getRequestDispatcher(page).forward(request, response);
         }
     }
 }

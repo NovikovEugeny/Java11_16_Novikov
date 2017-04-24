@@ -30,66 +30,59 @@
             </div>
         </div>
     </div>
-    <div class="greeting">
-        <div class="row">
-            <div class="col-md-12">
-                <h1>
-                    ${sessionScope.user.surname}
-                    ${sessionScope.user.name}
-                    ${sessionScope.user.patronymic}
-                </h1>
-                <hr>
-            </div>
-        </div>
-    </div>
 </header>
-<c:if test="${not empty requestScope.recipeList}">
-<section class="recipe-list">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6">
-                <h3>${pageTitle}</h3>
-                <div class="table-responsive">
-                    <table class="table table-bordered">
-                        <thead>
-                        <tr>
-                            <th>${dateColumn}</th>
-                            <th>${recipeCodeColumn}</th>
-                            <th></th>
-                            <th></th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <c:forEach var="element" items="${requestScope.recipeList}">
-                            <tr bgcolor="#FFFFFF">
-                                <td><fmt:formatDate value="${element.requestDate}" type="both" dateStyle="medium" timeStyle="medium"/></td>
-                                <td><c:out value="${element.recipeCode}"/></td>
-                                <td>
-                                    <form action="controller" method="post">
-                                        <input type="hidden" name="command" value="approve">
-                                        <input type="hidden" name="id" value="${element.id}">
-                                        <input type="hidden" name="recipeCode" value="${element.recipeCode}">
-                                        <button type="submit" class="btn-success btn-lg">${buttonApprove}</button>
-                                    </form>
-                                </td>
-                                <td>
-                                    <form action="controller" method="post">
-                                        <input type="hidden" name="command" value="deny">
-                                        <input type="hidden" name="id" value="${element.id}">
-                                        <input type="hidden" name="recipeCode" value="${element.recipeCode}">
-                                        <button type="submit" class="btn-success btn-lg">${buttonDeny}</button>
-                                    </form>
-                                </td>
-                            </tr>
-                        </c:forEach>
-                        </tbody>
-                    </table>
+<div class="center">
+    <c:if test="${not empty requestScope.recipeList}">
+        <section class="recipe-list">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8">
+                        <h3>${pageTitle}</h3>
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <thead>
+                                <tr>
+                                    <th>${dateColumn}</th>
+                                    <th>${recipeCodeColumn}</th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <c:forEach var="element" items="${requestScope.recipeList}">
+                                    <tr bgcolor="#FFFFFF">
+                                        <td><fmt:formatDate value="${element.requestDate}" type="both"
+                                                            dateStyle="medium" timeStyle="medium"/>
+                                        </td>
+                                        <td><c:out value="${element.recipeCode}"/></td>
+                                        <td>
+                                            <form action="controller" method="post">
+                                                <input type="hidden" name="command" value="approve">
+                                                <input type="hidden" name="id" value="${element.id}">
+                                                <input type="hidden" name="recipeCode" value="${element.recipeCode}">
+                                                <button type="submit"
+                                                        class="btn-success btn-lg">${buttonApprove}</button>
+                                            </form>
+                                        </td>
+                                        <td>
+                                            <form action="controller" method="post">
+                                                <input type="hidden" name="command" value="deny">
+                                                <input type="hidden" name="id" value="${element.id}">
+                                                <input type="hidden" name="recipeCode" value="${element.recipeCode}">
+                                                <button type="submit" class="btn-success btn-lg">${buttonDeny}</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                </c:forEach>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
-</section>
-</c:if>
+        </section>
+    </c:if>
+</div>
 <c:if test="${empty requestScope.recipeList}">
     <p align="center">${noApplication}</p>
 </c:if>

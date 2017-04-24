@@ -50,7 +50,7 @@
                     <span class="ring"></span>
                     <span class="ring"></span>
                 </div>
-                <form action="controller" method="post" onsubmit="return validat()">
+                <form action="controller" method="post" onsubmit="return validate()">
                     <input type="hidden" name="command" value="sign_in"/>
                     <p>
                         <c:if test="${empty requestScope.isExists}">

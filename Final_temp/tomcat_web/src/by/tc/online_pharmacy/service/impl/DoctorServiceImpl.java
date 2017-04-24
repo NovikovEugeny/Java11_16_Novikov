@@ -12,7 +12,6 @@ import java.util.List;
 
 public class DoctorServiceImpl implements DoctorService {
 
-
     @Override
     public List<RERDescription> showRecipeExtensionRequestList() throws ServiceException {
         try {

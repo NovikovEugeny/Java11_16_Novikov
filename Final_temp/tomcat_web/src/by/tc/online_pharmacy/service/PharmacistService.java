@@ -12,7 +12,7 @@ import java.util.Map;
 
 public interface PharmacistService {
 
-    void addDrugQuantity(int id, int quantity) throws ServiceException;
+    void addDrugQuantity(int id, int quantity) throws ServiceException, ValidatorException;
 
     void addNewDrug(Drug drug) throws ServiceException, ValidatorException;
 

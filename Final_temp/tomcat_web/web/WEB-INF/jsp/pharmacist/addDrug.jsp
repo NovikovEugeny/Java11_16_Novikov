@@ -11,10 +11,10 @@
     <fmt:setBundle basename="localization.local" var="loc"/>
     <fmt:message bundle="${loc}" key="pharmacist.drugForm" var="title"/>
     <fmt:message bundle="${loc}" key="order.list" var="orderList"/>
-    <fmt:message bundle="${loc}" key="logout" var="logout"/>
     <fmt:message bundle="${loc}" key="drugs.list" var="drugList"/>
     <fmt:message bundle="${loc}" key="drug.add" var="addDrug"/>
     <fmt:message bundle="${loc}" key="sales.report" var="salesReport"/>
+    <fmt:message bundle="${loc}" key="logout" var="logout"/>
     <fmt:message bundle="${loc}" key="fill.form" var="fillForm"/>
     <fmt:message bundle="${loc}" key="drugName" var="drugName"/>
     <fmt:message bundle="${loc}" key="pharm.group" var="group"/>
@@ -107,7 +107,7 @@
             <section class="drug-form">
                 <h3>${fillForm}</h3>
                 <p><br></p>
-                <form action="controller" method="post" onsubmit="return validae()">
+                <form action="controller" method="post" onsubmit="return validate()">
                     <input type="hidden" name="command" value="add_new_drug"/>
                     <div class="form-group">
                         <label for="name">${drugName}:</label>

@@ -19,7 +19,7 @@ public class CommonServiceImpl implements CommonService {
     @Override
     public User signIn(String mobile, String password) throws ServiceException, ValidatorException {
 
-        Validator.signInValidate(mobile, password);
+        Validator.validateSignIn(mobile, password);
 
         try {
             DaoFactory daoFactory = DaoFactory.getInstance();
@@ -36,7 +36,7 @@ public class CommonServiceImpl implements CommonService {
     @Override
     public List<Drug> showDrugsByName(String name) throws ServiceException, ValidatorException {
 
-        Validator.searchValidate(name);
+        Validator.validateSearch(name);
 
         try {
             DaoFactory daoFactory = DaoFactory.getInstance();

@@ -316,9 +316,10 @@ public class ClientDaoImpl implements ClientDao {
             ps.setString(1, recipeCode);
             resultSet = ps.executeQuery();
 
-            RecipeDescription recipeDescription = new RecipeDescription();
+            RecipeDescription recipeDescription = null;
 
             if (resultSet.next()) {
+                recipeDescription = new RecipeDescription();
                 recipeDescription.setRecipeCode(recipeCode);
                 recipeDescription.setDrugId(resultSet.getInt(TableColumnName.DRUG_ID));
                 recipeDescription.setDrugName(resultSet.getString(TableColumnName.DRUG_NAME));
@@ -595,14 +596,14 @@ public class ClientDaoImpl implements ClientDao {
         PreparedStatement ps = null;
         ResultSet resultSet = null;
 
-        List<OrderDescription> shoppingList = new ArrayList<>();
-
         try {
             connection = ConnectionPool.getInstance().takeConnection();
 
             ps = connection.prepareStatement(DrugQueryStore.SELECT_ORDER_DESCRIPTION_BY_CLIENT_ID);
             ps.setInt(1, clientId);
             resultSet = ps.executeQuery();
+
+            List<OrderDescription> shoppingList = new ArrayList<>();
 
             while (resultSet.next()) {
                 OrderDescription orderDescription = new OrderDescription();

@@ -1,9 +1,17 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <html>
 <head>
+    <style>
+        #codeErr {
+            color: red;
+        }
+    </style>
     <link href="../../../css/bootstrap.css" rel="stylesheet">
     <link href="../../../css/main.css" rel="stylesheet">
+    <script src="../../../js/recipeCodeValidator.js"></script>
+    <div id="local" data-item="${sessionScope.local}"></div>
     <title>ERecipe</title>
 </head>
 <body>
@@ -69,10 +77,15 @@
         <div class="col-xs-8 col-sm-8 col-md-8 col-lg-9">
             <section class="recipe-application">
                 <h3>Заказ по электронному рецепту</h3>
-                <form action="controller" method="post">
+                <form action="controller" method="post" onsubmit="return validat()">
                     <div class="form-group">
-                        <input type="hidden" name="command" value="show_er_recipe">
+                        <input type="hidden" name="command" value="show_erecipe">
                         <label for="code">recipe code:</label>
+                        <p id="codeErr">
+                            <c:if test="${not empty requestScope.isValid}">
+                                fobidden empty
+                            </c:if>
+                        </p>
                         <input type="text" class="form-control" id="code" name="recipeCode">
                     </div>
                     <button type="submit" class="btn-success btn-lg">send</button>
@@ -81,11 +94,5 @@
         </div>
     </div>
 </div>
-<c:set var="response" value="${requestScope.executeMessage}"/>
-<c:if test="${not empty response}">
-    <script>
-        alert("${response}");
-    </script>
-</c:if>
 </body>
 </html>

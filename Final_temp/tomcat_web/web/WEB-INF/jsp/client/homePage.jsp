@@ -5,19 +5,23 @@
 <head>
     <link href="../../../css/bootstrap.css" rel="stylesheet">
     <link href="../../../css/main.css" rel="stylesheet">
-
     <fmt:setLocale value="${sessionScope.local}" />
     <fmt:setBundle basename="localization.local" var="loc" />
-    <fmt:message bundle="${loc}" key="button.cardio" var="cardio"/>
-    <fmt:message bundle="${loc}" key="button.antiviral" var="a_v"/>
-    <fmt:message bundle="${loc}" key="button.immunity" var="immunity"/>
-    <fmt:message bundle="${loc}" key="button.antibiotics" var="antibio"/>
-    <fmt:message bundle="${loc}" key="button.nerv" var="nerv"/>
-    <fmt:message bundle="${loc}" key="button.allergy" var="allergy"/>
-    <fmt:message bundle="${loc}" key="button.gastr" var="gastr"/>
-    <fmt:message bundle="${loc}" key="button.antipyretics" var="antipyr"/>
-
-    <title>Client page</title>
+    <fmt:message bundle="${loc}" key="messages" var="title"/>
+    <fmt:message bundle="${loc}" key="logout" var="logout"/>
+    <fmt:message bundle="${loc}" key="order.drug" var="orderDrug"/>
+    <fmt:message bundle="${loc}" key="order.erecipe" var="orderER"/>
+    <fmt:message bundle="${loc}" key="cancel.order" var="cancelOrder"/>
+    <fmt:message bundle="${loc}" key="extend.recipe" var="extendRecipe"/>
+    <fmt:message bundle="${loc}" key="messages" var="messages"/>
+    <fmt:message bundle="${loc}" key="purchase.history" var="history"/>
+    <fmt:message bundle="${loc}" key="balance" var="balance"/>
+    <fmt:message bundle="${loc}" key="quant" var="quant"/>
+    <fmt:message bundle="${loc}" key="sent.addres" var="sent"/>
+    <fmt:message bundle="${loc}" key="received" var="received"/>
+    <fmt:message bundle="${loc}" key="recipe.with.code" var="recipeWithCode"/>
+    <fmt:message bundle="${loc}" key="hide" var="hide"/>
+    <title>${title}</title>
 </head>
 <body>
 <header>
@@ -26,7 +30,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="logOut">
-                        <a href="controller?command=log_out">выйти</a>
+                        <a href="controller?command=log_out">${logout}</a>
                     </div>
                 </div>
             </div>
@@ -51,63 +55,62 @@
             <nav class="service-list">
                 <form action="controller" method="get">
                     <input type="hidden" name="command" value="groups_to_order_page">
-                    <button type="submit">заказать препарат</button>
+                    <button type="submit">${orderDrug}</button>
                 </form>
                 <form action="controller" method="get">
                     <input type="hidden" name="command" value="order_by_erecipe_page">
-                    <button type="submit">заказать по эл. рецепту</button>
+                    <button type="submit">${orderER}</button>
                 </form>
                 <form action="controller" method="get">
                     <input type="hidden" name="command" value="client_show_order_list">
-                    <button type="submit">отменить заказ</button>
+                    <button type="submit">${cancelOrder}</button>
                 </form>
                 <form action="controller" method="get">
                     <input type="hidden" name="command" value="extend_recipe_page">
-                    <button>продлить рецепт</button>
+                    <button>${extendRecipe}</button>
                 </form>
                 <form action="controller" method="get">
                     <input type="hidden" name="command" value="show_messages">
-                    <button type="submit">сообщения</button>
+                    <button type="submit">${messages}</button>
                 </form>
                 <form action="controller" method="get">
                     <input type="hidden" name="command" value="show_shopping_list">
-                    <button type="submit">история покупок</button>
+                    <button type="submit">${history}</button>
                 </form>
                 <form action="controller" method="get">
                     <input type="hidden" name="command" value="show_balance">
-                    <button type="submit">баланс на карте</button>
+                    <button type="submit">${balance}</button>
                 </form>
             </nav>
         </div>
         <div class="col-xs-8 col-sm-8 col-md-8 col-lg-9">
             <section class="client-messages">
-                <h3>Сообщения</h3>
+                <h3>${messages}:</h3>
                 <ul class="list-group">
                     <c:forEach var="element" items="${requestScope.sendingMessages}">
                         <li class="list-group-item">
-                            ${element.responseDate}  ${element.drugName}  ${element.drugAmount}
-                            ${element.quantity}шт.  ${element.productingCountry}  отправлен на ваш адрес
+                            <fmt:formatDate value="${element.responseDate}" type="both" dateStyle="medium" timeStyle="medium"/>
+                            ${element.drugName}  ${element.drugAmount} ${element.quantity} ${quant}
+                            ${element.productingCountry} ${sent}
                             <form action="controller" method="post">
                                 <input type="hidden" name="command" value="report_about_delivery">
                                 <input type="hidden" name="orderId" value="${element.orderId}">
-                                <button type="submit" class="btn-success">received</button>
+                                <button type="submit" class="btn-success">${received}</button>
                             </form>
                         </li>
                     </c:forEach>
                     <c:forEach var="element" items="${requestScope.doctorResponseMessages}">
                         <li class="list-group-item">
-                            Рецепт с кодом ${element.recipeCode} ${element.status}
-                            ${element.responseDate}
+                            ${recipeWithCode} ${element.recipeCode} ${element.status}
+                                <fmt:formatDate value="${element.responseDate}" type="both" dateStyle="medium" timeStyle="medium"/>
                             <form>
                                 <input type="hidden" name="command" value="hide_message">
                                 <input type="hidden" name="requestId" value="${element.id}">
-                                <button type="submit" class="btn-success">hide</button>
+                                <button type="submit" class="btn-success">${hide}</button>
                             </form>
                         </li>
                     </c:forEach>
                 </ul>
-
-
             </section>
         </div>
     </div>

@@ -2,6 +2,7 @@ package by.tc.online_pharmacy.controller.command.impl.common;
 
 import by.tc.online_pharmacy.controller.JspPageName;
 import by.tc.online_pharmacy.controller.command.Command;
+import by.tc.online_pharmacy.controller.util.AttributeName;
 import by.tc.online_pharmacy.controller.util.ParameterName;
 
 import javax.servlet.ServletException;
@@ -18,7 +19,7 @@ public class LogOut implements Command {
         HttpSession session = request.getSession();
 
         if (session != null) {
-            session.removeAttribute(ParameterName.USER);
+            session.removeAttribute(AttributeName.USER);
         }
 
         String page = JspPageName.START_PAGE;

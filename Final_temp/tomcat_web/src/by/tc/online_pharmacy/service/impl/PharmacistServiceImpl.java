@@ -19,7 +19,10 @@ import java.util.Map;
 public class PharmacistServiceImpl implements PharmacistService {
 
     @Override
-    public void addDrugQuantity(int id, int quantity) throws ServiceException {
+    public void addDrugQuantity(int id, int quantity) throws ServiceException, ValidatorException {
+
+        Validator.validateDrugQuantity(quantity);
+
         try {
             DaoFactory daoFactory = DaoFactory.getInstance();
             PharmacistDao pharmacistDao = daoFactory.getPharmacistDao();
@@ -33,7 +36,7 @@ public class PharmacistServiceImpl implements PharmacistService {
     @Override
     public void addNewDrug(Drug drug) throws ServiceException, ValidatorException {
 
-        Validator.addNewDrugValidate(drug);
+        Validator.validateNewDrugAddition(drug);
 
         try {
             DaoFactory daoFactory = DaoFactory.getInstance();
@@ -64,8 +67,8 @@ public class PharmacistServiceImpl implements PharmacistService {
             PharmacistDao pharmacistDao = daoFactory.getPharmacistDao();
 
             return pharmacistDao.takePharmacistOrderList();
-        } catch (DaoException e) {
-            throw new ServiceException(e);
+        } catch (DaoException exc) {
+            throw new ServiceException(exc);
         }
     }
 

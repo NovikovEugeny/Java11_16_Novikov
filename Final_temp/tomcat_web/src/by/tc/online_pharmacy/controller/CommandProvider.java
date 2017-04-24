@@ -6,6 +6,7 @@ import by.tc.online_pharmacy.controller.command.impl.client.*;
 import by.tc.online_pharmacy.controller.command.impl.common.*;
 import by.tc.online_pharmacy.controller.command.impl.doctor.Approve;
 import by.tc.online_pharmacy.controller.command.impl.doctor.Deny;
+import by.tc.online_pharmacy.controller.command.impl.doctor.ShowRecipeExtensionRequests;
 import by.tc.online_pharmacy.controller.command.impl.page.*;
 import by.tc.online_pharmacy.controller.command.impl.pharmacist.*;
 
@@ -52,7 +53,7 @@ public class CommandProvider {
         repository.put(CommandName.SHOW_DRUGS_TO_ORDER, new ShowDrugsToOrder());
         repository.put(CommandName.ORDER_WITHOUT_RECIPE, new OrderWithoutRecipe());
         repository.put(CommandName.ORDER_WITH_RECIPE, new OrderWithRecipe());
-        repository.put(CommandName.SHOW_ER_RECIPE, new ShowERecipe());
+        repository.put(CommandName.SHOW_ERECIPE, new ShowERecipe());
         repository.put(CommandName.CLIENT_SHOW_ORDER_LIST, new ClientShowOrderList());
         repository.put(CommandName.CLIENT_CANCEL_ORDER, new ClientCancelOrder());
         repository.put(CommandName.SEND_RECIPE_EXTENSION_REQUEST, new SendRecipeExtensionRequest());
@@ -65,6 +66,7 @@ public class CommandProvider {
         //doctor
         repository.put(CommandName.APPROVE, new Approve());
         repository.put(CommandName.DENY, new Deny());
+        repository.put(CommandName.SHOW_RECIPE_EXTENSION_REQUESTS, new ShowRecipeExtensionRequests());
     }
 
     public Command getCommand(String name) {

@@ -19,7 +19,7 @@ public class ClientServiceImpl implements ClientService {
     @Override
     public int signUp(User user) throws ServiceException, ValidatorException {
 
-        Validator.signUpValidate(user);
+        Validator.validateSignUp(user);
 
         try {
             DaoFactory daoFactory = DaoFactory.getInstance();
@@ -64,7 +64,10 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public RecipeDescription showRecipeDescription(String recipeCode) throws ServiceException {
+    public RecipeDescription showRecipeDescription(String recipeCode) throws ServiceException, ValidatorException {
+
+        Validator.validateRecipeCode(recipeCode);
+
         try {
             DaoFactory daoFactory = DaoFactory.getInstance();
             ClientDao clientDao = daoFactory.getClientDao();
@@ -88,7 +91,10 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public Date showRecipeEndDate(String recipeCode) throws ServiceException {
+    public Date showRecipeEndDate(String recipeCode) throws ServiceException, ValidatorException {
+
+        Validator.validateRecipeCode(recipeCode);
+
         try {
             DaoFactory daoFactory = DaoFactory.getInstance();
             ClientDao clientDao = daoFactory.getClientDao();
@@ -112,7 +118,10 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public void orderWithoutRecipe(Order order) throws ServiceException {
+    public void orderWithoutRecipe(Order order) throws ServiceException, ValidatorException {
+
+        Validator.validateDrugQuantity(order.getQuantity());
+
         try {
             DaoFactory daoFactory = DaoFactory.getInstance();
             ClientDao clientDao = daoFactory.getClientDao();

@@ -5,8 +5,8 @@ import by.tc.online_pharmacy.bean.User;
 import by.tc.online_pharmacy.controller.JspPageName;
 import by.tc.online_pharmacy.controller.command.Command;
 import by.tc.online_pharmacy.controller.util.AttributeName;
+import by.tc.online_pharmacy.controller.util.URLCommand;
 import by.tc.online_pharmacy.controller.util.ParameterName;
-import by.tc.online_pharmacy.dao.impl.ClientDaoImpl;
 import by.tc.online_pharmacy.service.DoctorService;
 import by.tc.online_pharmacy.service.exception.ServiceException;
 import by.tc.online_pharmacy.service.factory.ServiceFactory;
@@ -18,7 +18,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.List;
 
 
 public class Approve implements Command {
@@ -30,29 +29,27 @@ public class Approve implements Command {
 
         String page = null;
 
-        int id = Integer.parseInt(request.getParameter(ParameterName.ID));
-        String recipeCode = request.getParameter(ParameterName.RECIPE_CODE);
-        int doctorId = ((User)request.getSession().getAttribute(ParameterName.USER)).getId();
-
-        RERDescription rerDescription = new RERDescription();
-        rerDescription.setId(id);
-        rerDescription.setDoctorId(doctorId);
-        rerDescription.setRecipeCode(recipeCode);
-
         try {
             ServiceFactory serviceFactory = ServiceFactory.getInstance();
             DoctorService doctorService = serviceFactory.getDoctorService();
 
+            int id = Integer.parseInt(request.getParameter(ParameterName.ID));
+            String recipeCode = request.getParameter(ParameterName.RECIPE_CODE);
+            int doctorId = ((User) request.getSession().getAttribute(AttributeName.USER)).getId();
+
+            RERDescription rerDescription = new RERDescription();
+            rerDescription.setId(id);
+            rerDescription.setDoctorId(doctorId);
+            rerDescription.setRecipeCode(recipeCode);
+
             doctorService.approve(rerDescription);
 
-            List<RERDescription> recipeList = doctorService.showRecipeExtensionRequestList();
-            request.setAttribute(AttributeName.RECIPE_LIST, recipeList);
+            response.sendRedirect(URLCommand.SHOW_RECIPE_EXTENSION_REQUESTS);
 
-            page = JspPageName.DOCTOR_HOME_PAGE;
-        } catch (ServiceException exc) {
+        } catch (ServiceException | NumberFormatException exc) {
             logger.log(Level.ERROR, exc);
             page = JspPageName.SERVER_ERROR_PAGE;
+            request.getRequestDispatcher(page).forward(request, response);
         }
-        request.getRequestDispatcher(page).forward(request, response);
     }
 }

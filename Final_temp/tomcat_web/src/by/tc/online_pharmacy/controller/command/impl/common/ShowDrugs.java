@@ -28,12 +28,11 @@ public class ShowDrugs implements Command {
 
         String page = null;
 
-        String group = request.getParameter(ParameterName.GROUP);
-
         try {
             ServiceFactory serviceFactory = ServiceFactory.getInstance();
             CommonService commonService = serviceFactory.getCommonService();
 
+            String group = request.getParameter(ParameterName.GROUP);
             List<Drug> drugs = commonService.showDrugGroup(group);
             request.setAttribute(AttributeName.DRUGS, drugs);
 

@@ -4,6 +4,7 @@ import by.tc.online_pharmacy.bean.Drug;
 import by.tc.online_pharmacy.controller.JspPageName;
 import by.tc.online_pharmacy.controller.command.Command;
 import by.tc.online_pharmacy.controller.util.AttributeName;
+import by.tc.online_pharmacy.controller.util.URLCommand;
 import by.tc.online_pharmacy.controller.util.ParameterName;
 import by.tc.online_pharmacy.service.PharmacistService;
 import by.tc.online_pharmacy.service.exception.ServiceException;
@@ -45,16 +46,18 @@ public class AddNewDrug implements Command {
 
             pharmacistService.addNewDrug(drug);
 
-            page = JspPageName.PHARMACIST_ADD_DRUG_REDIRECT;
-            response.sendRedirect(page);
+            response.sendRedirect(URLCommand.ADD_DRUG_PAGE);
+
         } catch (ServiceException exc) {
             logger.log(Level.ERROR, exc);
             page = JspPageName.SERVER_ERROR_PAGE;
             request.getRequestDispatcher(page).forward(request, response);
+
         } catch (ValidatorException exc) {
             request.setAttribute(AttributeName.ERROR_MAP, exc.getErrors());
             page = JspPageName.PHARMACIST_ADD_DRUG_PAGE;
             request.getRequestDispatcher(page).forward(request, response);
+
         } catch (NumberFormatException exc) {
             request.setAttribute(AttributeName.IS_VALID, AttributeName.NO);
             page = JspPageName.PHARMACIST_ADD_DRUG_PAGE;

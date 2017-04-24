@@ -2,8 +2,15 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
+    <style>
+        #codeErr {
+            color: red;
+        }
+    </style>
     <link href="../../../css/bootstrap.css" rel="stylesheet">
     <link href="../../../css/main.css" rel="stylesheet">
+    <script src="../../../js/recipeCodeValidator.js"></script>
+    <div id="local" data-item="${sessionScope.local}"></div>
     <title>extend recipe</title>
 </head>
 <body>
@@ -69,11 +76,16 @@
         <div class="col-xs-8 col-sm-8 col-md-8 col-lg-9">
             <section class="recipe-application">
                 <h3>Заявка на продление рецепта</h3>
-                <form action="controller" method="post">
+                <form action="controller" method="post" onsubmit="return validat()">
                     <div class="form-group">
                         <input type="hidden" name="command" value="send_recipe_extension_request">
                         <label for="code">recipe code:</label>
-                        <input type="text" class="form-control" id="code" name="recipeCode" required>
+                        <p id="codeErr">
+                            <c:if test="${not empty requestScope.isValid}">
+                                fobidden empty
+                            </c:if>
+                        </p>
+                        <input type="text" class="form-control" id="code" name="recipeCode">
                     </div>
                     <button type="submit" class="btn-success btn-lg">send</button>
                 </form>
@@ -81,10 +93,15 @@
         </div>
     </div>
 </div>
-<c:set var="response" value="${requestScope.executeMessage}"/>
-<c:if test="${not empty response}">
+<c:set var="response" value="${requestScope.execution}"/>
+<c:if test="${not empty requestScope.execution}">
     <script>
-        alert("${response}");
+        alert("${requestScope.execution}");
+    </script>
+</c:if>
+<c:if test="${not empty requestScope.isExists}">
+    <script>
+        alert("is not exists");
     </script>
 </c:if>
 </body>

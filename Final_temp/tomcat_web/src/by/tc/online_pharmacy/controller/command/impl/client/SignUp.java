@@ -3,8 +3,8 @@ package by.tc.online_pharmacy.controller.command.impl.client;
 import by.tc.online_pharmacy.bean.User;
 import by.tc.online_pharmacy.controller.JspPageName;
 import by.tc.online_pharmacy.controller.command.Command;
-import by.tc.online_pharmacy.controller.command.impl.doctor.Approve;
 import by.tc.online_pharmacy.controller.util.AttributeName;
+import by.tc.online_pharmacy.controller.util.URLCommand;
 import by.tc.online_pharmacy.controller.util.ParameterName;
 import by.tc.online_pharmacy.service.ClientService;
 import by.tc.online_pharmacy.service.exception.ServiceException;
@@ -43,21 +43,24 @@ public class SignUp implements Command {
             ClientService clientService = serviceFactory.getClientService();
 
             int id = clientService.signUp(user);
+            clientService.addAccount(id);
+
             user.setId(id);
             request.getSession().setAttribute(AttributeName.USER, user);
 
-            clientService.addAccount(id);
+            response.sendRedirect(URLCommand.SHOW_MESSAGES);
 
-            page = JspPageName.CLIENT_HOME_PAGE;
         } catch (ServiceException exc) {
             logger.log(Level.ERROR, exc);
             page = JspPageName.SERVER_ERROR_PAGE;
+            request.getRequestDispatcher(page).forward(request, response);
+
         } catch (ValidatorException exc) {
             request.setAttribute(AttributeName.ALREADY_EXISTS,
                     (exc.getMessage() == null ? AttributeName.NO : AttributeName.YES));
             request.setAttribute(AttributeName.ERROR_MAP, exc.getErrors());
             page = JspPageName.SIGN_UP_PAGE;
+            request.getRequestDispatcher(page).forward(request, response);
         }
-        request.getRequestDispatcher(page).forward(request, response);
     }
 }

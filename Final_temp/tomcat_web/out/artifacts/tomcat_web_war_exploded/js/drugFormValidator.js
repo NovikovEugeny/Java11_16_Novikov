@@ -6,8 +6,8 @@ var NAME_PATTERN_EN = /^[A-Z][a-z]{2,}$/;
 var AMOUNT_PATTERN_EN = /^\d{1,4}\s[a-z]+$/;
 var AMOUNT_PATTERN_RU = /^\d{1,4}\s[а-я]+$/;
 
-var ACTICE_SUBSTANCES_PATTERN_EN = /^([A-Za-z][a-z]+\s?-\s?\d+\s?[a-z/]+[,;]?\s?)+$/;
-var ACTICE_SUBSTANCES_PATTERN_RU = /^([А-Яа-я][а-я]+\s?-\s?\d+\s?[а-я/]+[,;]?\s?)+$/;
+var ACTICE_SUBSTANCES_PATTERN_EN = /^([A-Za-z][a-z]+\s?-\s?\d+\s?[a-z/\d%]+[,;]?\s?)+$/;
+var ACTICE_SUBSTANCES_PATTERN_RU = /^([А-Яа-я][а-я]+\s?-\s?\d+\s?[а-я/\d%]+[,;]?\s?)+$/;
 
 var COUNTRY_PATTERN_EN = /^[A-Z][A-Za-z]{2,}$/;
 var COUNTRY_PATTERN_RU = /^[А-Я][А-Яа-я]{2,}$/;

@@ -21,7 +21,7 @@ public final class Validator {
         return m.matches();
     }
 
-    public static void signInValidate(String mobile, String password) throws ValidatorException {
+    public static void validateSignIn(String mobile, String password) throws ValidatorException {
 
         Map<String, String> errors = new HashMap<>();
 
@@ -44,7 +44,7 @@ public final class Validator {
         }
     }
 
-    public static void signUpValidate(User user) throws ValidatorException {
+    public static void validateSignUp(User user) throws ValidatorException {
 
         Map<String, String> errors = new HashMap<>();
 
@@ -87,14 +87,14 @@ public final class Validator {
         }
     }
 
-    public static void searchValidate(String name) throws ValidatorException {
+    public static void validateSearch(String name) throws ValidatorException {
         if (!test(RegExp.DRUG_NAME_FOR_SEARCH_REG_EXP_EN, name) &&
                 !test(RegExp.DRUG_NAME_FOR_SEARCH_REG_EXP_RU, name)) {
             throw new ValidatorException();
         }
     }
 
-    public static void addNewDrugValidate(Drug drug) throws ValidatorException {
+    public static void validateNewDrugAddition(Drug drug) throws ValidatorException {
 
         Map<String, String> errors = new HashMap<>();
 
@@ -130,6 +130,18 @@ public final class Validator {
             if (str != null) {
                 throw new ValidatorException(errors);
             }
+        }
+    }
+
+    public static void validateDrugQuantity(int quantity) throws ValidatorException {
+        if (quantity <= 0) {
+            throw new ValidatorException();
+        }
+    }
+
+    public static void validateRecipeCode(String recipeCode) throws ValidatorException {
+        if (recipeCode == "") {
+            throw new ValidatorException();
         }
     }
 }

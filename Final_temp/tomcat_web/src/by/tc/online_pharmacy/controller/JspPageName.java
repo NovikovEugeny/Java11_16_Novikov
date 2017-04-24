@@ -3,9 +3,8 @@ package by.tc.online_pharmacy.controller;
 
 public final class JspPageName {
 
-    private JspPageName() {}
-
-    //public final static String ERROR_PAGE = "/WEB-INF/jsp/error.jsp";
+    private JspPageName() {
+    }
 
     //common
     public final static String START_PAGE = "/WEB-INF/jsp/common/startPage.jsp";
@@ -20,7 +19,6 @@ public final class JspPageName {
     public final static String PHARMACIST_GROUPS_TO_UPDATE = "/WEB-INF/jsp/pharmacist/groupsToUpdate.jsp";
     public final static String PHARMACIST_DRUG_LIST_TO_UPDATE = "/WEB-INF/jsp/pharmacist/drugListToUpdate.jsp";
     public final static String PHARMACIST_SALES_REPORT = "/WEB-INF/jsp/pharmacist/salesReport.jsp";
-    public final static String PHARMACIST_ADD_DRUG_REDIRECT = "/drugForm";
 
     //client
     public final static String SIGN_UP_PAGE = "/WEB-INF/jsp/client/signUp.jsp";

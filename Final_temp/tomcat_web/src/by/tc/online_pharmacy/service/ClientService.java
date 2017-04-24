@@ -16,15 +16,15 @@ public interface ClientService {
 
     List<Drug> showDrugGroupToOrder(String group) throws ServiceException;
 
-    RecipeDescription showRecipeDescription(String recipeCode) throws ServiceException;
+    RecipeDescription showRecipeDescription(String recipeCode) throws ServiceException, ValidatorException;
 
     double showCurrentBalance(int clientId) throws ServiceException;
 
-    Date showRecipeEndDate(String recipeCode) throws ServiceException;
+    Date showRecipeEndDate(String recipeCode) throws ServiceException, ValidatorException;
 
     int showCurrentDrugQuantity(int drugId) throws ServiceException;
 
-    void orderWithoutRecipe(Order order) throws ServiceException;
+    void orderWithoutRecipe(Order order) throws ServiceException, ValidatorException;
 
     void orderWithRecipe(Order order, String recipeCode) throws ServiceException;
 
