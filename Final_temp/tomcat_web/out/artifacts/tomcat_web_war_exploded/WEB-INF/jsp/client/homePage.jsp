@@ -21,6 +21,11 @@
     <fmt:message bundle="${loc}" key="received" var="received"/>
     <fmt:message bundle="${loc}" key="recipe.with.code" var="recipeWithCode"/>
     <fmt:message bundle="${loc}" key="hide" var="hide"/>
+    <fmt:message bundle="${loc}" key="closed" var="closed"/>
+    <fmt:message bundle="${loc}" key="open" var="open"/>
+    <fmt:message bundle="${loc}" key="extended" var="isExtended"/>
+    <fmt:message bundle="${loc}" key="refuse" var="refuse"/>
+    <fmt:message bundle="${loc}" key="medical.advice" var="medicalAdvice"/>
     <title>${title}</title>
 </head>
 <body>
@@ -99,10 +104,22 @@
                             </form>
                         </li>
                     </c:forEach>
+
+                    <c:set var="status" value="${}"/>
+
                     <c:forEach var="element" items="${requestScope.doctorResponseMessages}">
                         <li class="list-group-item">
-                            ${recipeWithCode} ${element.recipeCode} ${element.status}
+                            ${recipeWithCode} ${element.recipeCode}
+                                <c:if test="${element.status eq 'denied'}">
+                                    <c:out value="${refuse}"/>
+                                </c:if>
+                                <c:if test="${element.status eq 'approved'}">
+                                    <c:out value="${isExtended}"/>
+                                </c:if>
                                 <fmt:formatDate value="${element.responseDate}" type="both" dateStyle="medium" timeStyle="medium"/>
+                                <c:if test="${element.status eq 'denied'}">
+                                    <c:out value="${medicalAdvice}"/>
+                                </c:if>
                             <form>
                                 <input type="hidden" name="command" value="hide_message">
                                 <input type="hidden" name="requestId" value="${element.id}">

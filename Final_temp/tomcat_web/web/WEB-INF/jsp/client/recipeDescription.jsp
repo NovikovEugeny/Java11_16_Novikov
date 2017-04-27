@@ -1,12 +1,40 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <html>
 <head>
     <link href="../../../css/bootstrap.css" rel="stylesheet">
     <link href="../../../css/main.css" rel="stylesheet">
     <script src="../../../js/jquery-3.2.0.js"></script>
     <script src="../../../js/bootstrap.js"></script>
-    <title>Title</title>
+    <fmt:setLocale value="${sessionScope.local}"/>
+    <fmt:setBundle basename="localization.local" var="loc"/>
+    <fmt:message bundle="${loc}" key="logout" var="logout"/>
+    <fmt:message bundle="${loc}" key="recipe.description" var="title"/>
+    <fmt:message bundle="${loc}" key="order.drug" var="orderDrug"/>
+    <fmt:message bundle="${loc}" key="order.erecipe" var="orderER"/>
+    <fmt:message bundle="${loc}" key="cancel.order" var="cancelOrder"/>
+    <fmt:message bundle="${loc}" key="extend.recipe" var="extendRecipe"/>
+    <fmt:message bundle="${loc}" key="messages" var="messages"/>
+    <fmt:message bundle="${loc}" key="purchase.history" var="history"/>
+    <fmt:message bundle="${loc}" key="balance" var="balance"/>
+    <fmt:message bundle="${loc}" key="closed.recipe" var="closedTitle"/>
+    <fmt:message bundle="${loc}" key="not.exists.incorrect.code" var="notExists"/>
+    <fmt:message bundle="${loc}" key="drug.name" var="drugName"/>
+    <fmt:message bundle="${loc}" key="pharm.group" var="pharmGroup"/>
+    <fmt:message bundle="${loc}" key="drugForm" var="drugForm"/>
+    <fmt:message bundle="${loc}" key="drugAmount" var="drugAmount"/>
+    <fmt:message bundle="${loc}" key="country" var="country"/>
+    <fmt:message bundle="${loc}" key="price" var="price"/>
+    <fmt:message bundle="${loc}" key="quantity" var="quantity"/>
+    <fmt:message bundle="${loc}" key="quant" var="quant"/>
+    <fmt:message bundle="${loc}" key="recipe.status" var="recipeStatus"/>
+    <fmt:message bundle="${loc}" key="valid.until" var="validUntil"/>
+    <fmt:message bundle="${loc}" key="amount.to.be.paid" var="amountToBePaid"/>
+    <fmt:message bundle="${loc}" key="order" var="order"/>
+    <fmt:message bundle="${loc}" key="closed" var="closed"/>
+    <fmt:message bundle="${loc}" key="open" var="open"/>
+    <title>${title}</title>
 </head>
 <body>
 <header>
@@ -15,7 +43,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="logOut">
-                        <a href="controller?command=log_out">выйти</a>
+                        <a href="controller?command=log_out">${logout}</a>
                     </div>
                 </div>
             </div>
@@ -40,31 +68,31 @@
             <nav class="service-list">
                 <form action="controller" method="get">
                     <input type="hidden" name="command" value="groups_to_order_page">
-                    <button type="submit">заказать препарат</button>
+                    <button type="submit">${orderDrug}</button>
                 </form>
                 <form action="controller" method="get">
                     <input type="hidden" name="command" value="order_by_erecipe_page">
-                    <button type="submit">заказать по эл. рецепту</button>
+                    <button type="submit">${orderER}</button>
                 </form>
                 <form action="controller" method="get">
                     <input type="hidden" name="command" value="client_show_order_list">
-                    <button type="submit">отменить заказ</button>
+                    <button type="submit">${cancelOrder}</button>
                 </form>
                 <form action="controller" method="get">
                     <input type="hidden" name="command" value="extend_recipe_page">
-                    <button>продлить рецепт</button>
+                    <button>${extendRecipe}</button>
                 </form>
                 <form action="controller" method="get">
                     <input type="hidden" name="command" value="show_messages">
-                    <button type="submit">сообщения</button>
+                    <button type="submit">${messages}</button>
                 </form>
                 <form action="controller" method="get">
                     <input type="hidden" name="command" value="show_shopping_list">
-                    <button type="submit">история покупок</button>
+                    <button type="submit">${history}</button>
                 </form>
                 <form action="controller" method="get">
                     <input type="hidden" name="command" value="show_balance">
-                    <button type="submit">баланс на карте</button>
+                    <button type="submit">${balance}</button>
                 </form>
             </nav>
         </div>
@@ -73,46 +101,51 @@
                 <c:set var="recipe" value="${requestScope.RD}"/>
                 <c:choose>
                     <c:when test="${not empty pageScope.recipe and pageScope.recipe.status eq 'open'}">
-                        <h3>Описание рецепта</h3>
+                        <h3>${title}:</h3>
                     </c:when>
                     <c:when test="${pageScope.recipe.status eq 'closed'}">
-                        <h3>Данный рецепт закрыт</h3>
+                        <h3>${closedTitle}</h3>
                     </c:when>
                     <c:when test="${empty pageScope.recipe}">
-                        <h3>Такой рецепт не существует, проверьте правильность ввода</h3>
+                        <h3>${notExists}</h3>
                     </c:when>
                 </c:choose>
                 <c:if test="${not empty pageScope.recipe}">
                     <ul class="list-group">
                         <li class="list-group-item">
-                            Препарат: ${pageScope.recipe.drugName}
+                            ${drugName}: ${pageScope.recipe.drugName}
                         </li>
                         <li class="list-group-item">
-                            Фармакологическая группа: ${recipe.drugGroup}
+                            ${pharmGroup}: ${recipe.drugGroup}
                         </li>
                         <li class="list-group-item">
-                            Форма: ${recipe.drugForm}
+                            ${drugForm}: ${recipe.drugForm}
                         </li>
                         <li class="list-group-item">
-                            кол-во препарата: ${recipe.activeSubstances}
+                            ${drugAmount}: ${recipe.activeSubstances}
                         </li>
                         <li class="list-group-item">
-                            Страна производитель: ${recipe.country}
+                            ${country}: ${recipe.country}
                         </li>
                         <li class="list-group-item">
-                            Стоимость: ${recipe.price}
+                            ${price}: ${recipe.price}
                         </li>
                         <li class="list-group-item">
-                            кол-во шт: ${recipe.quantity}
+                            ${quantity} ${quant}: ${recipe.quantity}
                         </li>
                         <li class="list-group-item">
-                            Статус рецепта: ${recipe.status}
+                            <c:if test="${recipe.status eq 'open'}">
+                                ${recipeStatus}: ${open}
+                            </c:if>
+                            <c:if test="${recipe.status eq 'closed'}">
+                                ${recipeStatus}: ${closed}
+                            </c:if>
                         </li>
                         <li class="list-group-item">
-                            Действителен до: ${recipe.endDate}
+                            ${validUntil}:<fmt:formatDate value="${recipe.endDate}" type="both" dateStyle="medium" timeStyle="medium"/>
                         </li>
                         <li class="list-group-item">
-                            Сумма к оплате: ${recipe.cost}
+                            ${amountToBePaid}: ${recipe.cost}
                         </li>
                     </ul>
                 </c:if>
@@ -123,7 +156,7 @@
                         <input type="hidden" name="drugId" value="${recipe.drugId}">
                         <input type="hidden" name="quantity" value="${recipe.quantity}">
                         <input type="hidden" name="cost" value="${recipe.cost}">
-                        <button type="submit" class="btn-success btn-lg">заказать</button>
+                        <button type="submit" class="btn-success btn-lg">${order}</button>
                     </form>
                 </c:if>
             </section>

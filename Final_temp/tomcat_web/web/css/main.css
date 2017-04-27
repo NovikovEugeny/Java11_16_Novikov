@@ -426,6 +426,7 @@ li .btn-success {
     float: right;
     height: 35px;
     margin-top: -29px;
+    width: 75px;
 }
 
 .btn-lg {
@@ -435,4 +436,17 @@ li .btn-success {
 
 .recipe-description .btn-lg {
     margin-left: 40%;
+}
+
+.modal-header {
+    color: #FFFFFF;
+    background-color: #5cb85c;
+}
+
+.modal-footer .btn-lg {
+    margin-right: 39%;
+}
+
+.modal-content {
+    margin-top: 25%;
 }

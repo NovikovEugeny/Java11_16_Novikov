@@ -11,6 +11,8 @@
     <link href="../../../css/bootstrap.css" rel="stylesheet">
     <link href="../../../css/main.css" rel="stylesheet">
     <script src="../../../js/recipeCodeValidator.js"></script>
+    <script src="../../../js/jquery-3.2.0.js"></script>
+    <script src="../../../js/bootstrap.js"></script>
     <div id="local" data-item="${sessionScope.local}"></div>
     <fmt:setLocale value="${sessionScope.local}"/>
     <fmt:setBundle basename="localization.local" var="loc"/>
@@ -24,6 +26,14 @@
     <fmt:message bundle="${loc}" key="purchase.history" var="history"/>
     <fmt:message bundle="${loc}" key="balance" var="balance"/>
     <fmt:message bundle="${loc}" key="balance.info" var="balanceInfo"/>
+    <fmt:message bundle="${loc}" key="quantity.error.message" var="quantityError"/>
+    <fmt:message bundle="${loc}" key="extend.recipe.application" var="extendTitle"/>
+    <fmt:message bundle="${loc}" key="recipe.code" var="recipeCode"/>
+    <fmt:message bundle="${loc}" key="send" var="send"/>
+    <fmt:message bundle="${loc}" key="not.expired" var="notExpired"/>
+    <fmt:message bundle="${loc}" key="not.exists.recipe" var="notExists"/>
+    <fmt:message bundle="${loc}" key="close" var="close"/>
+    <fmt:message bundle="${loc}" key="error" var="error"/>
     <title>${title}</title>
 </head>
 <body>
@@ -88,34 +98,54 @@
         </div>
         <div class="col-xs-8 col-sm-8 col-md-8 col-lg-9">
             <section class="recipe-application">
-                <h3>Заявка на продление рецепта</h3>
-                <form action="controller" method="post" onsubmit="return validat()">
+                <h3>${extendTitle}</h3>
+                <form action="controller" method="post" onsubmit="return validate()">
                     <div class="form-group">
                         <input type="hidden" name="command" value="send_recipe_extension_request">
-                        <label for="code">recipe code:</label>
+                        <label for="code">${recipeCode}:</label>
                         <p id="codeErr">
                             <c:if test="${not empty requestScope.isValid}">
-                                fobidden empty
+                                <c:out value="${quantityError}"/>
                             </c:if>
                         </p>
                         <input type="text" class="form-control" id="code" name="recipeCode">
                     </div>
-                    <button type="submit" class="btn-success btn-lg">send</button>
+                    <button type="submit" class="btn-success btn-lg">${send}</button>
                 </form>
             </section>
         </div>
     </div>
 </div>
-<c:set var="response" value="${requestScope.execution}"/>
+
 <c:if test="${not empty requestScope.execution}">
+    <c:set var="response" value="${notExpired}"/>
     <script>
-        alert("${requestScope.execution}");
+        $(document).ready(function () {
+            $("#modal").modal('show');
+        });
     </script>
 </c:if>
 <c:if test="${not empty requestScope.isExists}">
+    <c:set var="response" value="${notExists}"/>
     <script>
-        alert("is not exists");
+        $(document).ready(function () {
+            $("#modal").modal('show');
+        });
     </script>
 </c:if>
+<!-- Modal-->
+<div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel1">${error}</h4>
+            </div>
+            <p align="center">${response}</p>
+            <div class="modal-footer">
+                <button type="submit" class="btn-success btn-lg" data-dismiss="modal">${close}</button>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>
