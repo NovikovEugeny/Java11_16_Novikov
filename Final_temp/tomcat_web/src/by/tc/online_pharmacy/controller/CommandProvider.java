@@ -1,7 +1,6 @@
 package by.tc.online_pharmacy.controller;
 
 import by.tc.online_pharmacy.controller.command.Command;
-import by.tc.online_pharmacy.resource.CommandName;
 import by.tc.online_pharmacy.controller.command.impl.client.*;
 import by.tc.online_pharmacy.controller.command.impl.common.*;
 import by.tc.online_pharmacy.controller.command.impl.doctor.Approve;
@@ -9,6 +8,7 @@ import by.tc.online_pharmacy.controller.command.impl.doctor.Deny;
 import by.tc.online_pharmacy.controller.command.impl.doctor.ShowRecipeExtensionRequests;
 import by.tc.online_pharmacy.controller.command.impl.page.*;
 import by.tc.online_pharmacy.controller.command.impl.pharmacist.*;
+import by.tc.online_pharmacy.resource.CommandName;
 
 import java.util.HashMap;
 import java.util.Map;

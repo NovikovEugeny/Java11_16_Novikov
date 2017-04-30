@@ -1,9 +1,9 @@
 package by.tc.online_pharmacy.controller.command.impl.common;
 
 import by.tc.online_pharmacy.bean.Drug;
-import by.tc.online_pharmacy.resource.JspPageName;
 import by.tc.online_pharmacy.controller.command.Command;
 import by.tc.online_pharmacy.resource.AttributeName;
+import by.tc.online_pharmacy.resource.JspPageName;
 import by.tc.online_pharmacy.resource.ParameterName;
 import by.tc.online_pharmacy.service.CommonService;
 import by.tc.online_pharmacy.service.exception.ServiceException;

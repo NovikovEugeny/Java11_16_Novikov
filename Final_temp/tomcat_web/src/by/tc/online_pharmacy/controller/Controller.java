@@ -26,8 +26,6 @@ public class Controller extends HttpServlet {
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        System.out.println("controller|" + request.getSession().getAttribute("local"));
-
         String commandName = request.getParameter(ParameterName.COMMAND);
 
         Command command = provider.getCommand(commandName);

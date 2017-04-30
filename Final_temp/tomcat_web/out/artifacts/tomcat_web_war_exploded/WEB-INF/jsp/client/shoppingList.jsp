@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib prefix="ctg" uri="/WEB-INF/tld/custom.tld" %>
 <html>
 <head>
     <link href="../../../css/bootstrap.css" rel="stylesheet">
@@ -39,18 +40,6 @@
                         <a href="controller?command=log_out">${logout}</a>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-    <div class="greeting">
-        <div class="row">
-            <div class="col-md-12">
-                <h1>
-                    ${sessionScope.user.surname}
-                    ${sessionScope.user.name}
-                    ${sessionScope.user.patronymic}
-                </h1>
-                <hr>
             </div>
         </div>
     </div>
@@ -114,7 +103,7 @@
                                 <td><c:out value="${element.drugAmount}"/></td>
                                 <td><c:out value="${element.productingCountry}"/></td>
                                 <td><c:out value="${element.quantity}"/></td>
-                                <td><c:out value="${element.cost}"/></td>
+                                <td><ctg:formatCost value="${element.cost}" locale="${sessionScope.local}"/></td>
                             </tr>
                         </c:forEach>
                         </tbody>

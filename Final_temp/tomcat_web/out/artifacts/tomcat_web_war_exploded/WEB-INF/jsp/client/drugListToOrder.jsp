@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib prefix="ctg" uri="/WEB-INF/tld/custom.tld" %>
 <html>
 <head>
     <style>
@@ -60,18 +61,6 @@
                         <a href="controller?command=log_out">${logout}</a>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-    <div class="greeting">
-        <div class="row">
-            <div class="col-md-12">
-                <h1>
-                    ${sessionScope.user.surname}
-                    ${sessionScope.user.name}
-                    ${sessionScope.user.patronymic}
-                </h1>
-                <hr>
             </div>
         </div>
     </div>
@@ -149,7 +138,7 @@
                                         <c:out value="${without}"/>
                                     </c:if>
                                 </td>
-                                <td><c:out value="${element.price}"/></td>
+                                <td><ctg:formatCost value="${element.price}" locale="${sessionScope.local}"/></td>
                                 <td><c:out value="${element.quantity}"/></td>
                                 <td>
                                     <button type="button" class="btn btn-success" data-toggle="modal"
@@ -184,7 +173,7 @@
                     <div class="form-group">
                         <label for="quantity">${quantity}:</label>
                         <p id="orderQuantityErr"></p>
-                        <input type="number" class="form-control" id="quantity" name="quantity">
+                        <input type="number" class="form-control" id="quantity" name="quantity" min="1">
                     </div>
                 </div>
                 <div class="modal-footer">

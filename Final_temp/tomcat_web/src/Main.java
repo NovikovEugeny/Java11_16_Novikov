@@ -1,126 +1,51 @@
+import java.sql.*;
+import java.text.NumberFormat;
+import java.util.Locale;
+import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+
 public class Main {
-
-    private final static String viewRegExp = "^/(js|css|images).*$";
-    private final static String servletRegExp = "^/controller.*$";
-
-    private static boolean test(String regExp, String str) {
-        Pattern p = Pattern.compile(regExp);
-        Matcher m = p.matcher(str);
-        return m.matches();
-    }
 
     public static void main(String[] args) {
 /*
-        HttpServletRequest httpRequest = (HttpServletRequest) servletRequest;
-        HttpSession session = httpRequest.getSession(true);
-        User user = (User) session.getAttribute(AttributeName.USER);
+        String url = "jdbc:mysql://localhost:3306/pharmacy_2903";
+        String userName = "root";
+        String password = "";
 
-        String command = httpRequest.getParameter(ParameterName.COMMAND);
-        String URI = httpRequest.getRequestURI();
-        String page = null;
-
-        if (test(viewRegExp, URI)) {
-            filterChain.doFilter(servletRequest, servletResponse);
-
-        } else if (!test(servletRegExp, URI)) {
-            httpRequest.getRequestDispatcher(JspPageName.START_PAGE).forward(servletRequest, servletResponse);
-
-        } else if (command != null && !command.isEmpty()) {
-
-            boolean isExists = false;
-
-            for (CommandName c : CommandName.values()) {
-                if (command.equals(c.toString().toLowerCase())) {
-                    isExists = true;
-                    break;
-                }
-            }
-
-            if (!isExists) {
-                httpRequest.getRequestDispatcher(JspPageName.WRONG_REQUEST_PAGE).forward(servletRequest, servletResponse);
-            } else if (user != null) {
-
-                if (user.getPosition().equals(ParameterName.CLIENT)) {
-                    if (!Security.isAllowedToClient(command)) {
-                        page = JspPageName.FORBIDDEN_PAGE;
-                    }
-                }
-                if (user.getPosition().equals(ParameterName.DOCTOR)) {
-                    if (!Security.isAllowedToDoctor(command)) {
-                        page = JspPageName.FORBIDDEN_PAGE;
-                    }
-                }
-                if (user.getPosition().equals(ParameterName.PHARMACIST)) {
-                    if (!Security.isAllowedToPharmacist(command)) {
-                        page = JspPageName.FORBIDDEN_PAGE;
-                    }
-                }
-
-            } else if (!Security.isAllowedToGuest(command)) {
-                page = JspPageName.FORBIDDEN_PAGE;
-            }
-
-            if (page != null) {
-                httpRequest.getRequestDispatcher(page).forward(servletRequest, servletResponse);
-            }
-
-        }
+        Properties p=new Properties();
+        p.setProperty("user", "root");
+        p.setProperty("password", "");
+        p.setProperty("useUnicode", "true");
+        p.setProperty("characterEncoding", "utf8");
 
 
-        System.out.println("security");
-        System.out.println(httpRequest.getRequestURL());
-        System.out.println(httpRequest.getRequestURI());
-        System.out.println(httpRequest.getQueryString());
-        filterChain.doFilter(servletRequest, servletResponse);
-*/
-        String page = null;
 
 
-/*
+        Connection connection = null;
+        Statement statement = null;
+        ResultSet resultSet = null;
 
-        User user = new User();
-        user.setPosition("client");
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
 
-        String command = "groups_to_update_page";
+            connection = DriverManager.getConnection(url, p);
+
+            statement = connection.createStatement();
+            statement.execute("SET CHARACTER SET utf8");
+            resultSet = statement.executeQuery("select * from drug where id = 29");
+            resultSet.next();
+
+            System.out.println(resultSet.getString(2));
 
 
-        if (command != null && !command.isEmpty()) {
-
-            if (user != null) {
-
-                if (user.getPosition().equals(ParameterName.CLIENT)) {
-                    if (!Security.isAllowedToClient(command)) {
-                        page = JspPageName.FORBIDDEN_PAGE;
-                    }
-                }
-                if (user.getPosition().equals(ParameterName.DOCTOR)) {
-                    if (!Security.isAllowedToDoctor(command)) {
-                        page = JspPageName.FORBIDDEN_PAGE;
-                    }
-                }
-                if (user.getPosition().equals(ParameterName.PHARMACIST)) {
-                    if (!Security.isAllowedToPharmacist(command)) {
-                        page = JspPageName.FORBIDDEN_PAGE;
-                    }
-                }
-
-            } else if (!Security.isAllowedToGuest(command)) {
-                page = JspPageName.FORBIDDEN_PAGE;
-            }
-
-            if (page != null) {
-                System.out.println("forbidden page");
-            } else {
-                System.out.println("chain1");
-            }
-
-        } else {
-            System.out.println("chain2");
+        } catch (SQLException | ClassNotFoundException exc) {
+            System.out.println();
         }
 */
+
+
 
     }
 

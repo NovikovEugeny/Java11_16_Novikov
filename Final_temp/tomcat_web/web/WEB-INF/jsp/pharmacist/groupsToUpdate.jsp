@@ -39,18 +39,6 @@
             </div>
         </div>
     </div>
-    <div class="greeting">
-        <div class="row">
-            <div class="col-md-12">
-                <h1>
-                    ${sessionScope.user.surname}
-                    ${sessionScope.user.name}
-                    ${sessionScope.user.patronymic}
-                </h1>
-                <hr>
-            </div>
-        </div>
-    </div>
 </header>
 <div class="center">
     <div class="row">

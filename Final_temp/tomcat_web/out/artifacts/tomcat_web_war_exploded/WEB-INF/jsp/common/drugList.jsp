@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib prefix="ctg" uri="/WEB-INF/tld/custom.tld" %>
 <html>
 <head>
     <link href="../../../css/bootstrap.css" rel="stylesheet">
@@ -96,7 +97,7 @@
                                             <c:out value="${without}"/>
                                         </c:if>
                                     </td>
-                                    <td><c:out value="${element.price}"/></td>
+                                    <td><ctg:formatCost value="${element.price}" locale="${sessionScope.local}"/></td>
                                     <td><c:out value="${element.quantity}"/></td>
                                 </tr>
                             </c:forEach>

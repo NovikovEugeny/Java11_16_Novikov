@@ -81,6 +81,10 @@ button:hover {
     background-color: #0c8733;
 }
 
+.center {
+    margin-top: 50px;
+}
+
 .group-buttons {
     margin-left: 10%;
     margin-right: 10%;

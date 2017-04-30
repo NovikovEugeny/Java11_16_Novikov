@@ -65,7 +65,7 @@
         </div>
     </div>
 </header>
-<div class="center">
+<div class="center-start">
     <div class="row">
         <div class="col-xs-6 col-sm-4 col-md-4 col-lg-3">
             <nav class="group-buttons">
