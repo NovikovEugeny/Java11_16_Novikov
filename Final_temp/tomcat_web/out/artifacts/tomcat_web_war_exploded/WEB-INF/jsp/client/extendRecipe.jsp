@@ -34,6 +34,7 @@
     <fmt:message bundle="${loc}" key="not.exists.recipe" var="notExists"/>
     <fmt:message bundle="${loc}" key="close" var="close"/>
     <fmt:message bundle="${loc}" key="error" var="error"/>
+    <fmt:message bundle="${loc}" key="duplicate" var="duplicate"/>
     <title>${title}</title>
 </head>
 <body>
@@ -127,6 +128,14 @@
 </c:if>
 <c:if test="${not empty requestScope.isExists}">
     <c:set var="response" value="${notExists}"/>
+    <script>
+        $(document).ready(function () {
+            $("#modal").modal('show');
+        });
+    </script>
+</c:if>
+<c:if test="${not empty requestScope.isDuplicate}">
+    <c:set var="response" value="${duplicate}"/>
     <script>
         $(document).ready(function () {
             $("#modal").modal('show');

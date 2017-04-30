@@ -631,4 +631,35 @@ public class ClientDaoImpl implements ClientDao {
         }
     }
 
+
+    @Override
+    public boolean isDuplicateApplication(String recipeCode) throws DaoException {
+
+        Connection connection = null;
+        PreparedStatement ps = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = ConnectionPool.getInstance().takeConnection();
+
+            ps = connection.prepareStatement(UserQueryStore.IS_UNIQUE_APPLICATION_SELECT);
+            ps.setString(1, recipeCode);
+            resultSet = ps.executeQuery();
+
+            if (resultSet.next()) {
+                return true;
+            }
+
+            return false;
+        } catch (SQLException | InterruptedException exc) {
+            throw new DaoException(exc);
+        } finally {
+            try {
+                if (ps != null) { ps.close(); }
+            } catch (SQLException exc) {
+                logger.log(Level.WARN, DaoErrorMessage.CLOSING_RESOURCES_ERROR, exc);
+            }
+            ConnectionPool.getInstance().putBackConnection(connection);
+        }
+    }
 }

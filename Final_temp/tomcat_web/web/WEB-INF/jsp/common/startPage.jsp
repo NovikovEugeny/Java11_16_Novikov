@@ -3,11 +3,11 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <html>
 <head>
-    <link href="../../../css/bootstrap.css" rel="stylesheet">
-    <link href="../../../css/main.css" rel="stylesheet">
-    <script src="../../../js/jquery-3.2.0.js"></script>
-    <script src="../../../js/bootstrap.js"></script>
-    <script src="../../../js/searchValidator.js"></script>
+    <link href="<c:url value="/css/bootstrap.css" />" rel="stylesheet">
+    <link href="<c:url value="/css/main.css" />" rel="stylesheet">
+    <script src="<c:url value="/js/jquery-3.2.0.js" />"></script>
+    <script src="<c:url value="/js/bootstrap.js" />"></script>
+    <script src="<c:url value="/js/searchValidator.js" />"></script>
     <div id="local" data-item="${sessionScope.local}"></div>
     <fmt:setLocale value="${sessionScope.local}"/>
     <fmt:setBundle basename="localization.local" var="loc"/>

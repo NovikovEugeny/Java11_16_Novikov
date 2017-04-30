@@ -26,4 +26,8 @@ public final class UserQueryStore {
 
     public final static String INSERT_NEW_ACCOUNT = "INSERT INTO account(client_id, balance) VALUES (?, 0)";
 
+    //recipe extension
+    public final static String IS_UNIQUE_APPLICATION_SELECT = "SELECT * FROM recipe_extension_request WHERE " +
+            "recipe_code = ? AND status = 'new'";
+
 }

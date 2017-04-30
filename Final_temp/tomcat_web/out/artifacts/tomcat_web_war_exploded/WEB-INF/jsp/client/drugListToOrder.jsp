@@ -46,6 +46,8 @@
     <fmt:message bundle="${loc}" key="close" var="close"/>
     <fmt:message bundle="${loc}" key="invalid.quantity" var="invalid"/>
     <fmt:message bundle="${loc}" key="noscript" var="noscript"/>
+    <fmt:message bundle="${loc}" key="on" var="on"/>
+    <fmt:message bundle="${loc}" key="without" var="without"/>
     <title>${title}</title>
 </head>
 <body>
@@ -139,7 +141,14 @@
                                 <td><c:out value="${element.drugAmount}"/></td>
                                 <td><c:out value="${element.activeSubstances}"/></td>
                                 <td><c:out value="${element.country}"/></td>
-                                <td><c:out value="${element.dispensing}"/></td>
+                                <td>
+                                    <c:if test="${element.dispensing eq 'on prescription'}">
+                                        <c:out value="${on}"/>
+                                    </c:if>
+                                    <c:if test="${element.dispensing eq 'without prescription'}">
+                                        <c:out value="${without}"/>
+                                    </c:if>
+                                </td>
                                 <td><c:out value="${element.price}"/></td>
                                 <td><c:out value="${element.quantity}"/></td>
                                 <td>

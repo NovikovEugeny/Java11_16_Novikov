@@ -1,11 +1,8 @@
 package by.tc.online_pharmacy.controller.command.impl.page;
 
 
-import by.tc.online_pharmacy.controller.JspPageName;
+import by.tc.online_pharmacy.resource.JspPageName;
 import by.tc.online_pharmacy.controller.command.Command;
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;

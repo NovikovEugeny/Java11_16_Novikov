@@ -4,6 +4,7 @@
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
          version="3.1">
 
+    <display-name>my_site</display-name>
 
     <servlet>
         <servlet-name>controller</servlet-name>
@@ -28,6 +29,24 @@
     </filter>
     <filter-mapping>
         <filter-name>LocalizationFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    <filter>
+
+        <filter-name>WrongRequestFilter</filter-name>
+        <filter-class>by.tc.online_pharmacy.filter.WrongRequestFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>WrongRequestFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <filter>
+        <filter-name>SecurityFilter</filter-name>
+        <filter-class>by.tc.online_pharmacy.filter.SecurityFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>SecurityFilter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 

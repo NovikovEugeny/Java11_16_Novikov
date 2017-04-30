@@ -1,4 +1,4 @@
-package by.tc.online_pharmacy.controller.util;
+package by.tc.online_pharmacy.controller.command;
 
 
 public final class URLCommand {

@@ -1,4 +1,4 @@
-package by.tc.online_pharmacy.controller.util;
+package by.tc.online_pharmacy.resource;
 
 
 public final class ParameterName {
@@ -6,6 +6,7 @@ public final class ParameterName {
     private ParameterName() {
     }
 
+    public final static String COMMAND = "command";
     public final static String PHARMACIST = "pharmacist";
     public final static String DOCTOR = "doctor";
     public final static String CLIENT = "client";
@@ -32,5 +33,6 @@ public final class ParameterName {
     public final static String DRUG_ID = "drugId";
     public final static String STATUS_NEW = "new";
     public final static String COST = "cost";
+    public final static String DEFAULT_LOCALE = "defaultLocale";
 
 }

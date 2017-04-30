@@ -1,4 +1,4 @@
-package by.tc.online_pharmacy.controller.command;
+package by.tc.online_pharmacy.resource;
 
 
 public enum CommandName {

@@ -441,6 +441,7 @@ li .btn-success {
 .modal-header {
     color: #FFFFFF;
     background-color: #5cb85c;
+    margin-bottom: 15px;
 }
 
 .modal-footer .btn-lg {

@@ -19,7 +19,7 @@ public final class DrugQueryStore {
                     "AND dispensing = 'without prescription' AND quantity > 0";
 
     public final static String SELECT_ACTIVE_DRUGS_BY_NAME =
-            "SELECT * FROM drug WHERE UPPER(name) = ? AND is_active = 'yes'";
+            "SELECT * FROM drug WHERE UPPER(name) like ? AND is_active = 'yes'";
 
     public final static String SELECT_UNIQUE_TEST =
             "SELECT id FROM drug WHERE name = ? AND form = ? AND drug_amount = ? AND active_substances = ? " +

@@ -2,11 +2,11 @@ package by.tc.online_pharmacy.controller.command.impl.doctor;
 
 import by.tc.online_pharmacy.bean.RERDescription;
 import by.tc.online_pharmacy.bean.User;
-import by.tc.online_pharmacy.controller.JspPageName;
+import by.tc.online_pharmacy.resource.JspPageName;
 import by.tc.online_pharmacy.controller.command.Command;
-import by.tc.online_pharmacy.controller.util.AttributeName;
-import by.tc.online_pharmacy.controller.util.URLCommand;
-import by.tc.online_pharmacy.controller.util.ParameterName;
+import by.tc.online_pharmacy.resource.AttributeName;
+import by.tc.online_pharmacy.controller.command.URLCommand;
+import by.tc.online_pharmacy.resource.ParameterName;
 import by.tc.online_pharmacy.service.DoctorService;
 import by.tc.online_pharmacy.service.exception.ServiceException;
 import by.tc.online_pharmacy.service.factory.ServiceFactory;

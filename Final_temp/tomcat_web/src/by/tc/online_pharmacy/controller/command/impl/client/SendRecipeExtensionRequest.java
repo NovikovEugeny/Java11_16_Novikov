@@ -1,11 +1,11 @@
 package by.tc.online_pharmacy.controller.command.impl.client;
 
 import by.tc.online_pharmacy.bean.User;
-import by.tc.online_pharmacy.controller.JspPageName;
+import by.tc.online_pharmacy.resource.JspPageName;
 import by.tc.online_pharmacy.controller.command.Command;
-import by.tc.online_pharmacy.controller.util.AttributeName;
-import by.tc.online_pharmacy.controller.util.ParameterName;
-import by.tc.online_pharmacy.controller.util.URLCommand;
+import by.tc.online_pharmacy.resource.AttributeName;
+import by.tc.online_pharmacy.resource.ParameterName;
+import by.tc.online_pharmacy.controller.command.URLCommand;
 import by.tc.online_pharmacy.service.ClientService;
 import by.tc.online_pharmacy.service.exception.ServiceException;
 import by.tc.online_pharmacy.service.exception.ValidatorException;
@@ -39,6 +39,7 @@ public class SendRecipeExtensionRequest implements Command {
 
             Date currentDate = new Date();
             Date endRecipeDate = clientService.showRecipeEndDate(recipeCode);
+            boolean isDuplicate = clientService.isDuplicateApplication(recipeCode);
 
             if (endRecipeDate == null) {
                 request.setAttribute(AttributeName.IS_EXISTS, AttributeName.NO);
@@ -46,6 +47,10 @@ public class SendRecipeExtensionRequest implements Command {
 
             } else if (currentDate.before(endRecipeDate)) {
                 request.setAttribute(AttributeName.EXECUTION, AttributeName.TIME_ERROR);
+                request.getRequestDispatcher(URLCommand.EXTEND_RECIPE_PAGE).forward(request, response);
+
+            } else if (isDuplicate) {
+                request.setAttribute(AttributeName.IS_DUPLICATE, AttributeName.YES);
                 request.getRequestDispatcher(URLCommand.EXTEND_RECIPE_PAGE).forward(request, response);
 
             } else {

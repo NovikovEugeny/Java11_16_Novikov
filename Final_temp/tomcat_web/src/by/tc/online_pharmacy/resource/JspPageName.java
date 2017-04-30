@@ -1,4 +1,4 @@
-package by.tc.online_pharmacy.controller;
+package by.tc.online_pharmacy.resource;
 
 
 public final class JspPageName {
@@ -11,6 +11,7 @@ public final class JspPageName {
     public final static String DRUG_LIST_PAGE = "/WEB-INF/jsp/common/drugList.jsp";
     public final static String SIGN_IN_PAGE = "/WEB-INF/jsp/common/signIn.jsp";
     public final static String WRONG_REQUEST_PAGE = "/WEB-INF/jsp/common/404.jsp";
+    public final static String FORBIDDEN_PAGE = "/WEB-INF/jsp/common/403.jsp";
     public final static String SERVER_ERROR_PAGE = "/WEB-INF/jsp/common/500.jsp";
 
     //pharmacist

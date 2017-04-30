@@ -1,4 +1,4 @@
-package by.tc.online_pharmacy.controller.util;
+package by.tc.online_pharmacy.resource;
 
 
 public final class AttributeName {
@@ -27,5 +27,7 @@ public final class AttributeName {
     public final static String BALANCE = "balance";
     public final static String RD = "RD";
     public final static String SHOPPING_LIST = "shoppingList";
+    public final static String IS_DUPLICATE = "isDuplicate";
+    public final static String COMMAND = "command";
 
 }

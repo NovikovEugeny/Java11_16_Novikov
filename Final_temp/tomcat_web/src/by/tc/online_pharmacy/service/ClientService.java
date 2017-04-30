@@ -41,4 +41,7 @@ public interface ClientService {
     void hideMessage(int requestId) throws ServiceException;
 
     List<OrderDescription> showShoppingList(int clientId) throws ServiceException;
+
+    boolean isDuplicateApplication(String recipeCode) throws ServiceException;
+
 }

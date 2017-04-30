@@ -45,4 +45,6 @@ public interface ClientDao {
 
     List<OrderDescription> takeShoppingList(int clientId) throws DaoException;
 
+    boolean isDuplicateApplication(String recipeCode) throws DaoException;
+
 }

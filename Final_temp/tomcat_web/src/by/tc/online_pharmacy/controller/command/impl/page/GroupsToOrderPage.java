@@ -1,7 +1,7 @@
 package by.tc.online_pharmacy.controller.command.impl.page;
 
 
-import by.tc.online_pharmacy.controller.JspPageName;
+import by.tc.online_pharmacy.resource.JspPageName;
 import by.tc.online_pharmacy.controller.command.Command;
 
 import javax.servlet.ServletException;

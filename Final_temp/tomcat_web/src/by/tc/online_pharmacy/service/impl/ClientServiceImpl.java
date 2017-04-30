@@ -232,4 +232,17 @@ public class ClientServiceImpl implements ClientService {
             throw new ServiceException(exc);
         }
     }
+
+    @Override
+    public boolean isDuplicateApplication(String recipeCode) throws ServiceException {
+        try {
+            DaoFactory daoFactory = DaoFactory.getInstance();
+            ClientDao clientDao = daoFactory.getClientDao();
+
+            return clientDao.isDuplicateApplication(recipeCode);
+        } catch (DaoException exc) {
+            throw new ServiceException(exc);
+        }
+    }
+
 }
