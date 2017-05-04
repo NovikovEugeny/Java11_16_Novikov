@@ -1,5 +1,8 @@
 package by.tc.online_pharmacy.controller.command;
 
+/**
+ * The class contains constants that represent part of the URL for redirecting
+ */
 
 public final class URLCommand {
 

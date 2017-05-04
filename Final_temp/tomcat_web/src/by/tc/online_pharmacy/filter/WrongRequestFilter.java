@@ -52,7 +52,6 @@ public class WrongRequestFilter implements Filter {
 
             } else {
                 filterChain.doFilter(servletRequest, servletResponse);
-
             }
 
         } else {

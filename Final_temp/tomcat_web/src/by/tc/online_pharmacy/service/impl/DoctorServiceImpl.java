@@ -7,6 +7,8 @@ import by.tc.online_pharmacy.dao.exception.DaoException;
 import by.tc.online_pharmacy.dao.factory.DaoFactory;
 import by.tc.online_pharmacy.service.DoctorService;
 import by.tc.online_pharmacy.service.exception.ServiceException;
+import by.tc.online_pharmacy.service.exception.ValidatorException;
+import by.tc.online_pharmacy.service.util.validator.Validator;
 
 import java.util.List;
 
@@ -25,7 +27,10 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Override
-    public void approve(RERDescription rerDescription) throws ServiceException {
+    public void approve(RERDescription rerDescription) throws ServiceException, ValidatorException {
+
+        Validator.validateRecipeCode(rerDescription.getRecipeCode());
+
         try {
             DaoFactory daoFactory = DaoFactory.getInstance();
             DoctorDao doctorDao = daoFactory.getDoctorDao();
@@ -37,7 +42,10 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Override
-    public void deny(RERDescription rerDescription) throws ServiceException {
+    public void deny(RERDescription rerDescription) throws ServiceException, ValidatorException {
+
+        Validator.validateRecipeCode(rerDescription.getRecipeCode());
+
         try {
             DaoFactory daoFactory = DaoFactory.getInstance();
             DoctorDao doctorDao = daoFactory.getDoctorDao();

@@ -20,7 +20,7 @@
     <fmt:message bundle="${loc}" key="sent.addres" var="sent"/>
     <fmt:message bundle="${loc}" key="received" var="received"/>
     <fmt:message bundle="${loc}" key="recipe.with.code" var="recipeWithCode"/>
-    <fmt:message bundle="${loc}" key="hide" var="hide"/>
+    <fmt:message bundle="${loc}" key="delete" var="deleteMessage"/>
     <fmt:message bundle="${loc}" key="closed" var="closed"/>
     <fmt:message bundle="${loc}" key="open" var="open"/>
     <fmt:message bundle="${loc}" key="extended" var="isExtended"/>
@@ -109,9 +109,9 @@
                                     <c:out value="${medicalAdvice}"/>
                                 </c:if>
                             <form>
-                                <input type="hidden" name="command" value="hide_message">
+                                <input type="hidden" name="command" value="delete_message">
                                 <input type="hidden" name="requestId" value="${element.id}">
-                                <button type="submit" class="btn-success">${hide}</button>
+                                <button type="submit" class="btn-success">${deleteMessage}</button>
                             </form>
                         </li>
                     </c:forEach>

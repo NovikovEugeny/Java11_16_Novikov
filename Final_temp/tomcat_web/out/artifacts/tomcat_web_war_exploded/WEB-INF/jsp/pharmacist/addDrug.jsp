@@ -53,6 +53,7 @@
     <fmt:message bundle="${loc}" key="prodcountry.error.message" var="countryErr"/>
     <fmt:message bundle="${loc}" key="price.error.message" var="priceErr"/>
     <fmt:message bundle="${loc}" key="quantity.error.message" var="quantityErr"/>
+    <fmt:message bundle="${loc}" key="greater.than.zero" var="greaterErr"/>
     <title>${title}</title>
 </head>
 <body>
@@ -174,8 +175,11 @@
                             <c:if test="${not empty requestScope.isValid}">
                                 <c:out value="${quantityErr}"/>
                             </c:if>
-                            <c:if test="${not empty requestScope.errorMap['invalidPrice']}">
+                            <c:if test="${requestScope.errorMap['invalidPrice'] eq 'notValid'}">
                                 <c:out value="${priceErr}"/>
+                            </c:if>
+                            <c:if test="${requestScope.errorMap['invalidPrice'] eq 'greaterThanZero'}">
+                                <c:out value="${greaterErr}"/>
                             </c:if>
                         </p>
                         <input type="text" class="form-control" id="price" name="price">
@@ -185,6 +189,9 @@
                         <p id="quantityErr">
                             <c:if test="${not empty requestScope.isValid}">
                                 <c:out value="${quantityErr}"/>
+                            </c:if>
+                            <c:if test="${requestScope.errorMap['invalidQuantity'] eq 'greaterThanZero'}">
+                                <c:out value="${greaterErr}"/>
                             </c:if>
                         </p>
                         <input type="number" class="form-control" id="quantity" name="quantity" min="1">

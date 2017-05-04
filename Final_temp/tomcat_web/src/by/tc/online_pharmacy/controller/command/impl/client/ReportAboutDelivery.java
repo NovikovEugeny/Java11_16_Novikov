@@ -24,6 +24,8 @@ public class ReportAboutDelivery implements Command {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+        String page = null;
+
         try {
             ServiceFactory serviceFactory = ServiceFactory.getInstance();
             ClientService clientService = serviceFactory.getClientService();
@@ -35,7 +37,11 @@ public class ReportAboutDelivery implements Command {
 
         } catch (ServiceException exc) {
             logger.log(Level.ERROR, exc);
-            String page = JspPageName.SERVER_ERROR_PAGE;
+            page = JspPageName.SERVER_ERROR_PAGE;
+            request.getRequestDispatcher(page).forward(request, response);
+
+        } catch (NumberFormatException exc) {
+            page = JspPageName.BAD_REQUEST_PAGE;
             request.getRequestDispatcher(page).forward(request, response);
         }
     }

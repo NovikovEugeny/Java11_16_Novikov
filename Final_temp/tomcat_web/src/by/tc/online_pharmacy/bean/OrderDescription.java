@@ -4,6 +4,9 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Date;
 
+/**
+ * Class describing the transfer object for storing full information for users about an order.
+ */
 
 public class OrderDescription implements Serializable {
 

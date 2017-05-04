@@ -303,6 +303,38 @@ public class ClientDaoImpl implements ClientDao {
     }
 
     @Override
+    public double takeDrugPrice(int drugId) throws DaoException {
+
+        Connection connection = null;
+        PreparedStatement ps = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = ConnectionPool.getInstance().takeConnection();
+
+            ps = connection.prepareStatement(DrugQueryStore.SELECT_DRUG_PRICE);
+            ps.setInt(1, drugId);
+            resultSet = ps.executeQuery();
+
+            if (resultSet.next()) {
+                return resultSet.getDouble(1);
+
+            } else {
+                return 0;
+            }
+        } catch (SQLException | InterruptedException exc) {
+            throw new DaoException(exc);
+        } finally {
+            try {
+                if (ps != null) { ps.close(); }
+            } catch (SQLException exc) {
+                logger.log(Level.WARN, DaoErrorMessage.CLOSING_RESOURCES_ERROR, exc);
+            }
+            ConnectionPool.getInstance().putBackConnection(connection);
+        }
+    }
+
+    @Override
     public RecipeDescription takeRecipeDescription(String recipeCode) throws DaoException {
 
         Connection connection = null;
@@ -564,7 +596,7 @@ public class ClientDaoImpl implements ClientDao {
     }
 
     @Override
-    public void hideMessage(int requestId) throws DaoException {
+    public void deleteMessage(int requestId) throws DaoException {
 
         Connection connection = null;
         PreparedStatement ps = null;

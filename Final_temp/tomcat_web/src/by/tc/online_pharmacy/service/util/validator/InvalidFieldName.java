@@ -1,26 +1,27 @@
 package by.tc.online_pharmacy.service.util.validator;
 
 
-public final class InvalidFieldName {
+final class InvalidFieldName {
 
     private InvalidFieldName() {
     }
 
     //authorization
-    public final static String INVALID_SURNAME = "invalidSurname";
-    public final static String INVALID_NAME = "invalidName";
-    public final static String INVALID_PATRONYMIC = "invalidPatronymic";
-    public final static String INVALID_MOBILE = "invalidMobile";
-    public final static String INVALID_PASSWORD = "invalidPassword";
-    public final static String INVALID_CONFIRM = "invalidConfirm";
+    final static String INVALID_SURNAME = "invalidSurname";
+    final static String INVALID_NAME = "invalidName";
+    final static String INVALID_PATRONYMIC = "invalidPatronymic";
+    final static String INVALID_MOBILE = "invalidMobile";
+    final static String INVALID_PASSWORD = "invalidPassword";
+    final static String INVALID_CONFIRM = "invalidConfirm";
 
 
 
     //add new drug
-    public final static String INVALID_DRUG_NAME = "invalidDrugName";
-    public final static String INVALID_DRUG_AMOUNT = "invalidDrugAmount";
-    public final static String INVALID_ACTIVE_SUBSTANCES = "invalidAS";
-    public final static String INVALID_COUNTRY = "invalidCountry";
-    public final static String INVALID_PRICE = "invalidPrice";
+    final static String INVALID_DRUG_NAME = "invalidDrugName";
+    final static String INVALID_DRUG_AMOUNT = "invalidDrugAmount";
+    final static String INVALID_ACTIVE_SUBSTANCES = "invalidAS";
+    final static String INVALID_COUNTRY = "invalidCountry";
+    final static String INVALID_PRICE = "invalidPrice";
+    final static String INVALID_QUANTITY = "invalidQuantity";
 
 }

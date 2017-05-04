@@ -35,7 +35,7 @@
         </div>
     </div>
 </header>
-<section class="page_not_found">
+<section class="error4xx">
     <p id="code">403</p>
     <p id="message">${forbidden}</p>
 </section>

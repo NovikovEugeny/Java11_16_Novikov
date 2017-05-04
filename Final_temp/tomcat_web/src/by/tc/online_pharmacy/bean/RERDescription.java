@@ -3,6 +3,10 @@ package by.tc.online_pharmacy.bean;
 import java.io.Serializable;
 import java.util.Date;
 
+/**
+ * Class describing the transfer object for storing information
+ * about an application for renewal of the recipe.
+ */
 
 public class RERDescription implements Serializable {
 

@@ -17,12 +17,33 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 
+/**
+ * Class describes the object-command, the execution of which
+ * cancels an order. This command is performed by the pharmacist
+ * in the event of a client failure.
+ */
+
 public class PharmacistCancelOrder implements Command {
 
     private static final Logger logger = LogManager.getLogger(PharmacistCancelOrder.class.getName());
 
+    /**
+     * If the command is successful, then the page is updated
+     * and the line with the corresponding order disappears.
+     * <p>
+     * If an error occurred during the command execution,
+     * then the control is passed to the catch block
+     * and forwarding to the server error page.
+     *
+     * @param request object that contains the request the client has made of the servlet
+     * @param response object that contains the response the servlet sends to the client
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        String page = null;
 
         try {
             ServiceFactory serviceFactory = ServiceFactory.getInstance();
@@ -35,7 +56,11 @@ public class PharmacistCancelOrder implements Command {
 
         } catch (ServiceException exc) {
             logger.log(Level.ERROR, exc);
-            String page = JspPageName.SERVER_ERROR_PAGE;
+            page = JspPageName.SERVER_ERROR_PAGE;
+            request.getRequestDispatcher(page).forward(request, response);
+
+        } catch (NumberFormatException exc) {
+            page = JspPageName.BAD_REQUEST_PAGE;
             request.getRequestDispatcher(page).forward(request, response);
         }
     }

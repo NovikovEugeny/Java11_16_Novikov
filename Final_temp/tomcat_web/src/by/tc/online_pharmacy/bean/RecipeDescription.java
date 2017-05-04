@@ -3,6 +3,9 @@ package by.tc.online_pharmacy.bean;
 import java.io.Serializable;
 import java.util.Date;
 
+/**
+ * Class describing the transfer object for storing full information for users about a recipe.
+ */
 
 public class RecipeDescription implements Serializable {
 

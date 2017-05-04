@@ -1,5 +1,8 @@
+import by.tc.online_pharmacy.service.exception.ValidatorException;
+
 import java.sql.*;
 import java.text.NumberFormat;
+import java.util.Iterator;
 import java.util.Locale;
 import java.util.Properties;
 import java.util.regex.Matcher;
@@ -7,6 +10,12 @@ import java.util.regex.Pattern;
 
 
 public class Main {
+
+    private static void go() throws NumberFormatException {
+        if (2==2) {
+            throw new NumberFormatException();
+        }
+    }
 
     public static void main(String[] args) {
 /*
@@ -45,6 +54,13 @@ public class Main {
         }
 */
 
+
+
+        try {
+            go();
+        } catch (NumberFormatException exc) {
+            System.out.println("catch -> window");
+        }
 
 
     }

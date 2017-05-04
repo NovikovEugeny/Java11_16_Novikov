@@ -13,6 +13,7 @@ public final class JspPageName {
     public final static String WRONG_REQUEST_PAGE = "/WEB-INF/jsp/common/404.jsp";
     public final static String FORBIDDEN_PAGE = "/WEB-INF/jsp/common/403.jsp";
     public final static String SERVER_ERROR_PAGE = "/WEB-INF/jsp/common/500.jsp";
+    public final static String BAD_REQUEST_PAGE = "/WEB-INF/jsp/common/400.jsp";
 
     //pharmacist
     public final static String PHARMACIST_HOME_PAGE = "/WEB-INF/jsp/pharmacist/homePage.jsp";

@@ -2,6 +2,9 @@ package by.tc.online_pharmacy.bean;
 
 import java.io.Serializable;
 
+/**
+ * Class describing the transfer object for storing information about a pharmaceutical product.
+ */
 
 public class Drug implements Serializable {
 

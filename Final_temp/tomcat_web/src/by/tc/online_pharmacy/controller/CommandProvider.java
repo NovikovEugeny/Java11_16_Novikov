@@ -13,12 +13,22 @@ import by.tc.online_pharmacy.resource.CommandName;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Contains a map that stores command name/object-command pairs,
+ * and provides the corresponding object-command
+ */
 
 public class CommandProvider {
 
+    private final static CommandProvider instance = new CommandProvider();
+
     private final Map<CommandName, Command> repository = new HashMap<>();
 
-    public CommandProvider() {
+    public static CommandProvider getInstance() {
+        return instance;
+    }
+
+    private CommandProvider() {
 
         //pages
         repository.put(CommandName.START_PAGE, new StartPage());
@@ -59,7 +69,7 @@ public class CommandProvider {
         repository.put(CommandName.SEND_RECIPE_EXTENSION_REQUEST, new SendRecipeExtensionRequest());
         repository.put(CommandName.REPORT_ABOUT_DELIVERY, new ReportAboutDelivery());
         repository.put(CommandName.SHOW_MESSAGES, new ShowMessages());
-        repository.put(CommandName.HIDE_MESSAGE, new HideMessage());
+        repository.put(CommandName.DELETE_MESSAGE, new DeleteMessage());
         repository.put(CommandName.SHOW_BALANCE, new ShowBalance());
         repository.put(CommandName.SHOW_SHOPPING_LIST, new ShowShoppingList());
 
@@ -69,17 +79,17 @@ public class CommandProvider {
         repository.put(CommandName.SHOW_RECIPE_EXTENSION_REQUESTS, new ShowRecipeExtensionRequests());
     }
 
+    /**
+     * Provides an instance of {@link Command} by command name
+     *
+     * @param name contains a command name
+     * @return object-command of the appropriate type
+     */
     public Command getCommand(String name) {
 
-        CommandName commandName = null;
-        Command command = null;
+        CommandName commandName = CommandName.valueOf(name.toUpperCase());
+        Command command = repository.get(commandName);
 
-        try {
-            commandName = CommandName.valueOf(name.toUpperCase());
-            command = repository.get(commandName);
-        } catch (IllegalArgumentException | NullPointerException e) {
-            command = repository.get(CommandName.WRONG_REQUEST_PAGE);
-        }
         return command;
     }
 }

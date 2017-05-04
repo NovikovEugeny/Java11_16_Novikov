@@ -126,6 +126,13 @@ public class ClientServiceImpl implements ClientService {
             DaoFactory daoFactory = DaoFactory.getInstance();
             ClientDao clientDao = daoFactory.getClientDao();
 
+            double realPrice = clientDao.takeDrugPrice(order.getDrugId());
+            double realCost = realPrice * order.getQuantity();
+
+            if (realCost != order.getCost()) {
+                throw new NumberFormatException();
+            }
+
             clientDao.addOrder(order);
         } catch (DaoException exc) {
             throw new ServiceException(exc);
@@ -134,10 +141,20 @@ public class ClientServiceImpl implements ClientService {
 
 
     @Override
-    public void orderWithRecipe(Order order, String recipeCode) throws ServiceException {
+    public void orderWithRecipe(Order order, String recipeCode) throws ServiceException, ValidatorException {
+
+        Validator.validateDrugQuantity(order.getQuantity());
+
         try {
             DaoFactory daoFactory = DaoFactory.getInstance();
             ClientDao clientDao = daoFactory.getClientDao();
+
+            double realPrice = clientDao.takeDrugPrice(order.getDrugId());
+            double realCost = realPrice * order.getQuantity();
+
+            if (realCost != order.getCost()) {
+                throw new NumberFormatException();
+            }
 
             int id = clientDao.addOrder(order);
             clientDao.closeRecipe(recipeCode);
@@ -210,12 +227,12 @@ public class ClientServiceImpl implements ClientService {
 
 
     @Override
-    public void hideMessage(int requestId) throws ServiceException {
+    public void deleteMessage(int requestId) throws ServiceException {
         try {
             DaoFactory daoFactory = DaoFactory.getInstance();
             ClientDao clientDao = daoFactory.getClientDao();
 
-            clientDao.hideMessage(requestId);
+            clientDao.deleteMessage(requestId);
         } catch (DaoException exc) {
             throw new ServiceException(exc);
         }

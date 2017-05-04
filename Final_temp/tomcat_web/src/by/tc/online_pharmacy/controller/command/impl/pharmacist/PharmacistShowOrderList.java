@@ -18,10 +18,27 @@ import java.io.IOException;
 import java.util.List;
 
 
+/**
+ * Class describes object-command, which displays full list of orders.
+ */
+
 public class PharmacistShowOrderList implements Command {
 
     private static final Logger logger = LogManager.getLogger(PharmacistShowOrderList.class.getName());
 
+    /**
+     * If the command is successful, forwarding to the pharmacist home page
+     * where orders are displayed.
+     * <p>
+     * If an error occurred during the command execution,
+     * then the control is passed to the catch block
+     * and forwarding to the server error page.
+     *
+     * @param request object that contains the request the client has made of the servlet
+     * @param response object that contains the response the servlet sends to the client
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 

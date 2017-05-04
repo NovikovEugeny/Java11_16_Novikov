@@ -1,9 +1,9 @@
 package by.tc.online_pharmacy.controller.command.impl.pharmacist;
 
 import by.tc.online_pharmacy.bean.Drug;
-import by.tc.online_pharmacy.resource.JspPageName;
 import by.tc.online_pharmacy.controller.command.Command;
 import by.tc.online_pharmacy.resource.AttributeName;
+import by.tc.online_pharmacy.resource.JspPageName;
 import by.tc.online_pharmacy.service.PharmacistService;
 import by.tc.online_pharmacy.service.exception.ServiceException;
 import by.tc.online_pharmacy.service.factory.ServiceFactory;
@@ -20,10 +20,28 @@ import java.util.List;
 import java.util.Map;
 
 
+/**
+ * Class describes the object-command, the execution of which displays
+ * sales report sorted by date.
+ */
+
 public class ShowSalesReport implements Command {
 
     private static final Logger logger = LogManager.getLogger(ShowSalesReport.class.getName());
 
+    /**
+     * If the command is successful, forwarding to the page
+     * where sales report is displayed.
+     * <p>
+     * If an error occurred during the command execution,
+     * then the control is passed to the catch block
+     * and forwarding to the server error page.
+     *
+     * @param request  object that contains the request the client has made of the servlet
+     * @param response object that contains the response the servlet sends to the client
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 

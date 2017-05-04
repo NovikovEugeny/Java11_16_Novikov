@@ -25,6 +25,8 @@ public interface ClientDao {
 
     int takeDrugQuantity(int drugId) throws DaoException;
 
+    double takeDrugPrice(int drugId) throws DaoException;
+
     RecipeDescription takeRecipeDescription(String recipeCode) throws DaoException;
 
     Date takeRecipeEndDate(String recipeCode) throws DaoException;
@@ -41,7 +43,7 @@ public interface ClientDao {
 
     void reportAboutDelivery(int orderId) throws DaoException;
 
-    void hideMessage(int requestId) throws DaoException;
+    void deleteMessage(int requestId) throws DaoException;
 
     List<OrderDescription> takeShoppingList(int clientId) throws DaoException;
 

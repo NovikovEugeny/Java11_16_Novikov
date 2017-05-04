@@ -26,7 +26,7 @@ public interface ClientService {
 
     void orderWithoutRecipe(Order order) throws ServiceException, ValidatorException;
 
-    void orderWithRecipe(Order order, String recipeCode) throws ServiceException;
+    void orderWithRecipe(Order order, String recipeCode) throws ServiceException, ValidatorException;
 
     List<OrderDescription> clientShowOrderList(int id) throws ServiceException;
 
@@ -38,7 +38,7 @@ public interface ClientService {
 
     void reportAboutDelivery(int orderId) throws ServiceException;
 
-    void hideMessage(int requestId) throws ServiceException;
+    void deleteMessage(int requestId) throws ServiceException;
 
     List<OrderDescription> showShoppingList(int clientId) throws ServiceException;
 

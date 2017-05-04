@@ -39,6 +39,8 @@ public final class DrugQueryStore {
             "INSERT INTO drug(name, pharm_group, form, drug_amount, active_substances, country, dispensing, price, " +
                     "quantity, is_active) VALUES (?,?,?,?,?,?,?,?,?,?)";
 
+    public final static String SELECT_DRUG_PRICE = "SELECT price FROM drug WHERE id = ?";
+
 
     //orders
     public final static String SELECT_NEW_ORDERS =

@@ -19,10 +19,36 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+
+/**
+ * Class describes object-command, which gives the user access to a special section,
+ * depending on his rights.
+ */
 public class SignIn implements Command {
 
     private static final Logger logger = LogManager.getLogger(SignIn.class.getName());
 
+    /**
+     * Mobile and password extracted from the request are checked on the service layer.
+     * If fields are empty, the control passed to the catch block of <tt>ValidatorException</tt>
+     * and user stay on the same page and get validation error message.
+     * <p>
+     * If there is no corresponding mobile and password in the database,
+     * the user stays on the login page where the corresponding message is displayed
+     * <p>
+     * If an error occurred during the command execution,
+     * then the control is passed to the catch block of <tt>ServiceException</tt>
+     * and forwarding to the server error page.
+     * <p>
+     * If the command is successful, then redirecting to the page that corresponds
+     * to the user's rights(client page, doctor page, pharmacist page), where are displayed
+     * data, corresponding to the user's home page.
+     *
+     * @param request  object that contains the request the client has made of the servlet
+     * @param response object that contains the response the servlet sends to the client
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -60,6 +86,7 @@ public class SignIn implements Command {
             logger.log(Level.ERROR, exc);
             page = JspPageName.SERVER_ERROR_PAGE;
             request.getRequestDispatcher(page).forward(request, response);
+
         } catch (ValidatorException exc) {
             request.setAttribute(AttributeName.ERROR_MAP, exc.getErrors());
             page = JspPageName.SIGN_IN_PAGE;

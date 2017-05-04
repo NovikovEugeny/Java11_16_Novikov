@@ -3,6 +3,9 @@ package by.tc.online_pharmacy.bean;
 import java.io.Serializable;
 import java.util.Date;
 
+/**
+ * Class describing the transfer object for storing service information about an order.
+ */
 
 public class Order implements Serializable {
 
