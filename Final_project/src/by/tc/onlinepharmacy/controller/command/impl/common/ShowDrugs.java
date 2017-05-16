@@ -19,7 +19,7 @@ import java.io.IOException;
 import java.util.List;
 
 /**
- * Class describes object-command, which displays full list of drugs main.by group.
+ * Class describes object-command, which displays full list of drugs by group.
  */
 public class ShowDrugs implements Command {
 

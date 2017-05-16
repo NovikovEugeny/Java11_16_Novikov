@@ -20,7 +20,7 @@ import java.io.IOException;
 import java.util.List;
 
 /**
- * Class describes object-command, which searches for the description of the drug main.by name.
+ * Class describes object-command, which searches for the description of the drug by name.
  */
 public class Search implements Command {
 

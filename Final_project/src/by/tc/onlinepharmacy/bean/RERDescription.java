@@ -5,7 +5,8 @@ import java.util.Date;
 
 /**
  * Class describing the transfer object for storing information
- * about an application for renewal of the recipe.
+ * about the request for renewal of the recipe.
+ * RER - recipe extension request.
  */
 public class RERDescription implements Serializable {
 

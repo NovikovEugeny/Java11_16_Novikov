@@ -41,7 +41,7 @@ public class AddDrugQuantity implements Command {
      * and forwarding to the server error page.
      * <p>
      * If the command is successful, then the page is updated and
-     * the drug quantity main.by id extracted from the query increases.
+     * the drug quantity by id extracted from the query increases.
      *
      * @param request  object that contains the request the client has made of the servlet
      * @param response object that contains the response the servlet sends to the client

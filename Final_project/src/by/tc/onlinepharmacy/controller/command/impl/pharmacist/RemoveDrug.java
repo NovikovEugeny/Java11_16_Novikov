@@ -31,7 +31,7 @@ public class RemoveDrug implements Command {
      * and forwarding to the page with error 400.
      * <p>
      * If the command is successful, then the drug is removed from the warehouse
-     * main.by id extracted from the request. The page is updated and
+     * by id extracted from the request. The page is updated and
      * the line with the product disappears
      * <p>
      * If an error occurred during the command execution,

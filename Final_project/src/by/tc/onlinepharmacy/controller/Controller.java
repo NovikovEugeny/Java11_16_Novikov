@@ -16,7 +16,7 @@ import java.io.IOException;
 public class Controller extends HttpServlet {
 
     /**
-     * Called main.by the server (via the service method) to allow a servlet to handle a POST request.
+     * Called by the server (via the service method) to allow a servlet to handle a POST request.
      * <p>
      * Delegates the request processing to
      * {@link #processRequest(HttpServletRequest, HttpServletResponse) processRequests} method.
@@ -29,7 +29,7 @@ public class Controller extends HttpServlet {
     }
 
     /**
-     * Called main.by the server (via the service method) to allow a servlet to handle a GET request.
+     * Called by the server (via the service method) to allow a servlet to handle a GET request.
      * <p>
      * Delegates the request processing to
      * {@link #processRequest(HttpServletRequest, HttpServletResponse) processRequest} method.

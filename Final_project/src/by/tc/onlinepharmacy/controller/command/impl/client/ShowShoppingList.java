@@ -22,7 +22,7 @@ import java.util.List;
 
 /**
  * Class describes the object-command, which displays
- * all purchases made main.by the client.
+ * all purchases made by the client.
  */
 public class ShowShoppingList implements Command {
 

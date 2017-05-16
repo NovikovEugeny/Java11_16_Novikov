@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Contains a map that stores command name/object-command pairs,
+ * Contains a map that stores name/object-command pairs,
  * and provides the corresponding object-command.
  */
 public class CommandProvider {
@@ -79,7 +79,7 @@ public class CommandProvider {
     }
 
     /**
-     * Provides an instance of {@link Command} main.by command name.
+     * Provides an instance of {@link Command} by command name.
      *
      * @param name contains a command name
      * @return object-command of the appropriate type

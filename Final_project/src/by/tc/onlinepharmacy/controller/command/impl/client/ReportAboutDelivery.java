@@ -27,7 +27,7 @@ public class ReportAboutDelivery implements Command {
 
     /**
      * If the command is successful, then the message is removed from the message list
-     * main.by <tt>orderId</tt> extracted from the request. The page is updated and
+     * by <tt>orderId</tt> extracted from the request. The page is updated and
      * the message disappears and is never displayed again.
      * <p>
      * If the value of the parameter <tt>orderId</tt> from the request is not integer,

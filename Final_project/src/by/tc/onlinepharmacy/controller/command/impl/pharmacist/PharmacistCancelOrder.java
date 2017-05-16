@@ -19,7 +19,7 @@ import java.io.IOException;
 
 /**
  * Class describes the object-command, the execution of which
- * cancels an order. This command is performed main.by the pharmacist
+ * cancels an order. This command is performed by the pharmacist
  * in the event of a client failure.
  */
 public class PharmacistCancelOrder implements Command {

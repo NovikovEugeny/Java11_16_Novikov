@@ -27,7 +27,7 @@ public class DeleteMessage implements Command {
 
     /**
      * If the command is successful, then the message is removed from the message list
-     * main.by id extracted from the request. The page is updated and
+     * by id extracted from the request. The page is updated and
      * the message disappears and is never displayed again.
      * <p>
      * If the value of the parameter <tt>requestId</tt> from the request is not integer,
