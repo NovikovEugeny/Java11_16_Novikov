@@ -40,4 +40,7 @@ public final class JspPageName {
     //doctor
     public final static String DOCTOR_HOME_PAGE = "/WEB-INF/jsp/doctor/homePage.jsp";
 
+    //admin
+    public final static String ADMIN_HOME_PAGE = "/WEB-INF/jsp/admin/homePage.jsp";
+
 }

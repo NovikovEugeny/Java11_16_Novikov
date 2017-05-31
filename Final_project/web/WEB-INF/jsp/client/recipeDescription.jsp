@@ -35,6 +35,11 @@
     <fmt:message bundle="${loc}" key="order" var="order"/>
     <fmt:message bundle="${loc}" key="closed" var="closed"/>
     <fmt:message bundle="${loc}" key="open" var="open"/>
+    <fmt:message bundle="${loc}" key="not.enough.money" var="money"/>
+    <fmt:message bundle="${loc}" key="not.enough.drugs" var="quantityError"/>
+    <fmt:message bundle="${loc}" key="expired" var="time"/>
+    <fmt:message bundle="${loc}" key="error" var="error"/>
+    <fmt:message bundle="${loc}" key="close" var="close"/>
     <title>${title}</title>
 </head>
 <body>
@@ -131,10 +136,10 @@
                             </c:if>
                         </li>
                         <li class="list-group-item">
-                            ${validUntil}:<fmt:formatDate value="${recipe.endDate}" type="both" dateStyle="medium" timeStyle="medium"/>
+                            ${validUntil}: <fmt:formatDate value="${recipe.endDate}" type="both" dateStyle="medium" timeStyle="medium"/>
                         </li>
                         <li class="list-group-item">
-                            ${amountToBePaid}: ${recipe.cost}
+                            ${amountToBePaid}: <ctg:formatCost value="${recipe.cost}" locale="${sessionScope.local}"/>
                         </li>
                     </ul>
                 </c:if>
@@ -154,7 +159,7 @@
 </div>
 <c:choose>
     <c:when test="${requestScope.execution eq 'quantity'}">
-        <c:set var="errorMessage" value="quantity"/>
+        <c:set var="errorMessage" value="${quantityError}"/>
         <script>
             $(document).ready(function () {
                 $("#modal").modal('show');
@@ -162,7 +167,7 @@
         </script>
     </c:when>
     <c:when test="${requestScope.execution eq 'time'}">
-        <c:set var="errorMessage" value="time"/>
+        <c:set var="errorMessage" value="${time}"/>
         <script>
             $(document).ready(function () {
                 $("#modal").modal('show');
@@ -170,7 +175,7 @@
         </script>
     </c:when>
     <c:when test="${requestScope.execution eq 'money'}">
-        <c:set var="errorMessage" value="money"/>
+        <c:set var="errorMessage" value="${money}"/>
         <script>
             $(document).ready(function () {
                 $("#modal").modal('show');
@@ -183,11 +188,11 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="myModalLabel1">error</h4>
+                <h4 class="modal-title" id="myModalLabel1">${error}</h4>
             </div>
             <p align="center">${errorMessage}</p>
             <div class="modal-footer">
-                <button type="submit" class="btn-success btn-lg" data-dismiss="modal">close</button>
+                <button type="submit" class="btn-success btn-lg" data-dismiss="modal">${close}</button>
             </div>
         </div>
     </div>

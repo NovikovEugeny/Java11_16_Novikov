@@ -33,6 +33,11 @@ public class SecurityFilter implements Filter {
 
             if (user != null) {
 
+                if (user.getPosition().equals(ParameterName.ADMIN)) {
+                    if (!Security.isAllowedToAdmin(command)) {
+                        page = JspPageName.FORBIDDEN_PAGE;
+                    }
+                }
                 if (user.getPosition().equals(ParameterName.CLIENT)) {
                     if (!Security.isAllowedToClient(command)) {
                         page = JspPageName.FORBIDDEN_PAGE;

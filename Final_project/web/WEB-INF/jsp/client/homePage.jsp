@@ -5,8 +5,8 @@
 <head>
     <link href="../../../css/bootstrap.css" rel="stylesheet">
     <link href="../../../css/main.css" rel="stylesheet">
-    <fmt:setLocale value="${sessionScope.local}" />
-    <fmt:setBundle basename="localization.local" var="loc" />
+    <fmt:setLocale value="${sessionScope.local}"/>
+    <fmt:setBundle basename="localization.local" var="loc"/>
     <fmt:message bundle="${loc}" key="messages" var="title"/>
     <fmt:message bundle="${loc}" key="logout" var="logout"/>
     <fmt:message bundle="${loc}" key="order.drug" var="orderDrug"/>
@@ -83,8 +83,8 @@
                     <c:forEach var="element" items="${requestScope.sendingMessages}">
                         <li class="list-group-item">
                             <fmt:formatDate value="${element.responseDate}" type="both" dateStyle="medium" timeStyle="medium"/>
-                            ${element.drugName}  ${element.drugAmount} ${element.quantity} ${quant}
-                            ${element.productingCountry} ${sent}
+                                ${element.drugName} ${element.drugAmount} ${element.quantity} ${quant}
+                                ${element.productingCountry} ${sent}
                             <form action="controller" method="post">
                                 <input type="hidden" name="command" value="report_about_delivery">
                                 <input type="hidden" name="orderId" value="${element.orderId}">
@@ -92,22 +92,19 @@
                             </form>
                         </li>
                     </c:forEach>
-
-                    <c:set var="status" value="${}"/>
-
                     <c:forEach var="element" items="${requestScope.doctorResponseMessages}">
                         <li class="list-group-item">
-                            ${recipeWithCode} ${element.recipeCode}
-                                <c:if test="${element.status eq 'denied'}">
-                                    <c:out value="${refuse}"/>
-                                </c:if>
-                                <c:if test="${element.status eq 'approved'}">
-                                    <c:out value="${isExtended}"/>
-                                </c:if>
-                                <fmt:formatDate value="${element.responseDate}" type="both" dateStyle="medium" timeStyle="medium"/>
-                                <c:if test="${element.status eq 'denied'}">
-                                    <c:out value="${medicalAdvice}"/>
-                                </c:if>
+                                ${recipeWithCode} ${element.recipeCode}
+                            <c:if test="${element.status eq 'denied'}">
+                                <c:out value="${refuse}"/>
+                            </c:if>
+                            <c:if test="${element.status eq 'approved'}">
+                                <c:out value="${isExtended}"/>
+                            </c:if>
+                            <fmt:formatDate value="${element.responseDate}" type="both" dateStyle="medium" timeStyle="medium"/>
+                            <c:if test="${element.status eq 'denied'}">
+                                <c:out value="${medicalAdvice}"/>
+                            </c:if>
                             <form>
                                 <input type="hidden" name="command" value="delete_message">
                                 <input type="hidden" name="requestId" value="${element.id}">

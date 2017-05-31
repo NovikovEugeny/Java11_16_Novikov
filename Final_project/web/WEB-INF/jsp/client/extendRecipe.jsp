@@ -8,6 +8,7 @@
             color: red;
         }
     </style>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link href="../../../css/bootstrap.css" rel="stylesheet">
     <link href="../../../css/main.css" rel="stylesheet">
     <script src="../../../js/validator/recipeCodeValidator.js"></script>
@@ -35,6 +36,7 @@
     <fmt:message bundle="${loc}" key="close" var="close"/>
     <fmt:message bundle="${loc}" key="error" var="error"/>
     <fmt:message bundle="${loc}" key="duplicate" var="duplicate"/>
+    <fmt:message bundle="${loc}" key="noscript" var="noscript"/>
     <title>${title}</title>
 </head>
 <body>
@@ -86,26 +88,49 @@
             </nav>
         </div>
         <div class="col-xs-8 col-sm-8 col-md-8 col-lg-9">
+            <noscript>
+                <p align="center">${noscript}</p>
+            </noscript>
             <section class="recipe-application">
                 <h3>${extendTitle}</h3>
-                <form action="controller" method="post" onsubmit="return validate()">
-                    <div class="form-group">
-                        <input type="hidden" name="command" value="send_recipe_extension_request">
-                        <label for="code">${recipeCode}:</label>
-                        <p id="codeErr">
-                            <c:if test="${not empty requestScope.isValid}">
-                                <c:out value="${quantityError}"/>
-                            </c:if>
-                        </p>
-                        <input type="text" class="form-control" id="code" name="recipeCode">
-                    </div>
-                    <button type="submit" class="btn-success btn-lg">${send}</button>
-                </form>
+                <div class="form-group">
+                    <label for="code">${recipeCode}:</label>
+                    <p id="codeErr">
+                        <c:if test="${not empty requestScope.isValid}">
+                            <c:out value="${quantityError}"/>
+                        </c:if>
+                    </p>
+                    <input type="text" class="form-control" id="code" name="recipeCode">
+                </div>
+                <button class="btn-success btn-lg" onclick="sendRequest()">${send}</button>
             </section>
+            <c:out value="${requestScope.test}"/>
         </div>
     </div>
 </div>
-
+<script>
+    function sendRequest() {
+        if (validate()) {
+            $.ajax({
+                async : true,
+                cache : false,
+                url: '/controller',
+                method: "post",
+                data: {'command': 'send_recipe_extension_request', 'recipeCode': $("#code").val()},
+                error: function (message) {
+                    console.log(message);
+                },
+                success: function (data) {
+                    $("#message").text(data);
+                    $(document).ready(function () {
+                        $("#modal").modal('show');
+                    });
+                }
+            });
+        }
+    }
+</script>
+<!--
 <c:if test="${not empty requestScope.execution}">
     <c:set var="response" value="${notExpired}"/>
     <script>
@@ -130,6 +155,7 @@
         });
     </script>
 </c:if>
+-->
 <!-- Modal-->
 <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
@@ -137,7 +163,7 @@
             <div class="modal-header">
                 <h4 class="modal-title" id="myModalLabel1">${error}</h4>
             </div>
-            <p align="center">${response}</p>
+            <p align="center" id="message"></p>
             <div class="modal-footer">
                 <button type="submit" class="btn-success btn-lg" data-dismiss="modal">${close}</button>
             </div>

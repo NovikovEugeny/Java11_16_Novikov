@@ -9,6 +9,32 @@ import by.tc.onlinepharmacy.filter.SecurityFilter;
 public class Security {
 
     /**
+     * Verifies whether the command execution is allowed to the admin.
+     *
+     * @param command it is string that contains a command name
+     * @return true if execution is allowed and false if not
+     */
+    public static boolean isAllowedToAdmin(String command) {
+        boolean isAllowed = false;
+
+        for (AdminCommand a : AdminCommand.values()) {
+            if (command.equals(a.toString().toLowerCase())) {
+                isAllowed = true;
+                break;
+            }
+        }
+
+        for (CommonUserCommand c : CommonUserCommand.values()) {
+            if (command.equals(c.toString().toLowerCase())) {
+                isAllowed = true;
+                break;
+            }
+        }
+
+        return isAllowed;
+    }
+
+    /**
      * Verifies whether the command execution is allowed to the client.
      *
      * @param command it is string that contains a command name

@@ -108,7 +108,6 @@ public class PharmacistDAOImpl implements PharmacistDAO {
                 ps.setString(7, drug.getDispensing());
                 ps.setDouble(8, drug.getPrice());
                 ps.setInt(9, drug.getQuantity());
-                ps.setString(10, TableColumnName.DRUG_STATUS_YES);
                 ps.executeUpdate();
             }
         } catch (SQLException | InterruptedException exc) {

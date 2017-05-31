@@ -1,7 +1,7 @@
 var RU = "ru";
 
-var NAME_PATTERN_RU = /^[А-Я][а-я]{2,}$/;
-var NAME_PATTERN_EN = /^[A-Z][a-z]{2,}$/;
+var NAME_PATTERN_RU = /^[А-Я][а-я\s]{2,}$/;
+var NAME_PATTERN_EN = /^[A-Z][a-z\s]{2,}$/;
 
 var AMOUNT_PATTERN_EN = /^\d{1,4}\s[a-z]+$/;
 var AMOUNT_PATTERN_RU = /^\d{1,4}\s[а-я]+$/;
@@ -32,8 +32,8 @@ var PRICE_ERROR_MESSAGE_RU = "*Только целое или дробное ч�
 var PRICE_NEGATIVE_ERROR_EN = "*Only more than zero";
 var PRICE_NEGATIVE_ERROR_RU = "*Строго больше нуля";
 
-var QUANTITY_ERROR_MESSAGE_EN = "*required";
-var QUANTITY_ERROR_MESSAGE_RU = "*обязательно для заполнения";
+var QUANTITY_ERROR_MESSAGE_EN = "*Only integer positive value";
+var QUANTITY_ERROR_MESSAGE_RU = "*Только целое положительное число";
 
 
 function validateName(locale) {
@@ -141,7 +141,7 @@ function validateQuantity(locale) {
 
     var quantity = document.getElementById("quantity").value;
 
-    if (quantity == "") {
+    if (quantity < 1) {
         if (locale == RU) {
             document.getElementById("quantityErr").innerHTML = QUANTITY_ERROR_MESSAGE_RU;
         } else {

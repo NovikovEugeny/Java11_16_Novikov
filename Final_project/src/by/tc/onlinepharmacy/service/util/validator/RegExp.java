@@ -16,11 +16,11 @@ final class RegExp {
     final static String NAME_REG_EXP_EN = "^[A-Z][a-z]+$";
 
     //drugs
-    final static String DRUG_NAME_FOR_SEARCH_REG_EXP_RU = "^[A-Za-z][a-z]{2,}$";
-    final static String DRUG_NAME_FOR_SEARCH_REG_EXP_EN = "^[А-Яа-я][а-я]{2,}$";
+    final static String DRUG_NAME_FOR_SEARCH_REG_EXP_RU = "^[A-Za-z][a-z\\s]{2,}$";
+    final static String DRUG_NAME_FOR_SEARCH_REG_EXP_EN = "^[А-Яа-я][а-я\\s]{2,}$";
 
-    final static String DRUG_NAME_REG_EXP_EN = "^[A-Z][a-z]{2,}$";
-    final static String DRUG_NAME_REG_EXP_RU = "^[А-Я][а-я]{2,}$";
+    final static String DRUG_NAME_REG_EXP_EN = "^[A-Z][a-z\\s]{2,}$";
+    final static String DRUG_NAME_REG_EXP_RU = "^[А-Я][а-я\\s]{2,}$";
 
     final static String DRUG_AMOUNT_REG_EXP_RU = "^\\d{1,3}\\s[а-я]+$";
     final static String DRUG_AMOUNT_REG_EXP_EN = "^\\d{1,3}\\s[a-z]+$";

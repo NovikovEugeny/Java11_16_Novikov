@@ -42,7 +42,7 @@ public class OrderWithoutRecipe implements Command {
      * with the current user balance. If the current balance is less
      * than the cost of the order, the user receives an error message.
      * <p>
-     * If the value of the parameters <tt>quantity</tt>, test on the service layer and
+     * The value of the parameters <tt>quantity</tt>, test on the service layer and
      * if it is not correct(negative or zero), than the control is passed to the catch block
      * of <tt>ValidatorException</tt> and forwarding to the same page with error messages.
      * <p>

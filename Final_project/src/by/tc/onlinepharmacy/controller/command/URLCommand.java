@@ -19,5 +19,6 @@ public final class URLCommand {
     public final static String ORDER_BY_ERECIPE = "controller?command=order_by_erecipe_page";
     public final static String EXTEND_RECIPE_PAGE = "controller?command=extend_recipe_page";
     public final static String SHOW_BALANCE = "controller?command=show_balance";
+    public final static String SHOW_EMPLOYEES = "controller?command=show_employees";
 
 }

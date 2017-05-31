@@ -3,6 +3,8 @@ package by.tc.onlinepharmacy.controller.command.impl.client;
 import by.tc.onlinepharmacy.bean.User;
 import by.tc.onlinepharmacy.controller.command.Command;
 import by.tc.onlinepharmacy.controller.command.URLCommand;
+import by.tc.onlinepharmacy.controller.util.MessageManager;
+import by.tc.onlinepharmacy.controller.util.PropertiesKey;
 import by.tc.onlinepharmacy.resource.AttributeName;
 import by.tc.onlinepharmacy.resource.JspPageName;
 import by.tc.onlinepharmacy.resource.ParameterName;
@@ -59,9 +61,12 @@ public class SendRecipeExtensionRequest implements Command {
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         String page = null;
+        String key = null;
+        String message = null;
 
         String recipeCode = request.getParameter(ParameterName.RECIPE_CODE);
         int clientId = ((User) request.getSession().getAttribute(AttributeName.USER)).getId();
+        String language = request.getSession().getAttribute(AttributeName.LOCAL).toString();
 
         try {
             ServiceFactory serviceFactory = ServiceFactory.getInstance();
@@ -72,20 +77,26 @@ public class SendRecipeExtensionRequest implements Command {
             boolean isDuplicate = clientService.isDuplicateApplication(recipeCode);
 
             if (endRecipeDate == null) {
-                request.setAttribute(AttributeName.IS_EXISTS, AttributeName.NO);
-                request.getRequestDispatcher(URLCommand.EXTEND_RECIPE_PAGE).forward(request, response);
+                key = PropertiesKey.NOT_EXISTS_RECIPE;
+                message = MessageManager.getMessage(language, key);
+                MessageManager.sendMessage(message, response);
 
             } else if (currentDate.before(endRecipeDate)) {
-                request.setAttribute(AttributeName.EXECUTION, AttributeName.TIME_ERROR);
-                request.getRequestDispatcher(URLCommand.EXTEND_RECIPE_PAGE).forward(request, response);
+                key = PropertiesKey.NOT_EXPIRED;
+                message = MessageManager.getMessage(language, key);
+                MessageManager.sendMessage(message, response);
 
             } else if (isDuplicate) {
-                request.setAttribute(AttributeName.IS_DUPLICATE, AttributeName.YES);
-                request.getRequestDispatcher(URLCommand.EXTEND_RECIPE_PAGE).forward(request, response);
+                key = PropertiesKey.DUPLICATE_RER;
+                message = MessageManager.getMessage(language, key);
+                MessageManager.sendMessage(message, response);
 
             } else {
                 clientService.sendRecipeExtensionRequest(recipeCode, clientId);
-                response.sendRedirect(URLCommand.EXTEND_RECIPE_PAGE);
+
+                key = PropertiesKey.RER_OK;
+                message = MessageManager.getMessage(language, key);
+                MessageManager.sendMessage(message, response);
             }
 
         } catch (ServiceException exc) {

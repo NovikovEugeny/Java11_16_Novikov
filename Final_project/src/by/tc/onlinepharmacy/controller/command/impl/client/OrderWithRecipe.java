@@ -109,6 +109,7 @@ public class OrderWithRecipe implements Command {
             LOGGER.log(Level.ERROR, exc);
             page = JspPageName.SERVER_ERROR_PAGE;
             request.getRequestDispatcher(page).forward(request, response);
+            exc.printStackTrace();
 
         } catch (ValidatorException exc) {
             request.setAttribute(AttributeName.IS_VALID, AttributeName.NO);

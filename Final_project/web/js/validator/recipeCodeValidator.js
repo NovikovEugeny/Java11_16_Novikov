@@ -8,6 +8,8 @@ function validate() {
     var errorMessage_ru = "*обязательно для заполнения";
     var errorMessage_en = "*required";
 
+    document.getElementById("codeErr").innerHTML = "";
+
     if (code == "") {
         if (local == "ru") {
             document.getElementById("codeErr").innerHTML = errorMessage_ru;

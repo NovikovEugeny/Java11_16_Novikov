@@ -20,6 +20,7 @@ public final class AttributeName {
     public final static String YES = "yes";
     public final static String NO = "no";
     public final static String RECIPE_LIST = "recipeList";
+    public final static String EMPLOYEE_LIST = "employeeList";
     public final static String ERROR_MAP = "errorMap";
     public final static String ORDER_LIST = "orderList";
     public final static String SENDING_MESSAGES = "sendingMessages";

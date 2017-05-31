@@ -10,9 +10,11 @@ public final class ParameterName {
     }
 
     public final static String COMMAND = "command";
+    public final static String POSITION = "position";
     public final static String PHARMACIST = "pharmacist";
     public final static String DOCTOR = "doctor";
     public final static String CLIENT = "client";
+    public final static String ADMIN = "admin";
     public final static String SURNAME = "surname";
     public final static String NAME = "name";
     public final static String PATRONYMIC = "patronymic";

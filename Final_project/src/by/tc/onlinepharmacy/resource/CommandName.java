@@ -23,6 +23,11 @@ public enum CommandName {
     SEARCH,
     SHOW_DRUGS,
 
+    //admin
+    ADD_EMPLOYEE,
+    REMOVE_EMPLOYEE,
+    SHOW_EMPLOYEES,
+
     //pharmacist
     SHOW_DRUGS_TO_UPDATE,
     ADD_NEW_DRUG,

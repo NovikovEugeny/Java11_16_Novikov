@@ -83,7 +83,7 @@
             <noscript>
                 <p align="center">${nosript}</p>
             </noscript>
-            <section>
+            <section class="drugs-to-update">
                 <h3>${drugList}:</h3>
                 <div class="table-responsive">
                     <table class="table table-bordered">

@@ -75,6 +75,9 @@ public class SignIn implements Command {
                 if (user.getPosition().equals(ParameterName.CLIENT)) {
                     response.sendRedirect(URLCommand.SHOW_MESSAGES);
                 }
+                if (user.getPosition().equals(ParameterName.ADMIN)) {
+                    response.sendRedirect(URLCommand.SHOW_EMPLOYEES);
+                }
 
             } else {
                 request.setAttribute(AttributeName.IS_EXISTS, AttributeName.NO);

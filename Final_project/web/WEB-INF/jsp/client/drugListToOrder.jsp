@@ -173,7 +173,7 @@
                     <div class="form-group">
                         <label for="quantity">${quantity}:</label>
                         <p id="orderQuantityErr"></p>
-                        <input type="number" class="form-control" id="quantity" name="quantity" min="1">
+                        <input type="number" class="form-control" id="quantity" name="quantity">
                     </div>
                 </div>
                 <div class="modal-footer">

@@ -6,8 +6,8 @@ function validate() {
     var maxQuantity = document.getElementById("quantity").getAttribute("data-max");
     var local = document.getElementById("local").getAttribute("data-item");
 
-    var errorMinMessage_ru = "*Значение д.б. больше 1";
-    var errorMinMessage_en = "*Value must be greater than 1";
+    var errorMinMessage_ru = "*Значение д.б. не менее 1";
+    var errorMinMessage_en = "*Value must be not less than 1";
     var errorMaxMessage_ru = "*Значение д.б. меньше ";
     var errorMaxMessage_en = "*value must be less than ";
 

@@ -109,8 +109,7 @@
                         <tbody>
                         <c:forEach var="element" items="${requestScope.orderList}">
                             <tr>
-                                <td><fmt:formatDate value="${element.requestDate}" type="both" dateStyle="medium"
-                                                    timeStyle="medium"/></td>
+                                <td><fmt:formatDate value="${element.requestDate}" type="both" dateStyle="medium" timeStyle="medium"/></td>
                                 <td><c:out value="${element.drugName}"/></td>
                                 <td><c:out value="${element.pharmacologicalGroup}"/></td>
                                 <td><c:out value="${element.drugForm}"/></td>
@@ -133,7 +132,6 @@
         </div>
     </div>
 </div>
-
 <!-- Modal-->
 <div class="modal fade" id="cancelModal" tabindex="-1" role="dialog"
      aria-labelledby="myModalLabel">
@@ -159,9 +157,7 @@
     $("#cancelModal").on("show.bs.modal", function (event) {
         // получить кнопку, которая его открыло
         var button = $(event.relatedTarget);
-
         var orderId = button.data("id");
-
         $(this).find("#orderId").val(orderId);
     })
 </script>

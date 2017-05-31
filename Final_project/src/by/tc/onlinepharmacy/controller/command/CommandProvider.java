@@ -1,13 +1,16 @@
 package by.tc.onlinepharmacy.controller.command;
 
+import by.tc.onlinepharmacy.controller.command.impl.admin.AddEmployee;
+import by.tc.onlinepharmacy.controller.command.impl.admin.RemoveEmployee;
+import by.tc.onlinepharmacy.controller.command.impl.admin.ShowEmployees;
 import by.tc.onlinepharmacy.controller.command.impl.client.*;
 import by.tc.onlinepharmacy.controller.command.impl.common.*;
+import by.tc.onlinepharmacy.controller.command.impl.doctor.Approve;
 import by.tc.onlinepharmacy.controller.command.impl.doctor.Deny;
+import by.tc.onlinepharmacy.controller.command.impl.doctor.ShowRecipeExtensionRequests;
 import by.tc.onlinepharmacy.controller.command.impl.page.*;
 import by.tc.onlinepharmacy.controller.command.impl.pharmacist.*;
 import by.tc.onlinepharmacy.resource.CommandName;
-import by.tc.onlinepharmacy.controller.command.impl.doctor.Approve;
-import by.tc.onlinepharmacy.controller.command.impl.doctor.ShowRecipeExtensionRequests;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -76,6 +79,11 @@ public class CommandProvider {
         repository.put(CommandName.APPROVE, new Approve());
         repository.put(CommandName.DENY, new Deny());
         repository.put(CommandName.SHOW_RECIPE_EXTENSION_REQUESTS, new ShowRecipeExtensionRequests());
+
+        //admin
+        repository.put(CommandName.SHOW_EMPLOYEES, new ShowEmployees());
+        repository.put(CommandName.REMOVE_EMPLOYEE, new RemoveEmployee());
+        repository.put(CommandName.ADD_EMPLOYEE, new AddEmployee());
     }
 
     /**

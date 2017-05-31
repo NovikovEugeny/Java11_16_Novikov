@@ -1,6 +1,9 @@
 package by.tc.onlinepharmacy.dao.util;
 
 
+/**
+ * The class contains table column names from database.
+ */
 public final class TableColumnName {
 
     private TableColumnName() {
@@ -16,7 +19,6 @@ public final class TableColumnName {
     public final static String RECIPE_CODE = "recipe_code";
     public final static String REQUEST_DATE = "request_date";
     public final static String RESPONSE_DATE = "response_date";
-    public final static String DRUG_STATUS_YES = "yes";
     public final static String GROUP = "pharm_group";
     public final static String DRUG_AMOUNT = "drug_amount";
     public final static String ACTIVE_SUBSTANCES = "active_substances";

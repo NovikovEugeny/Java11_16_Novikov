@@ -8,6 +8,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * It is utility class to form DTO list of {@link by.tc.onlinepharmacy.bean.Drug Drug} from resultSet.
+ */
 public final class DrugListMaker {
 
     public static List<Drug> makeList(ResultSet resultSet) throws SQLException {

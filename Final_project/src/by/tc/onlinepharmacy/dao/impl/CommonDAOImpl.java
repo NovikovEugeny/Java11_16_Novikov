@@ -133,7 +133,7 @@ public class CommonDAOImpl implements CommonDAO {
             connection = ConnectionPool.getInstance().takeConnection();
 
             ps = connection.prepareStatement(DrugQueryStore.SELECT_ACTIVE_DRUGS_BY_NAME);
-            ps.setString(1, name + "%");
+            ps.setString(1, name.toUpperCase() + "%");
             resultSet = ps.executeQuery();
 
             return DrugListMaker.makeList(resultSet);

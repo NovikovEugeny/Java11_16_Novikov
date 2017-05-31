@@ -37,6 +37,9 @@
     <fmt:message bundle="${loc}" key="mixture" var="mixture"/>
     <fmt:message bundle="${loc}" key="suspension" var="suspensia"/>
     <fmt:message bundle="${loc}" key="aerosol" var="aerosol"/>
+    <fmt:message bundle="${loc}" key="spray" var="spray"/>
+    <fmt:message bundle="${loc}" key="syrup" var="syrup"/>
+    <fmt:message bundle="${loc}" key="pastilles" var="pastilles"/>
     <fmt:message bundle="${loc}" key="drugAmount" var="drugAmount"/>
     <fmt:message bundle="${loc}" key="drugForm" var="form"/>
     <fmt:message bundle="${loc}" key="drugAS" var="AS"/>
@@ -133,6 +136,9 @@
                             <option value="mixture">${mixture}</option>
                             <option value="suspension">${suspensia}</option>
                             <option value="aerosol">${aerosol}</option>
+                            <option value="spray">${spray}</option>
+                            <option value="syrup">${syrup}</option>
+                            <option value="pastilles">${pastilles}</option>
                         </select>
                     </div>
                     <div class="form-group">
