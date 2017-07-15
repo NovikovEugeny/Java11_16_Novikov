@@ -53,11 +53,11 @@ public class UserDaoImpl implements UserDao{
                 throw new DaoException("incorrect mobile or password", exc);
         } finally {
                 try {
-                    if (resultSet != null) {resultSet.close();}
+                    if (resultSet != null) {resultSet.close();}// ну объясняла же, что каждый в своем Try-catch-e, иначе не все методы закрытия могут отработать
                     if (statement != null) {statement.close();}
                     if (connection != null) {connection.close();}
                 } catch(SQLException exc) {
-                    throw new DaoException("closing error" ,exc);
+                    throw new DaoException("closing error" ,exc);// finally почти никогда не выбрасывает исключений, и уж точно не в твоем случае
                 }
         }
     }
@@ -73,12 +73,13 @@ public class UserDaoImpl implements UserDao{
         Statement statement = null;
         ResultSet resultSet = null;
 
+        // и зачем в каждом методе декларировать одинаковые константные строки
         String url = "jdbc:mysql://localhost:3306/rentalshop";
         String userName = "root";
         String password = "";
 
         try {
-            Class.forName("com.mysql.jdbc.Driver");
+            Class.forName("com.mysql.jdbc.Driver");// зачем в каждом методе грузить драйвер?
         } catch (ClassNotFoundException exc) {
             throw new DaoException("driver is not include", exc);
         }
@@ -99,7 +100,7 @@ public class UserDaoImpl implements UserDao{
             rows = rows + 1;
             resultSet.close();
 
-            String query = "insert into users values (" + rows + ", '" +
+            String query = "insert into users values (" + rows + ", '" +// PreparedStatement я, видно, для Пушкина объясняла
                     name + "', '" + mobile_phone + "', '" + userPassword + "', '" +
                     hasRent + "');";
 

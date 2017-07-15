@@ -21,7 +21,9 @@ public class ChooseGood implements Command{
         return sportEquipment;
     }
 
-    private String getTitle() {
+    private String getTitle() {// какое еще чтение с клавиатуры
+        // что это за бред?
+        // ты вообще понял, зачем и как на слое контроллера применяется шаблон Команда?
         System.out.print("Enter goods title that you want to rent: ");
         Scanner scan = new Scanner(System.in);
         return scan.nextLine();
